@@ -1,148 +1,101 @@
 import Image from "next/image";
-import {PortableText, type PortableTextComponents} from "@portabletext/react";
-import type {PortableTextBlock} from "@portabletext/types";
-import {hasLocale} from "next-intl";
-import {setRequestLocale} from "next-intl/server";
-import {notFound} from "next/navigation";
-import type {SanityImageSource} from "@sanity/image-url";
-import {client} from "@/sanity/lib/client";
-import {urlFor} from "@/sanity/lib/image";
-import {routing} from "@/i18n/routing";
-import {groq} from "next-sanity";
-
-const privateExperienceQuery = groq`
-  *[_type == "privateExperience" && slug.current == $slug][0]{
-    "title": coalesce(title[$lang], title.en),
-    "intro": coalesce(shortDescription[$lang], shortDescription.en),
-    "body": coalesce(mainContent[$lang], mainContent.en),
-    image,
-    _updatedAt
-  }
-`;
-
-const privateExperienceFallbackQuery = groq`
-  *[_type == "privateExperience"] | order(_updatedAt desc)[0]{
-    "title": coalesce(title[$lang], title.en),
-    "intro": coalesce(shortDescription[$lang], shortDescription.en),
-    "body": coalesce(mainContent[$lang], mainContent.en),
-    image,
-    _updatedAt
-  }
-`;
-
-type PrivateExperienceDoc = {
-  title: string | null;
-  intro: string | null;
-  body: PortableTextBlock[] | null;
-  image: SanityImageSource | null;
-  _updatedAt: string;
-};
-
-const portableComponents: PortableTextComponents = {
-  block: {
-    h2: ({children}) => (
-      <h2 className="mt-10 text-2xl font-bold text-slate-900">{children}</h2>
-    ),
-    h3: ({children}) => (
-      <h3 className="mt-8 text-xl font-semibold text-slate-900">{children}</h3>
-    ),
-    normal: ({children}) => (
-      <p className="mt-4 leading-relaxed text-slate-600">{children}</p>
-    ),
-    blockquote: ({children}) => (
-      <blockquote className="mt-6 border-l-4 border-blue-600 pl-4 text-lg italic text-slate-700">
-        {children}
-      </blockquote>
-    ),
-  },
-  list: {
-    bullet: ({children}) => (
-      <ul className="mt-4 list-disc space-y-2 pl-6 text-slate-700">{children}</ul>
-    ),
-    number: ({children}) => (
-      <ol className="mt-4 list-decimal space-y-2 pl-6 text-slate-700">{children}</ol>
-    ),
-  },
-  marks: {
-    link: ({value, children}) => {
-      const href = typeof value?.href === "string" ? value.href : "#";
-      return (
-        <a href={href} className="font-medium text-blue-600 underline hover:text-blue-500">
-          {children}
-        </a>
-      );
-    },
-    strong: ({children}) => <strong className="font-semibold text-slate-900">{children}</strong>,
-  },
-};
 
 type PageProps = {
-  params: Promise<{locale: string}>;
+  params: Promise<{locale: "en" | "es" | "fr-CA"}>;
 };
 
+const content = {
+  en: {
+    title: "Luxury Private Experiences in Punta Cana | Adventures Finder DMC",
+    introTitle: "Introduction",
+    intro:
+      "Discover exclusive private experiences in Punta Cana designed for travelers seeking personalized adventures, comfort and flexibility. From private yacht charters and custom excursions to curated island experiences, Adventures Finder DMC creates unforgettable moments in the Dominican Republic.",
+    mainTitle: "Main Description",
+    p1:
+      "Designed for travelers who want more than traditional group tours, our private experiences combine flexibility, privacy, and authentic local insight so every moment feels tailored to your pace, interests, and travel style.",
+    p2:
+      "As a local Destination Management Company based in Punta Cana, Adventures Finder DMC coordinates logistics, premium partners, and on-the-ground support to deliver seamless itineraries from arrival to departure, with responsive hosts who anticipate your needs before you ask.",
+    examplesTitle: "Example Experiences",
+  },
+  es: {
+    title: "Experiencias Privadas de Lujo en Punta Cana | Adventures Finder DMC",
+    introTitle: "Introduccion",
+    intro:
+      "Descubre experiencias privadas exclusivas en Punta Cana disenadas para viajeros que buscan aventuras personalizadas, comodidad y flexibilidad. Desde yates privados y excursiones a medida hasta experiencias curadas en islas, Adventures Finder DMC crea momentos inolvidables en Republica Dominicana.",
+    mainTitle: "Descripcion Principal",
+    p1:
+      "Disenadas para viajeros que quieren mas que tours grupales tradicionales, nuestras experiencias privadas combinan flexibilidad, privacidad y conocimiento local autentico para que cada momento se adapte a tu ritmo, intereses y estilo de viaje.",
+    p2:
+      "Como Destination Management Company local en Punta Cana, Adventures Finder DMC coordina logistica, aliados premium y soporte en destino para entregar itinerarios impecables desde la llegada hasta la salida, con un equipo atento que anticipa tus necesidades.",
+    examplesTitle: "Experiencias de Ejemplo",
+  },
+  "fr-CA": {
+    title: "Experiences Privees de Luxe a Punta Cana | Adventures Finder DMC",
+    introTitle: "Introduction",
+    intro:
+      "Decouvrez des experiences privees exclusives a Punta Cana, concues pour les voyageurs qui recherchent des aventures personnalisees, du confort et de la flexibilite. Des yachts prives aux excursions sur mesure et experiences insulaires soigneusement planifiees, Adventures Finder DMC cree des moments inoubliables en Republique dominicaine.",
+    mainTitle: "Description Principale",
+    p1:
+      "Concue pour les voyageurs qui veulent plus que des tours de groupe traditionnels, notre offre privee combine flexibilite, intimite et expertise locale afin que chaque moment corresponde a votre rythme, vos interets et votre style de voyage.",
+    p2:
+      "En tant que Destination Management Company locale basee a Punta Cana, Adventures Finder DMC coordonne la logistique, des partenaires premium et une assistance sur place pour offrir des itineraires fluides de l arrivee au depart.",
+    examplesTitle: "Exemples d Experiences",
+  },
+} as const;
+
+const examples = [
+  "Private yacht charters along the Caribbean coast",
+  "Sunset catamaran cruises with premium onboard service",
+  "Saona Island escapes with private beach setups",
+  "Exclusive snorkeling and diving experiences",
+  "Helicopter scenic flights over Punta Cana",
+  "Chef-led private dining and rum pairing evenings",
+] as const;
+
 export default async function PrivateExperiencesPage({params}: PageProps) {
-  const {locale: rawLocale} = await params;
-
-  if (!hasLocale(routing.locales, rawLocale)) {
-    notFound();
-  }
-
-  setRequestLocale(rawLocale);
-  const sanityLang = rawLocale === "fr-CA" ? "fr_CA" : rawLocale;
-
-  let doc = await client.fetch<PrivateExperienceDoc | null>(privateExperienceQuery, {
-    slug: "private-experiences",
-    lang: sanityLang,
-  });
-
-  if (!doc?.title && !doc?.intro && !doc?.body?.length) {
-    doc = await client.fetch<PrivateExperienceDoc | null>(privateExperienceFallbackQuery, {
-      lang: sanityLang,
-    });
-  }
-
-  if (!doc || (!doc.title && !doc.intro && !doc.body?.length)) {
-    notFound();
-  }
-
-  const heroSrc = doc.image
-    ? urlFor(doc.image).width(1920).height(900).fit("crop").url()
-    : "https://picsum.photos/seed/private-exp-fallback/1920/900";
+  const {locale} = await params;
+  const t = content[locale] ?? content.en;
 
   return (
-    <div className="w-full space-y-0">
-      <section className="relative -mx-4 aspect-[21/9] min-h-[280px] overflow-hidden sm:-mx-6 lg:-mx-8">
-        <Image
-          src={heroSrc}
-          alt={doc.title ?? ""}
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/35 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10">
-          <h1 className="max-w-4xl text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
-            {doc.title}
-          </h1>
+    <div className="w-full">
+      <section className="relative flex min-h-[50vh] w-full items-end px-4 pb-16 pt-28 sm:px-6 lg:px-8">
+        <Image src="https://picsum.photos/seed/lux-private/1920/900" alt="" fill priority className="object-cover" sizes="100vw" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-slate-950/20" />
+        <div className="relative z-10 mx-auto w-full max-w-5xl">
+          <h1 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">{t.title}</h1>
         </div>
       </section>
 
-      {doc.intro ? (
-        <section className="border-b border-slate-200 bg-white px-4 py-12 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-4xl">
-            <p className="text-lg leading-relaxed text-slate-600">{doc.intro}</p>
-          </div>
-        </section>
-      ) : null}
+      <section className="w-full bg-white px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl">
+          <h2 className="text-2xl font-bold text-slate-900">{t.introTitle}</h2>
+          <p className="mt-6 text-lg leading-relaxed text-slate-600">{t.intro}</p>
+        </div>
+      </section>
 
-      {doc.body?.length ? (
-        <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-4xl">
-            <PortableText value={doc.body} components={portableComponents} />
+      <section className="w-full border-y border-slate-200 bg-slate-50 px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2 lg:items-start">
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl shadow-xl">
+            <Image src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1200&q=80" alt="" fill className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />
           </div>
-        </section>
-      ) : null}
+          <div>
+            <h2 className="text-2xl font-bold text-slate-900">{t.mainTitle}</h2>
+            <p className="mt-6 leading-relaxed text-slate-600">{t.p1}</p>
+            <p className="mt-6 leading-relaxed text-slate-600">{t.p2}</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="w-full bg-white px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl">
+          <h2 className="text-2xl font-bold text-slate-900">{t.examplesTitle}</h2>
+          <ul className="mt-8 space-y-4 text-lg text-slate-700">
+            {examples.map((item) => (
+              <li key={item} className="flex gap-3"><span className="mt-2 size-2 shrink-0 rounded-full bg-blue-600" /><span>{item}</span></li>
+            ))}
+          </ul>
+        </div>
+      </section>
     </div>
   );
 }
