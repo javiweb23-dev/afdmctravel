@@ -1,4 +1,4 @@
-import {defineField, defineType} from "sanity";
+import {defineArrayMember, defineField, defineType} from "sanity";
 
 export const tourType = defineType({
   name: "tour",
@@ -7,34 +7,59 @@ export const tourType = defineType({
   fields: [
     defineField({
       name: "title",
-      type: "string",
+      type: "localeString",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "slug",
       type: "slug",
       options: {
-        source: "title",
+        source: "title.en",
+        maxLength: 96,
       },
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "description",
-      type: "text",
-      rows: 4,
+      type: "localeText",
     }),
     defineField({
-      name: "image",
+      name: "startingPrice",
+      title: "Starting Price",
+      type: "number",
+    }),
+    defineField({
+      name: "duration",
+      type: "localeString",
+    }),
+    defineField({
+      name: "mainImage",
+      title: "Main Image",
       type: "image",
       options: {
         hotspot: true,
       },
     }),
     defineField({
+      name: "gallery",
+      title: "Image Gallery",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "image",
+          options: {hotspot: true},
+        }),
+      ],
+    }),
+    defineField({
       name: "isPopular",
       title: "Is Popular",
       type: "boolean",
       initialValue: false,
+    }),
+    defineField({
+      name: "seo",
+      type: "seo",
     }),
   ],
 });

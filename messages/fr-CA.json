@@ -35,7 +35,8 @@
                      "golfTrip":  "Voyage Golf",
                      "groupTravel":  "Voyage de Groupe",
                      "submit":  "Envoyer la Demande",
-                     "viewTour":  "Voir le Circuit"
+                     "viewTour":  "Voir le Circuit",
+                     "fromPrice":  "\u00c0 partir de {price}"
                  },
     "Sections":  {
                      "toursTitle":  "Circuits",

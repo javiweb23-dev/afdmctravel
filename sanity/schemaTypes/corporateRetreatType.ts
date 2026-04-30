@@ -1,4 +1,4 @@
-import {defineField, defineType} from "sanity";
+import {defineArrayMember, defineField, defineType} from "sanity";
 
 export const corporateRetreatType = defineType({
   name: "corporateRetreat",
@@ -30,7 +30,7 @@ export const corporateRetreatType = defineType({
     defineField({
       name: "itinerary",
       type: "array",
-      of: [{type: "text"}, {type: "block"}],
+      of: [defineArrayMember({type: "block"})],
     }),
     defineField({
       name: "image",

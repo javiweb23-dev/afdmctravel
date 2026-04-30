@@ -1,8 +1,8 @@
-import {defineField, defineType} from "sanity";
+import {defineArrayMember, defineField, defineType} from "sanity";
 
-export const privateExperienceType = defineType({
-  name: "privateExperience",
-  title: "Private Experience",
+export const golfPackageType = defineType({
+  name: "golfPackage",
+  title: "Golf Package",
   type: "document",
   fields: [
     defineField({
@@ -20,14 +20,20 @@ export const privateExperienceType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: "shortDescription",
-      title: "Short Description",
-      type: "localeText",
+      name: "detailedDescription",
+      title: "Detailed Description",
+      type: "localePortableText",
     }),
     defineField({
-      name: "mainContent",
-      title: "Main Content",
-      type: "localePortableText",
+      name: "location",
+      title: "Location",
+      type: "localeString",
+    }),
+    defineField({
+      name: "includes",
+      title: "Includes",
+      type: "array",
+      of: [defineArrayMember({type: "localeString"})],
     }),
     defineField({
       name: "image",

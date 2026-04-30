@@ -1,25 +1,47 @@
 import {getTranslations} from "next-intl/server";
+import {hasLocale} from "next-intl";
+import Image from "next/image";
+import type {SanityImageSource} from "@sanity/image-url";
 import {Link} from "@/i18n/navigation";
+import {routing} from "@/i18n/routing";
 import {client} from "@/sanity/lib/client";
+import {urlFor} from "@/sanity/lib/image";
 import {groq} from "next-sanity";
 
 type TourCard = {
   _id: string;
-  title: string;
-  description?: string;
+  title: string | null;
+  description?: string | null;
+  startingPrice?: number | null;
+  duration?: string | null;
+  mainImage?: SanityImageSource | null;
 };
 
 const popularToursQuery = groq`
   *[_type == "tour" && isPopular == true] | order(_createdAt desc)[0...4]{
     _id,
-    title,
-    description
+    "title": coalesce(title[$lang], title.en),
+    "description": coalesce(description[$lang], description.en),
+    startingPrice,
+    "duration": coalesce(duration[$lang], duration.en),
+    mainImage
   }
 `;
 
-export default async function HomePage() {
+type HomePageProps = {
+  params: Promise<{locale: string}>;
+};
+
+export default async function HomePage({params}: HomePageProps) {
+  const {locale: rawLocale} = await params;
+  const locale = hasLocale(routing.locales, rawLocale)
+    ? rawLocale
+    : routing.defaultLocale;
+
+  const sanityLang = locale === "fr-CA" ? "fr_CA" : locale;
+
   const t = await getTranslations("HomePage");
-  const tours = await client.fetch<TourCard[]>(popularToursQuery);
+  const tours = await client.fetch<TourCard[]>(popularToursQuery, {lang: sanityLang});
   const introCards = [
     {href: "/private-experiences", key: "privateExperiences"},
     {href: "/golf-packages", key: "golfPackages"},
@@ -70,25 +92,60 @@ export default async function HomePage() {
       <section className="space-y-6">
         <h2 className="text-2xl font-bold text-slate-900">{t("toursSectionTitle")}</h2>
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {tours.map((tour) => (
-            <article
-              key={tour._id}
-              className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
-            >
-              <h3 className="text-lg font-semibold text-slate-900">{tour.title}</h3>
-              {tour.description ? (
-                <p className="mt-2 line-clamp-3 text-sm text-slate-600">
-                  {tour.description}
-                </p>
-              ) : null}
-              <Link
-                href="/tours"
-                className="mt-3 inline-block text-sm font-semibold text-blue-600 hover:text-blue-500"
+          {tours.map((tour) => {
+            const priceLabel =
+              typeof tour.startingPrice === "number"
+                ? new Intl.NumberFormat(
+                    locale === "fr-CA" ? "fr-CA" : locale === "es" ? "es" : "en",
+                    {
+                      style: "currency",
+                      currency: "USD",
+                      maximumFractionDigits: 0,
+                    },
+                  ).format(tour.startingPrice)
+                : null;
+
+            return (
+              <article
+                key={tour._id}
+                className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
               >
-                {t("viewTour")}
-              </Link>
-            </article>
-          ))}
+                {tour.mainImage ? (
+                  <div className="relative aspect-[16/10] w-full bg-slate-100">
+                    <Image
+                      src={urlFor(tour.mainImage).width(640).height(400).fit("crop").url()}
+                      alt={tour.title ?? ""}
+                      fill
+                      className="object-cover"
+                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                    />
+                  </div>
+                ) : null}
+                <div className="p-5">
+                  <h3 className="text-lg font-semibold text-slate-900">{tour.title}</h3>
+                  {tour.duration ? (
+                    <p className="mt-1 text-xs font-medium uppercase tracking-wide text-slate-500">
+                      {tour.duration}
+                    </p>
+                  ) : null}
+                  {tour.description ? (
+                    <p className="mt-2 line-clamp-3 text-sm text-slate-600">{tour.description}</p>
+                  ) : null}
+                  {priceLabel ? (
+                    <p className="mt-2 text-sm font-semibold text-slate-900">
+                      {t("fromPrice", {price: priceLabel})}
+                    </p>
+                  ) : null}
+                  <Link
+                    href="/tours"
+                    className="mt-3 inline-block text-sm font-semibold text-blue-600 hover:text-blue-500"
+                  >
+                    {t("viewTour")}
+                  </Link>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 
