@@ -8,7 +8,6 @@ function isMarketingPath(pathname: string) {
   const paths = [
     "/",
     "/tours",
-    "/private-experiences",
     "/golf-packages",
     "/corporate-retreats",
     "/transportation",
@@ -19,7 +18,6 @@ function isMarketingPath(pathname: string) {
   }
   const prefixes = [
     "/tours/",
-    "/private-experiences/",
     "/golf-packages/",
     "/corporate-retreats/",
     "/transportation/",

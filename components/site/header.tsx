@@ -1,4 +1,5 @@
-import Link from "next/link";
+import {Link} from "@/i18n/navigation";
+import {LanguageSwitcher} from "./language-switcher";
 
 const navLinks = [
   {href: "/", label: "Home"},
@@ -28,20 +29,23 @@ export function Header() {
             AF DMC
           </Link>
         </div>
-        <nav className="flex flex-wrap items-center gap-x-1 gap-y-2 text-sm font-medium text-slate-700 lg:justify-end">
-          {navLinks.map((link, i) => (
-            <span key={link.href} className="flex items-center">
-              {i > 0 ? (
-                <span className="mx-2 hidden text-slate-300 sm:inline" aria-hidden>
-                  |
-                </span>
-              ) : null}
-              <Link href={link.href} className="whitespace-nowrap hover:text-blue-600">
-                {link.label}
-              </Link>
-            </span>
-          ))}
-        </nav>
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-6">
+          <nav className="flex flex-wrap items-center gap-x-1 gap-y-2 text-sm font-medium text-slate-700 lg:justify-end">
+            {navLinks.map((link, i) => (
+              <span key={link.href} className="flex items-center">
+                {i > 0 ? (
+                  <span className="mx-2 hidden text-slate-300 sm:inline" aria-hidden>
+                    |
+                  </span>
+                ) : null}
+                <Link href={link.href} className="whitespace-nowrap hover:text-blue-600">
+                  {link.label}
+                </Link>
+              </span>
+            ))}
+          </nav>
+          <LanguageSwitcher />
+        </div>
       </div>
     </header>
   );
