@@ -5,7 +5,6 @@ import {routing} from "./i18n/routing";
 const intlMiddleware = createMiddleware(routing);
 
 const blockedPrefixes = ["/studio", "/api/sanity", "/sanity"];
-const localeStudioPattern = /^\/(en|es|fr-CA)\/studio(?:\/|$)/;
 
 function isBlockedPath(pathname: string) {
   return blockedPrefixes.some(
@@ -18,10 +17,12 @@ export default function middleware(request: NextRequest) {
   if (isBlockedPath(pathname)) {
     return NextResponse.next();
   }
-  const localeStudioMatch = pathname.match(localeStudioPattern);
-  if (localeStudioMatch) {
-    const studioPath = pathname.replace(/^\/(en|es|fr-CA)/, "");
-    const url = new URL(studioPath || "/studio", request.url);
+  if (
+    pathname.startsWith("/en/studio") ||
+    pathname.startsWith("/es/studio") ||
+    pathname.startsWith("/fr-CA/studio")
+  ) {
+    const url = new URL(pathname.replace(/^\/(en|es|fr-CA)/, ""), request.url);
     return NextResponse.redirect(url);
   }
   return intlMiddleware(request);
@@ -29,6 +30,6 @@ export default function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api|trpc|_next|_vercel|studio|en/studio|es/studio|fr-CA/studio|sanity|.*\\..*).*)",
+    "/((?!api|trpc|_next|_vercel|sanity|studio(?:/.*)?|en/studio(?:/.*)?|es/studio(?:/.*)?|fr-CA/studio(?:/.*)?|.*\\..*).*)",
   ],
 };
