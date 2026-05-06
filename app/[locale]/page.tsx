@@ -230,6 +230,19 @@ const fieldLabels = {
   },
 } as const;
 
+function PartnerIcon({index}: {index: number}) {
+  const common = "size-5 text-cyan-700";
+  if (index === 0) return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={common}><path d="M3 18h18"/><path d="M6 18v-9l6-4 6 4v9"/><path d="M10 11h4"/><path d="M10 14h4"/></svg>;
+  if (index === 1) return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={common}><path d="M4 19V7h16v12"/><path d="M4 11h16"/><path d="M8 7V5h8v2"/></svg>;
+  if (index === 2) return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={common}><path d="m3 13 7-10 4 7 7 1-9 10-3-6z"/></svg>;
+  if (index === 3) return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={common}><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 3v4"/><path d="M16 3v4"/><path d="M3 11h18"/></svg>;
+  if (index === 4) return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={common}><path d="M4 8h16"/><path d="M4 12h16"/><path d="M4 16h10"/><path d="M3 5h18v14H3z"/></svg>;
+  if (index === 5) return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={common}><path d="M4 18h16"/><path d="M5 18V8a7 7 0 0 1 14 0v10"/><path d="M8 18v-4h8v4"/></svg>;
+  if (index === 6) return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={common}><path d="M5 19h14"/><path d="M7 19V9l5-4 5 4v10"/><path d="M9 13h6"/></svg>;
+  if (index === 7) return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={common}><path d="M3 8h18"/><path d="M6 8V5h12v3"/><path d="M4 8v11h16V8"/><path d="M9 13h6"/></svg>;
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={common}><circle cx="12" cy="8" r="3"/><path d="M5 19a7 7 0 0 1 14 0"/><path d="M3 13h2"/><path d="M19 13h2"/></svg>;
+}
+
 function pickLocalized(value: LocalizedValue | undefined, locale: LocaleKey) {
   if (!value) return "";
   if (locale === "fr-CA") return value.fr_CA || value.en || value.es || "";
@@ -270,7 +283,11 @@ export default async function HomePage({params}: PageProps) {
           </div>
           <nav className="hidden items-center gap-6 text-sm font-medium lg:flex">
             {content.headerMenu.map((item, index) => (
-              <a key={`menu-${index}`} href={index === 0 ? `/${locale}` : index === 5 ? `/${locale}#lead` : `/${locale}#services`} className="transition hover:text-cyan-200">
+              <a
+                key={`menu-${index}`}
+                href={index === 2 ? "https://adventuresfinder.com/transfers/" : index === 4 ? "https://adventuresfinder.com/" : index === 5 ? `/${locale}#lead` : index === 0 ? `/${locale}` : `/${locale}#services`}
+                className="transition hover:text-cyan-200"
+              >
                 {pickLocalized(item, locale)}
               </a>
             ))}
@@ -300,9 +317,9 @@ export default async function HomePage({params}: PageProps) {
         </div>
       </section>
 
-      <section className="mx-auto -mt-8 grid max-w-7xl gap-3 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
+      <section className="relative z-20 mx-auto -mt-14 grid max-w-7xl gap-3 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
         {content.stats.map((stat, index) => (
-          <article key={`stat-${index}`} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+          <article key={`stat-${index}`} className="rounded-xl border border-slate-200 bg-white p-5 shadow-lg shadow-slate-900/10">
             <p className="text-sm font-semibold text-cyan-700">{pickLocalized(stat.value, locale)}</p>
             <p className="mt-2 text-sm text-slate-600">{pickLocalized(stat.label, locale)}</p>
           </article>
@@ -313,8 +330,9 @@ export default async function HomePage({params}: PageProps) {
         <h2 className="text-center text-3xl font-bold">{pickLocalized(content.whoWeServeTitle, locale)}</h2>
         <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {content.whoWeServeItems.map((item, index) => (
-            <div key={`partner-${index}`} className="rounded-xl border border-slate-200 bg-white p-4 text-sm font-medium text-slate-700 shadow-sm">
-              {pickLocalized(item, locale)}
+            <div key={`partner-${index}`} className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 text-sm font-medium text-slate-700 shadow-sm">
+              <PartnerIcon index={index} />
+              <span>{pickLocalized(item, locale)}</span>
             </div>
           ))}
         </div>
@@ -395,8 +413,8 @@ export default async function HomePage({params}: PageProps) {
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
           {content.whyPartnerGallery.map((image, index) => (
-            <div key={`gallery-${index}`} className={`relative overflow-hidden rounded-xl ${index === 0 ? "sm:col-span-2" : ""}`}>
-              <Image src={resolveImage(image, "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=1200&q=80")} alt="Partner showcase" width={900} height={560} className="h-full w-full object-cover" />
+            <div key={`gallery-${index}`} className={`relative overflow-hidden rounded-xl ${index === 0 ? "sm:col-span-2 aspect-[16/9]" : "aspect-[4/3]"}`}>
+              <Image src={resolveImage(image, "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=1200&q=80")} alt="Partner showcase" fill className="object-cover" sizes={index === 0 ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1024px) 25vw, 50vw"} />
             </div>
           ))}
         </div>
@@ -406,48 +424,12 @@ export default async function HomePage({params}: PageProps) {
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold">{pickLocalized(content.leadTitle, locale)}</h2>
           <p className="mt-3 text-slate-200">{pickLocalized(content.leadSubtitle, locale)}</p>
-          <form className="mt-8 grid gap-4 rounded-2xl bg-white p-6 text-slate-900 sm:grid-cols-2">
+          <form action="mailto:commercial@adventuresfinder.com" method="post" encType="text/plain" className="mt-8 grid gap-4 rounded-2xl bg-white p-6 text-slate-900 sm:grid-cols-2">
             <label className="text-sm">{labels.name}<input type="text" name="name" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
             <label className="text-sm">{labels.company}<input type="text" name="company" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
             <label className="text-sm">{labels.email}<input type="email" name="email" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
             <label className="text-sm">{labels.phone}<input type="tel" name="phone" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
             <label className="text-sm">{labels.country}<input type="text" name="country" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
-            <label className="text-sm">{labels.companyType}
-              <select name="companyType" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
-                {content.companyTypeOptions.map((item, index) => <option key={`company-${index}`}>{pickLocalized(item, locale)}</option>)}
-              </select>
-            </label>
-            <label className="text-sm sm:col-span-2">{labels.eventType}
-              <select name="eventType" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
-                {content.eventTypeOptions.map((item, index) => <option key={`event-${index}`}>{pickLocalized(item, locale)}</option>)}
-              </select>
-            </label>
-            <label className="text-sm">{labels.guests}<input type="number" name="guests" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
-            <label className="text-sm">{labels.dates}<input type="text" name="dates" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
-            <label className="text-sm sm:col-span-2">{labels.destination}<input type="text" name="destination" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
-            <fieldset className="text-sm sm:col-span-2">
-              <legend>{labels.services}</legend>
-              <div className="mt-2 grid gap-2 sm:grid-cols-2">
-                {content.serviceOptions.map((item, index) => (
-                  <label key={`service-option-${index}`} className="flex items-center gap-2 rounded-md border border-slate-200 px-3 py-2">
-                    <input type="checkbox" name="services" value={pickLocalized(item, locale)} className="size-4" />
-                    <span>{pickLocalized(item, locale)}</span>
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-            <label className="text-sm">{labels.budget}
-              <select name="budget" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
-                {content.budgetOptions.map((item, index) => <option key={`budget-${index}`}>{pickLocalized(item, locale)}</option>)}
-              </select>
-            </label>
-            <label className="text-sm">{labels.whiteLabel}
-              <select name="whiteLabel" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
-                <option>Yes</option>
-                <option>No</option>
-              </select>
-            </label>
-            <label className="text-sm sm:col-span-2">{labels.upload}<input type="file" name="brief" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
             <label className="text-sm sm:col-span-2">{labels.message}<textarea name="message" rows={4} className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
             <button type="submit" className="sm:col-span-2 rounded-md bg-[#072b52] px-4 py-3 text-sm font-semibold text-white">{pickLocalized(content.submitLabel, locale)}</button>
           </form>
@@ -465,6 +447,15 @@ export default async function HomePage({params}: PageProps) {
           ))}
         </div>
       </section>
+      <footer className="bg-[#f7b500] py-8 text-black">
+        <div className="mx-auto grid max-w-6xl gap-5 px-4 text-center text-xl sm:px-6 lg:grid-cols-2 lg:px-8">
+          <div>Plaza Cueva Taina, Local #B2, Av. Estados Unidos - Bavaro, Dominican Republic</div>
+          <div className="space-y-2">
+            <div>+1 829 421 6101</div>
+            <a href="mailto:commercial@adventuresfinder.com" className="block underline-offset-4 hover:underline">commercial@adventuresfinder.com</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
