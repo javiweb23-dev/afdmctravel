@@ -1,12 +1,12 @@
 {
     "Nav":  {
                 "home":  "Home",
-                "tours":  "Tours",
-                "privateExperiences":  "Private Experiences",
-                "golfPackages":  "Golf Packages",
-                "corporateRetreats":  "Corporate Retreats",
-                "transportation":  "Transportation",
-                "contact":  "Contact"
+                "activities":  "Activities",
+                "transfers":  "Transfers",
+                "packages":  "Packages",
+                "miceDmcServices":  "MICE & DMC Services",
+                "contact":  "Contact",
+                "requestProposal":  "Request Proposal"
             },
     "HomePage":  {
                      "heroTitle":  "Private Experiences \u0026 Tours in Punta Cana",
@@ -51,5 +51,23 @@
                      "transportationDescription":  "Arrange airport transfers and private transportation across Punta Cana.",
                      "contactTitle":  "Contact",
                      "contactDescription":  "Tell us about your travel goals and our team will assist you shortly."
+                 },
+    "B2BForm":  {
+                    "name":  "Name",
+                    "company":  "Company",
+                    "email":  "Email",
+                    "phone":  "Phone / WhatsApp",
+                    "country":  "Country",
+                    "companyType":  "Company type",
+                    "eventType":  "Event type",
+                    "estimatedGroupSize":  "Estimated group size",
+                    "eventDates":  "Event dates",
+                    "destination":  "Destination / hotel selected?",
+                    "servicesNeeded":  "Services needed",
+                    "budgetRange":  "Budget range",
+                    "whiteLabelSupport":  "Do you need white-label support?",
+                    "uploadBrief":  "Upload RFP or brief",
+                    "message":  "Message",
+                    "submit":  "Send Group Request"
                  }
 }

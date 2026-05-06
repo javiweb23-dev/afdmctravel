@@ -1,12 +1,12 @@
 {
     "Nav":  {
                 "home":  "Accueil",
-                "tours":  "Circuits",
-                "privateExperiences":  "Experiences Privees",
-                "golfPackages":  "Forfaits Golf",
-                "corporateRetreats":  "Retraites Corporatives",
-                "transportation":  "Transport",
-                "contact":  "Contact"
+                "activities":  "Activites",
+                "transfers":  "Transferts",
+                "packages":  "Forfaits",
+                "miceDmcServices":  "Services MICE et DMC",
+                "contact":  "Contact",
+                "requestProposal":  "Demander une proposition"
             },
     "HomePage":  {
                      "heroTitle":  "Experiences Privees et Circuits a Punta Cana",
@@ -51,5 +51,23 @@
                      "transportationDescription":  "Organisez les transferts aeroport et le transport prive a Punta Cana.",
                      "contactTitle":  "Contact",
                      "contactDescription":  "Partagez vos objectifs de voyage et notre equipe vous repondra rapidement."
+                 },
+    "B2BForm":  {
+                    "name":  "Nom",
+                    "company":  "Entreprise",
+                    "email":  "Courriel",
+                    "phone":  "Telephone / WhatsApp",
+                    "country":  "Pays",
+                    "companyType":  "Type d entreprise",
+                    "eventType":  "Type d evenement",
+                    "estimatedGroupSize":  "Taille estimee du groupe",
+                    "eventDates":  "Dates de l evenement",
+                    "destination":  "Destination / hotel selectionne?",
+                    "servicesNeeded":  "Services necessaires",
+                    "budgetRange":  "Plage budgetaire",
+                    "whiteLabelSupport":  "Avez-vous besoin de support white-label?",
+                    "uploadBrief":  "Telecharger RFP ou brief",
+                    "message":  "Message",
+                    "submit":  "Envoyer la demande de groupe"
                  }
 }

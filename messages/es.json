@@ -1,12 +1,12 @@
 {
     "Nav":  {
                 "home":  "Inicio",
-                "tours":  "Tours",
-                "privateExperiences":  "Experiencias Privadas",
-                "golfPackages":  "Paquetes de Golf",
-                "corporateRetreats":  "Retiros Corporativos",
-                "transportation":  "Transporte",
-                "contact":  "Contacto"
+                "activities":  "Actividades",
+                "transfers":  "Traslados",
+                "packages":  "Paquetes",
+                "miceDmcServices":  "Servicios MICE y DMC",
+                "contact":  "Contacto",
+                "requestProposal":  "Solicitar propuesta"
             },
     "HomePage":  {
                      "heroTitle":  "Experiencias Privadas y Tours en Punta Cana",
@@ -51,5 +51,23 @@
                      "transportationDescription":  "Gestiona traslados al aeropuerto y transporte privado en Punta Cana.",
                      "contactTitle":  "Contacto",
                      "contactDescription":  "Cuentanos tus objetivos de viaje y nuestro equipo te ayudara pronto."
+                 },
+    "B2BForm":  {
+                    "name":  "Nombre",
+                    "company":  "Empresa",
+                    "email":  "Correo",
+                    "phone":  "Telefono / WhatsApp",
+                    "country":  "Pais",
+                    "companyType":  "Tipo de empresa",
+                    "eventType":  "Tipo de evento",
+                    "estimatedGroupSize":  "Tamano estimado del grupo",
+                    "eventDates":  "Fechas del evento",
+                    "destination":  "Destino / hotel seleccionado?",
+                    "servicesNeeded":  "Servicios requeridos",
+                    "budgetRange":  "Rango de presupuesto",
+                    "whiteLabelSupport":  "Necesitas soporte white-label?",
+                    "uploadBrief":  "Subir RFP o brief",
+                    "message":  "Mensaje",
+                    "submit":  "Enviar solicitud grupal"
                  }
 }

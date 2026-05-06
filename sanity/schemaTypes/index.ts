@@ -12,6 +12,7 @@ import {tourType} from "./tourType";
 import {privateExperienceType} from "./privateExperienceType";
 import {golfPackageType} from "./golfPackageType";
 import {corporateRetreatType} from "./corporateRetreatType";
+import {b2bLandingPageType} from "./b2bLandingPageType";
 
 export const schema: {types: SchemaTypeDefinition[]} = {
   types: [
@@ -27,5 +28,6 @@ export const schema: {types: SchemaTypeDefinition[]} = {
     privateExperienceType,
     golfPackageType,
     corporateRetreatType,
+    b2bLandingPageType,
   ],
 };
