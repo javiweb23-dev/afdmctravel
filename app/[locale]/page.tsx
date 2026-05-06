@@ -2,6 +2,7 @@ import Image from "next/image";
 import {groq} from "next-sanity";
 import {client} from "@/sanity/lib/client";
 import {urlFor} from "@/sanity/lib/image";
+import {LanguageSwitcher} from "@/components/site/language-switcher";
 
 type LocaleKey = "en" | "es" | "fr-CA";
 type PageProps = {params: Promise<{locale: LocaleKey}>};
@@ -292,9 +293,12 @@ export default async function HomePage({params}: PageProps) {
               </a>
             ))}
           </nav>
-          <a href={`/${locale}#lead`} className="rounded-md bg-amber-300 px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-amber-200">
-            {pickLocalized(content.headerButton, locale)}
-          </a>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <LanguageSwitcher />
+            <a href={`/${locale}#lead`} className="rounded-md bg-amber-300 px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-amber-200">
+              {pickLocalized(content.headerButton, locale)}
+            </a>
+          </div>
         </div>
       </header>
 
@@ -483,12 +487,12 @@ export default async function HomePage({params}: PageProps) {
           ))}
         </div>
       </section>
-      <footer className="bg-[#f7b500] py-8 text-black">
-        <div className="mx-auto grid max-w-6xl gap-5 px-4 text-center text-xl sm:px-6 lg:grid-cols-2 lg:px-8">
-          <div>Plaza Cueva Taina, Local #B2, Av. Estados Unidos - Bavaro, Dominican Republic</div>
+      <footer className="border-t border-slate-800 bg-slate-950 py-10 text-slate-200">
+        <div className="mx-auto grid max-w-6xl gap-6 px-4 text-center text-base sm:px-6 lg:grid-cols-2 lg:px-8 lg:text-left">
+          <div className="leading-relaxed">Plaza Cueva Taina, Local #B2, Av. Estados Unidos - Bavaro, Dominican Republic</div>
           <div className="space-y-2">
-            <div>+1 829 421 6101</div>
-            <a href="mailto:commercial@adventuresfinder.com" className="block underline-offset-4 hover:underline">commercial@adventuresfinder.com</a>
+            <div className="font-medium text-white">+1 829 421 6101</div>
+            <a href="mailto:commercial@adventuresfinder.com" className="block text-slate-200 underline-offset-4 hover:text-white hover:underline">commercial@adventuresfinder.com</a>
           </div>
         </div>
       </footer>
