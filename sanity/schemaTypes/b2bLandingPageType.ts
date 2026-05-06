@@ -180,7 +180,7 @@ export const b2bLandingPageType = defineType({
           ],
         }),
       ],
-      validation: (rule) => rule.min(8).max(8),
+      validation: (rule) => rule.min(4).max(8),
     }),
   ],
   preview: {
