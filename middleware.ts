@@ -3,6 +3,7 @@ import {type NextRequest, NextResponse} from "next/server";
 import {routing} from "./i18n/routing";
 
 const intlMiddleware = createMiddleware(routing);
+const publicPages = ["/studio", "/studio/(.*)"];
 
 const blockedPrefixes = ["/studio", "/api/sanity", "/sanity"];
 
@@ -14,6 +15,9 @@ function isBlockedPath(pathname: string) {
 
 export default function middleware(request: NextRequest) {
   const {pathname} = request.nextUrl;
+  if (publicPages.some((page) => new RegExp(`^${page}$`).test(pathname))) {
+    return NextResponse.next();
+  }
   if (isBlockedPath(pathname)) {
     return NextResponse.next();
   }
