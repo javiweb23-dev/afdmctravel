@@ -185,7 +185,7 @@ const fieldLabels = {
     country: "Country",
     companyType: "Company type",
     eventType: "Event type",
-    guests: "Estimated group size",
+    guests: "Group Size",
     dates: "Event dates",
     destination: "Destination / hotel selected?",
     services: "Services needed",
@@ -202,7 +202,7 @@ const fieldLabels = {
     country: "Pais",
     companyType: "Tipo de empresa",
     eventType: "Tipo de evento",
-    guests: "Tamano estimado del grupo",
+    guests: "Tamano del grupo",
     dates: "Fechas del evento",
     destination: "Destino / hotel seleccionado?",
     services: "Servicios requeridos",
@@ -219,7 +219,7 @@ const fieldLabels = {
     country: "Pays",
     companyType: "Type d entreprise",
     eventType: "Type d evenement",
-    guests: "Taille estimee du groupe",
+    guests: "Taille du groupe",
     dates: "Dates de l evenement",
     destination: "Destination / hotel selectionne?",
     services: "Services necessaires",
@@ -273,7 +273,7 @@ export default async function HomePage({params}: PageProps) {
   const content = {...fallback, ...data};
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div className="min-h-screen scroll-smooth bg-slate-50 text-slate-900">
       <header className="sticky top-0 z-30 border-b border-slate-200 bg-[#072b52] text-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex items-center gap-4">
@@ -285,7 +285,7 @@ export default async function HomePage({params}: PageProps) {
             {content.headerMenu.map((item, index) => (
               <a
                 key={`menu-${index}`}
-                href={index === 2 ? "https://adventuresfinder.com/transfers/" : index === 4 ? "https://adventuresfinder.com/" : index === 5 ? `/${locale}#lead` : index === 0 ? `/${locale}` : `/${locale}#services`}
+                href={index === 1 ? "https://adventuresfinder.com/" : index === 2 ? "https://adventuresfinder.com/transfers/" : index === 5 ? "#lead" : index === 0 ? `/${locale}` : `/${locale}#services`}
                 className="transition hover:text-cyan-200"
               >
                 {pickLocalized(item, locale)}
@@ -424,12 +424,48 @@ export default async function HomePage({params}: PageProps) {
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold">{pickLocalized(content.leadTitle, locale)}</h2>
           <p className="mt-3 text-slate-200">{pickLocalized(content.leadSubtitle, locale)}</p>
-          <form action="mailto:commercial@adventuresfinder.com" method="post" encType="text/plain" className="mt-8 grid gap-4 rounded-2xl bg-white p-6 text-slate-900 sm:grid-cols-2">
+          <form action="mailto:commercial@adventuresfinder.com" method="post" encType="multipart/form-data" className="mt-8 grid gap-4 rounded-2xl bg-white p-6 text-slate-900 sm:grid-cols-2">
             <label className="text-sm">{labels.name}<input type="text" name="name" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
             <label className="text-sm">{labels.company}<input type="text" name="company" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
             <label className="text-sm">{labels.email}<input type="email" name="email" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
             <label className="text-sm">{labels.phone}<input type="tel" name="phone" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
             <label className="text-sm">{labels.country}<input type="text" name="country" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
+            <label className="text-sm">{labels.companyType}
+              <select name="companyType" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
+                {content.companyTypeOptions.map((item, index) => <option key={`company-${index}`} value={pickLocalized(item, locale)}>{pickLocalized(item, locale)}</option>)}
+              </select>
+            </label>
+            <label className="text-sm sm:col-span-2">{labels.eventType}
+              <select name="eventType" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
+                {content.eventTypeOptions.map((item, index) => <option key={`event-${index}`} value={pickLocalized(item, locale)}>{pickLocalized(item, locale)}</option>)}
+              </select>
+            </label>
+            <label className="text-sm">{labels.guests}<input type="number" min={1} name="groupSize" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
+            <label className="text-sm">{labels.dates}<input type="text" name="eventDates" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
+            <label className="text-sm sm:col-span-2">{labels.destination}<input type="text" name="destinationOrHotel" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
+            <fieldset className="text-sm sm:col-span-2">
+              <legend>{labels.services}</legend>
+              <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                {content.serviceOptions.map((item, index) => (
+                  <label key={`service-option-${index}`} className="flex items-center gap-2 rounded-md border border-slate-200 px-3 py-2">
+                    <input type="checkbox" name="servicesNeeded" value={pickLocalized(item, locale)} className="size-4" />
+                    <span>{pickLocalized(item, locale)}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+            <label className="text-sm">{labels.budget}
+              <select name="budgetRange" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
+                {content.budgetOptions.map((item, index) => <option key={`budget-${index}`} value={pickLocalized(item, locale)}>{pickLocalized(item, locale)}</option>)}
+              </select>
+            </label>
+            <label className="text-sm">{labels.whiteLabel}
+              <select name="whiteLabelSupport" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
+                <option value={locale === "en" ? "Yes" : locale === "es" ? "Si" : "Oui"}>{locale === "en" ? "Yes" : locale === "es" ? "Si" : "Oui"}</option>
+                <option value="No">No</option>
+              </select>
+            </label>
+            <label className="text-sm sm:col-span-2">{labels.upload}<input type="file" name="rfpBrief" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
             <label className="text-sm sm:col-span-2">{labels.message}<textarea name="message" rows={4} className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
             <button type="submit" className="sm:col-span-2 rounded-md bg-[#072b52] px-4 py-3 text-sm font-semibold text-white">{pickLocalized(content.submitLabel, locale)}</button>
           </form>
