@@ -60,6 +60,12 @@ export const b2bLandingPageType = defineType({
             defineField({name: "title", title: "Title", type: "localeString"}),
             defineField({name: "description", title: "Description", type: "localeText"}),
             defineField({
+              name: "icon",
+              title: "Icon",
+              type: "image",
+              options: {hotspot: true},
+            }),
+            defineField({
               name: "image",
               title: "Image",
               type: "image",

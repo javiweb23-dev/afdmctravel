@@ -21,7 +21,7 @@ type HomeContent = {
   whoWeServeTitle?: LocalizedValue;
   whoWeServeItems?: LocalizedValue[];
   servicesTitle?: LocalizedValue;
-  services?: {title?: LocalizedValue; description?: LocalizedValue; image?: unknown}[];
+  services?: {title?: LocalizedValue; description?: LocalizedValue; icon?: unknown; image?: unknown}[];
   whiteLabelTitle?: LocalizedValue;
   whiteLabelBody?: LocalizedValue;
   whiteLabelItems?: LocalizedValue[];
@@ -53,128 +53,39 @@ const query = groq`*[_type == "b2bLandingPage"][0]{
   faqsTitle, faqs
 }`;
 
-const fallback: Required<HomeContent> = {
-  headerMenu: [
-    {en: "Home", es: "Inicio", fr_CA: "Accueil"},
-    {en: "Activities", es: "Actividades", fr_CA: "Activites"},
-    {en: "Transfers", es: "Traslados", fr_CA: "Transferts"},
-    {en: "Packages", es: "Paquetes", fr_CA: "Forfaits"},
-    {en: "MICE & DMC Services", es: "Servicios MICE y DMC", fr_CA: "Services MICE et DMC"},
-    {en: "Contact", es: "Contacto", fr_CA: "Contact"},
-  ],
-  headerButton: {en: "Request Proposal", es: "Solicitar Propuesta", fr_CA: "Demander une proposition"},
-  heroTitle: {en: "Your Local MICE & DMC Partner in Punta Cana", es: "Tu aliado local MICE y DMC en Punta Cana", fr_CA: "Votre partenaire local MICE et DMC a Punta Cana"},
-  heroSubtitle: {en: "We help international DMCs, MICE agencies, corporate planners and event companies deliver seamless group programs in Punta Cana.", es: "Ayudamos a DMCs internacionales, agencias MICE, planners corporativos y empresas de eventos a ejecutar programas grupales sin friccion en Punta Cana.", fr_CA: "Nous aidons les DMC internationaux, agences MICE, planificateurs corporatifs et entreprises evenementielles a executer des programmes de groupe sans friction a Punta Cana."},
-  heroBody: {en: "From airport transfers and hotel sourcing to team building, private experiences, celebrations and on-site logistics, our local team manages every detail.", es: "Desde traslados y hoteleria hasta team building, experiencias privadas, celebraciones y logistica on-site, nuestro equipo local gestiona cada detalle.", fr_CA: "Des transferts aeroport et hotels au team building, experiences privees, celebrations et logistique sur site, notre equipe locale gere chaque detail."},
-  heroCtaPrimary: {en: "Request a Group Proposal", es: "Solicitar propuesta grupal", fr_CA: "Demander une proposition de groupe"},
-  heroCtaSecondary: {en: "Contact Our Sales Team", es: "Contactar equipo comercial", fr_CA: "Contacter notre equipe commerciale"},
-  heroContact: {en: "Jeannie Flores | Sales Manager | commercial@adventuresfinder.com", es: "Jeannie Flores | Sales Manager | commercial@adventuresfinder.com", fr_CA: "Jeannie Flores | Sales Manager | commercial@adventuresfinder.com"},
-  heroImage: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1800&q=80",
-  stats: [
-    {value: {en: "Up to 7,000 guests", es: "Hasta 7,000 invitados", fr_CA: "Jusqu a 7 000 invites"}, label: {en: "Large-scale capacity", es: "Capacidad de gran escala", fr_CA: "Capacite grande echelle"}},
-    {value: {en: "Hotel sourcing", es: "Gestion hotelera", fr_CA: "Sourcing hotelier"}, label: {en: "Resort and venue coordination", es: "Coordinacion de resorts y venues", fr_CA: "Coordination resorts et lieux"}},
-    {value: {en: "Multilingual support", es: "Soporte multilingue", fr_CA: "Support multilingue"}, label: {en: "English, Spanish, French and Italian", es: "Ingles, espanol, frances e italiano", fr_CA: "Anglais, espagnol, francais et italien"}},
-    {value: {en: "Local team", es: "Equipo local", fr_CA: "Equipe locale"}, label: {en: "On-the-ground operations", es: "Operacion en destino", fr_CA: "Operations sur le terrain"}},
-  ],
-  whoWeServeTitle: {en: "Built for DMCs, MICE Agencies & Corporate Groups", es: "Construido para DMCs, agencias MICE y grupos corporativos", fr_CA: "Concu pour les DMC, agences MICE et groupes corporatifs"},
-  whoWeServeItems: [
-    {en: "International DMCs", es: "DMCs internacionales", fr_CA: "DMC internationaux"},
-    {en: "MICE agencies", es: "Agencias MICE", fr_CA: "Agences MICE"},
-    {en: "Incentive travel companies", es: "Empresas de viajes de incentivo", fr_CA: "Entreprises de voyages incentive"},
-    {en: "Corporate event planners", es: "Planners de eventos corporativos", fr_CA: "Planificateurs d evenements corporatifs"},
-    {en: "Meeting planners", es: "Planificadores de reuniones", fr_CA: "Planificateurs de reunions"},
-    {en: "Travel management companies", es: "Empresas de travel management", fr_CA: "Societes de gestion de voyages"},
-    {en: "Celebration and wedding planners", es: "Planificadores de bodas y celebraciones", fr_CA: "Planificateurs de mariages et celebrations"},
-    {en: "Event production companies", es: "Empresas de produccion de eventos", fr_CA: "Societes de production evenementielle"},
-    {en: "Group travel agencies", es: "Agencias de viajes grupales", fr_CA: "Agences de voyages de groupe"},
-  ],
-  servicesTitle: {en: "Our MICE & Group Services", es: "Nuestros servicios MICE y de grupos", fr_CA: "Nos services MICE et groupes"},
-  services: [
-    {title: {en: "Group Transportation", es: "Transporte grupal", fr_CA: "Transport de groupe"}, description: {en: "Airport arrivals, VIP transfers, shuttles and multi-hotel dispatching.", es: "Llegadas aeropuerto, VIP transfers, shuttles y movimientos multi-hotel.", fr_CA: "Arrivees aeroport, transferts VIP, navettes et mouvements multi-hotels."}, image: "https://images.unsplash.com/photo-1464219789935-c2d9d9aba644?w=900&q=80"},
-    {title: {en: "Hotel Sourcing & Coordination", es: "Sourcing y coordinacion hotelera", fr_CA: "Sourcing et coordination hoteliere"}, description: {en: "Resort recommendations, rooming lists, meeting spaces and venue support.", es: "Recomendaciones de resorts, rooming lists, meeting spaces y venues.", fr_CA: "Recommandations resorts, rooming lists, meeting spaces et lieux."}, image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=900&q=80"},
-    {title: {en: "Team Building Programs", es: "Programas de team building", fr_CA: "Programmes de team building"}, description: {en: "Beach olympics, CSR activities, challenges and branded dynamics.", es: "Beach olympics, CSR, retos y dinamicas de marca.", fr_CA: "Beach olympics, activites RSE, defis et dynamiques de marque."}, image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=900&q=80"},
-    {title: {en: "Incentive Travel", es: "Viajes de incentivo", fr_CA: "Voyages incentive"}, description: {en: "Reward experiences, awards dinners and executive-level support.", es: "Experiencias de recompensa, cenas de premiacion y soporte ejecutivo.", fr_CA: "Experiences de recompense, diners de remise et support executif."}, image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=900&q=80"},
-    {title: {en: "Events & Celebrations", es: "Eventos y celebraciones", fr_CA: "Evenements et celebrations"}, description: {en: "Gala dinners, beach parties, product launches and themed nights.", es: "Gala dinners, beach parties, lanzamientos y noches tematicas.", fr_CA: "Galas, beach parties, lancements et soirees thematiques."}, image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=900&q=80"},
-    {title: {en: "Private Tours & Experiences", es: "Tours y experiencias privadas", fr_CA: "Tours et experiences privees"}, description: {en: "Curated destination programs for groups and corporate clients.", es: "Programas de destino curados para grupos y clientes corporativos.", fr_CA: "Programmes de destination sur mesure pour groupes et clients corporatifs."}, image: "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=900&q=80"},
-    {title: {en: "On-Site Destination Support", es: "Soporte on-site en destino", fr_CA: "Support destination sur site"}, description: {en: "Hospitality desks, multilingual staff and full run-of-show execution.", es: "Hospitality desks, staff multilingue y ejecucion completa.", fr_CA: "Hospitality desks, equipe multilingue et execution complete."}, image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=900&q=80"},
-  ],
-  whiteLabelTitle: {en: "White-Label Local Support for Agencies", es: "Soporte local white-label para agencias", fr_CA: "Support local white-label pour agences"},
-  whiteLabelBody: {en: "Operate with confidence while keeping your agency as the visible brand. We execute suppliers, logistics, staffing and delivery in Punta Cana behind the scenes.", es: "Opera con confianza manteniendo tu agencia como marca visible. Ejecutamos proveedores, logistica, staffing y operacion en Punta Cana en segundo plano.", fr_CA: "Operez avec confiance en gardant votre agence comme marque visible. Nous executons fournisseurs, logistique, staffing et operation a Punta Cana en arriere-plan."},
-  whiteLabelItems: [
-    {en: "Local supplier sourcing", es: "Sourcing de proveedores locales", fr_CA: "Sourcing de fournisseurs locaux"},
-    {en: "Ground operations", es: "Operaciones terrestres", fr_CA: "Operations terrain"},
-    {en: "Custom proposals", es: "Propuestas personalizadas", fr_CA: "Propositions personnalisees"},
-    {en: "Confidential execution", es: "Ejecucion confidencial", fr_CA: "Execution confidentielle"},
-  ],
-  whiteLabelImage: "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=1200&q=80",
-  sampleProgramsTitle: {en: "Sample Punta Cana Group Programs", es: "Programas grupales de ejemplo en Punta Cana", fr_CA: "Programmes de groupe exemples a Punta Cana"},
-  samplePrograms: [
-    {title: {en: "Corporate Incentive Escape", es: "Corporate Incentive Escape", fr_CA: "Corporate Incentive Escape"}, description: {en: "Reward-focused program for top performers and partner groups.", es: "Programa orientado a recompensas para top performers y partners.", fr_CA: "Programme axe recompenses pour top performers et partenaires."}, bullets: [{en: "Private catamaran", es: "Catamaran privado", fr_CA: "Catamaran prive"}, {en: "Awards dinner", es: "Cena de premiacion", fr_CA: "Diner de remise"}, {en: "On-site coordination", es: "Coordinacion on-site", fr_CA: "Coordination sur site"}], image: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1200&q=80"},
-    {title: {en: "Executive Retreat", es: "Executive Retreat", fr_CA: "Executive Retreat"}, description: {en: "Leadership-oriented format for meetings and strategic sessions.", es: "Formato para liderazgo, reuniones y sesiones estrategicas.", fr_CA: "Format pour leadership, reunions et sessions strategiques."}, bullets: [{en: "VIP airport service", es: "Servicio VIP aeropuerto", fr_CA: "Service VIP aeroport"}, {en: "Luxury transport", es: "Transporte de lujo", fr_CA: "Transport de luxe"}, {en: "Private dining", es: "Cenas privadas", fr_CA: "Diners prives"}], image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&q=80"},
-    {title: {en: "Team Building & Celebration", es: "Team Building y Celebracion", fr_CA: "Team Building et Celebration"}, description: {en: "High-energy experience designed for connection and brand culture.", es: "Experiencia de alta energia para conexion y cultura de marca.", fr_CA: "Experience haute energie pour connexion et culture de marque."}, bullets: [{en: "Beach Olympics", es: "Beach Olympics", fr_CA: "Beach Olympics"}, {en: "Cultural activity", es: "Actividad cultural", fr_CA: "Activite culturelle"}, {en: "Branded celebration", es: "Celebracion de marca", fr_CA: "Celebration de marque"}], image: "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=1200&q=80"},
-    {title: {en: "White-Label DMC Support", es: "Soporte DMC White-Label", fr_CA: "Support DMC White-Label"}, description: {en: "Flexible operating model for agencies that keep client ownership.", es: "Modelo flexible para agencias que mantienen ownership del cliente.", fr_CA: "Modele flexible pour agences conservant la relation client."}, bullets: [{en: "Back-end operations", es: "Operacion back-end", fr_CA: "Operations back-end"}, {en: "Supplier coordination", es: "Coordinacion de proveedores", fr_CA: "Coordination fournisseurs"}, {en: "Local emergency support", es: "Soporte local de emergencia", fr_CA: "Support local d urgence"}], image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&q=80"},
-  ],
-  whyPartnerTitle: {en: "Why Partner With Adventures Finder?", es: "Por que asociarte con Adventures Finder", fr_CA: "Pourquoi collaborer avec Adventures Finder"},
-  whyPartnerItems: [
-    {en: "Local Punta Cana expertise", es: "Expertise local de Punta Cana", fr_CA: "Expertise locale de Punta Cana"},
-    {en: "Experience in corporate and group programs", es: "Experiencia en programas corporativos y grupales", fr_CA: "Experience en programmes corporatifs et groupes"},
-    {en: "Multilingual team", es: "Equipo multilingue", fr_CA: "Equipe multilingue"},
-    {en: "Hotel sourcing and logistics in one partner", es: "Hoteleria y logistica en un solo partner", fr_CA: "Sourcing hotelier et logistique en un seul partenaire"},
-    {en: "Fast sales communication", es: "Comunicacion comercial rapida", fr_CA: "Communication commerciale rapide"},
-  ],
-  whyPartnerGallery: [
-    "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=1200&q=80",
-    "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=1200&q=80",
-    "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1200&q=80",
-  ],
-  leadTitle: {en: "Planning a Group Program in Punta Cana?", es: "Planeando un programa grupal en Punta Cana?", fr_CA: "Vous planifiez un programme de groupe a Punta Cana?"},
-  leadSubtitle: {en: "Share your event details and our team will build a tailored proposal.", es: "Comparte los detalles de tu evento y nuestro equipo preparara una propuesta a la medida.", fr_CA: "Partagez les details de votre evenement et notre equipe preparera une proposition sur mesure."},
-  submitLabel: {en: "Send Group Request", es: "Enviar solicitud grupal", fr_CA: "Envoyer la demande de groupe"},
-  companyTypeOptions: [
-    {en: "DMC", es: "DMC", fr_CA: "DMC"},
-    {en: "MICE agency", es: "Agencia MICE", fr_CA: "Agence MICE"},
-    {en: "Corporate company", es: "Empresa corporativa", fr_CA: "Entreprise corporative"},
-    {en: "Event planner", es: "Planificador de eventos", fr_CA: "Planificateur d evenements"},
-    {en: "Travel agency", es: "Agencia de viajes", fr_CA: "Agence de voyages"},
-    {en: "Other", es: "Otro", fr_CA: "Autre"},
-  ],
-  eventTypeOptions: [
-    {en: "Incentive trip", es: "Viaje de incentivo", fr_CA: "Voyage incentive"},
-    {en: "Corporate retreat", es: "Retiro corporativo", fr_CA: "Retraite corporative"},
-    {en: "Meeting", es: "Reunion", fr_CA: "Reunion"},
-    {en: "Team building", es: "Team building", fr_CA: "Team building"},
-    {en: "Celebration", es: "Celebracion", fr_CA: "Celebration"},
-    {en: "Product launch", es: "Lanzamiento de producto", fr_CA: "Lancement de produit"},
-    {en: "Wedding / private celebration", es: "Boda / celebracion privada", fr_CA: "Mariage / celebration privee"},
-    {en: "Other", es: "Otro", fr_CA: "Autre"},
-  ],
-  serviceOptions: [
-    {en: "Hotels", es: "Hoteles", fr_CA: "Hotels"},
-    {en: "Transfers", es: "Traslados", fr_CA: "Transferts"},
-    {en: "Team building", es: "Team building", fr_CA: "Team building"},
-    {en: "Excursions", es: "Excursiones", fr_CA: "Excursions"},
-    {en: "Gala dinner", es: "Cena de gala", fr_CA: "Diner de gala"},
-    {en: "Beach event", es: "Evento de playa", fr_CA: "Evenement de plage"},
-    {en: "Staffing", es: "Staffing", fr_CA: "Staffing"},
-    {en: "Full destination logistics", es: "Logistica integral destino", fr_CA: "Logistique destination complete"},
-  ],
-  budgetOptions: [
-    {en: "Under USD 25,000", es: "Menos de USD 25,000", fr_CA: "Moins de 25 000 USD"},
-    {en: "USD 25,000 - 50,000", es: "USD 25,000 - 50,000", fr_CA: "25 000 - 50 000 USD"},
-    {en: "USD 50,000 - 100,000", es: "USD 50,000 - 100,000", fr_CA: "50 000 - 100 000 USD"},
-    {en: "Over USD 100,000", es: "Mas de USD 100,000", fr_CA: "Plus de 100 000 USD"},
-  ],
-  faqsTitle: {en: "Frequently Asked Questions", es: "Preguntas frecuentes", fr_CA: "Questions frequentes"},
-  faqs: [
-    {question: {en: "Do you work with international DMCs and MICE agencies?", es: "Trabajan con DMCs y agencias MICE internacionales?", fr_CA: "Travaillez-vous avec des DMC et agences MICE internationales?"}, answer: {en: "Yes. We support international agencies and planners that need reliable local execution in Punta Cana.", es: "Si. Apoyamos agencias y planners internacionales que necesitan ejecucion local confiable en Punta Cana.", fr_CA: "Oui. Nous accompagnons les agences et planificateurs internationaux qui ont besoin d une execution locale fiable a Punta Cana."}},
-    {question: {en: "Can you work white-label for agencies?", es: "Pueden operar white-label para agencias?", fr_CA: "Pouvez-vous operer en white-label pour les agences?"}, answer: {en: "Yes. We can operate behind the scenes while your agency keeps the client-facing relationship.", es: "Si. Podemos operar en segundo plano mientras tu agencia mantiene la relacion con el cliente.", fr_CA: "Oui. Nous pouvons operer en arriere-plan pendant que votre agence conserve la relation client."}},
-    {question: {en: "Can you help with hotels?", es: "Pueden apoyar con hoteles?", fr_CA: "Pouvez-vous aider pour les hotels?"}, answer: {en: "Yes. We support hotel sourcing and coordination for groups, incentives and events.", es: "Si. Apoyamos sourcing y coordinacion hotelera para grupos, incentivos y eventos.", fr_CA: "Oui. Nous soutenons le sourcing et la coordination hoteliere pour groupes, incentives et evenements."}},
-    {question: {en: "What group sizes can you manage?", es: "Que tamanos de grupo pueden manejar?", fr_CA: "Quelles tailles de groupe pouvez-vous gerer?"}, answer: {en: "We manage small to large programs, including large-scale operations up to 7,000 guests.", es: "Gestionamos programas pequenos y grandes, incluyendo operaciones de hasta 7,000 invitados.", fr_CA: "Nous gerons des programmes petits a grands, y compris des operations jusqu a 7 000 invites."}},
-    {question: {en: "What languages does your team speak?", es: "Que idiomas habla el equipo?", fr_CA: "Quelles langues parle votre equipe?"}, answer: {en: "Our team supports guests in English, Spanish, French and Italian.", es: "Nuestro equipo atiende en ingles, espanol, frances e italiano.", fr_CA: "Notre equipe accompagne en anglais, espagnol, francais et italien."}},
-    {question: {en: "Do you only offer tours?", es: "Solo ofrecen tours?", fr_CA: "Offrez-vous uniquement des tours?"}, answer: {en: "No. We handle transportation, hotels, events, team building, celebrations and full local logistics.", es: "No. Gestionamos transporte, hoteles, eventos, team building, celebraciones y logistica integral local.", fr_CA: "Non. Nous gerons transport, hotels, evenements, team building, celebrations et logistique locale complete."}},
-    {question: {en: "Can you support gala dinners and corporate celebrations?", es: "Pueden apoyar galas y celebraciones corporativas?", fr_CA: "Pouvez-vous soutenir des galas et celebrations corporatives?"}, answer: {en: "Yes. We coordinate gala dinners, awards nights, beach parties and themed events.", es: "Si. Coordinamos galas, noches de premiacion, beach parties y eventos tematicos.", fr_CA: "Oui. Nous coordonnons galas, soirees de remise, beach parties et evenements thematiques."}},
-    {question: {en: "Who should we contact?", es: "A quien debemos contactar?", fr_CA: "Qui devons-nous contacter?"}, answer: {en: "Contact Jeannie Flores at commercial@adventuresfinder.com.", es: "Contacta a Jeannie Flores en commercial@adventuresfinder.com.", fr_CA: "Contactez Jeannie Flores a commercial@adventuresfinder.com."}},
-  ],
+const defaultContent: Required<HomeContent> = {
+  headerMenu: [],
+  headerButton: {en: "", es: "", fr_CA: ""},
+  heroTitle: {en: "", es: "", fr_CA: ""},
+  heroSubtitle: {en: "", es: "", fr_CA: ""},
+  heroBody: {en: "", es: "", fr_CA: ""},
+  heroCtaPrimary: {en: "", es: "", fr_CA: ""},
+  heroCtaSecondary: {en: "", es: "", fr_CA: ""},
+  heroContact: {en: "", es: "", fr_CA: ""},
+  heroImage: "",
+  stats: [],
+  whoWeServeTitle: {en: "", es: "", fr_CA: ""},
+  whoWeServeItems: [],
+  servicesTitle: {en: "", es: "", fr_CA: ""},
+  services: [],
+  whiteLabelTitle: {en: "", es: "", fr_CA: ""},
+  whiteLabelBody: {en: "", es: "", fr_CA: ""},
+  whiteLabelItems: [],
+  whiteLabelImage: "",
+  sampleProgramsTitle: {en: "", es: "", fr_CA: ""},
+  samplePrograms: [],
+  whyPartnerTitle: {en: "", es: "", fr_CA: ""},
+  whyPartnerItems: [],
+  whyPartnerGallery: [],
+  leadTitle: {en: "", es: "", fr_CA: ""},
+  leadSubtitle: {en: "", es: "", fr_CA: ""},
+  submitLabel: {en: "", es: "", fr_CA: ""},
+  companyTypeOptions: [],
+  eventTypeOptions: [],
+  serviceOptions: [],
+  budgetOptions: [],
+  faqsTitle: {en: "", es: "", fr_CA: ""},
+  faqs: [],
 };
 
 const fieldLabels = {
@@ -271,7 +182,7 @@ export default async function HomePage({params}: PageProps) {
   } catch {
     data = {};
   }
-  const content = {...fallback, ...data};
+  const content = {...defaultContent, ...data};
 
   return (
     <div className="min-h-screen scroll-smooth bg-slate-50 text-slate-900">
@@ -351,6 +262,11 @@ export default async function HomePage({params}: PageProps) {
                 <Image src={resolveImage(service.image, "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=900&q=80")} alt={pickLocalized(service.title, locale)} fill className="object-cover" sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 100vw" />
               </div>
               <div className="p-4">
+                {service.icon ? (
+                  <div className="mb-3 inline-flex rounded-lg bg-cyan-50 p-2">
+                    <Image src={resolveImage(service.icon, "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?w=40&q=80")} alt={pickLocalized(service.title, locale)} width={20} height={20} className="size-5 object-contain" />
+                  </div>
+                ) : null}
                 <h3 className="text-base font-semibold">{pickLocalized(service.title, locale)}</h3>
                 <p className="mt-2 text-sm text-slate-600">{pickLocalized(service.description, locale)}</p>
               </div>
