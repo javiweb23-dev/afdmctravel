@@ -14,7 +14,7 @@ function isBlockedPath(pathname: string) {
 }
 
 export default function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith("/studio")) return NextResponse.next();
+  if (request.nextUrl.pathname.startsWith("/studio") || request.nextUrl.pathname.startsWith("/api/sanity")) return NextResponse.next();
   const {pathname} = request.nextUrl;
   if (publicPages.some((page) => new RegExp(`^${page}$`).test(pathname))) {
     return NextResponse.next();
@@ -34,7 +34,5 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/((?!api|trpc|_next|_vercel|sanity|studio(?:/.*)?|en/studio(?:/.*)?|es/studio(?:/.*)?|fr-CA/studio(?:/.*)?|.*\\..*).*)",
-  ],
+  matcher: ["/((?!api|_next|.*\\..*|studio|studio/:path*).*)"],
 };
