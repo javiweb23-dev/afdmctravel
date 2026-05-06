@@ -140,7 +140,7 @@ export default async function HomePage({params}: PageProps) {
   const labels = fieldLabels[locale];
   let data: HomeContent = {};
   try {
-    data = (await client.fetch<HomeContent>(query)) || {};
+    data = (await client.fetch<HomeContent>(query, {}, {next: {revalidate: 0}})) || {};
   } catch {
     data = {};
   }

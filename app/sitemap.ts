@@ -32,7 +32,7 @@ type SanitySitemapDoc = {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let docs: SanitySitemapDoc[] = [];
   try {
-    docs = await client.fetch<SanitySitemapDoc[]>(documentsQuery);
+    docs = await client.fetch<SanitySitemapDoc[]>(documentsQuery, {}, {next: {revalidate: 0}});
   } catch {
     docs = [];
   }
