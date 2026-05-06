@@ -53,41 +53,6 @@ const query = groq`*[_type == "b2bLandingPage"][0]{
   faqsTitle, faqs
 }`;
 
-const defaultContent: Required<HomeContent> = {
-  headerMenu: [],
-  headerButton: {en: "", es: "", fr_CA: ""},
-  heroTitle: {en: "", es: "", fr_CA: ""},
-  heroSubtitle: {en: "", es: "", fr_CA: ""},
-  heroBody: {en: "", es: "", fr_CA: ""},
-  heroCtaPrimary: {en: "", es: "", fr_CA: ""},
-  heroCtaSecondary: {en: "", es: "", fr_CA: ""},
-  heroContact: {en: "", es: "", fr_CA: ""},
-  heroImage: "",
-  stats: [],
-  whoWeServeTitle: {en: "", es: "", fr_CA: ""},
-  whoWeServeItems: [],
-  servicesTitle: {en: "", es: "", fr_CA: ""},
-  services: [],
-  whiteLabelTitle: {en: "", es: "", fr_CA: ""},
-  whiteLabelBody: {en: "", es: "", fr_CA: ""},
-  whiteLabelItems: [],
-  whiteLabelImage: "",
-  sampleProgramsTitle: {en: "", es: "", fr_CA: ""},
-  samplePrograms: [],
-  whyPartnerTitle: {en: "", es: "", fr_CA: ""},
-  whyPartnerItems: [],
-  whyPartnerGallery: [],
-  leadTitle: {en: "", es: "", fr_CA: ""},
-  leadSubtitle: {en: "", es: "", fr_CA: ""},
-  submitLabel: {en: "", es: "", fr_CA: ""},
-  companyTypeOptions: [],
-  eventTypeOptions: [],
-  serviceOptions: [],
-  budgetOptions: [],
-  faqsTitle: {en: "", es: "", fr_CA: ""},
-  faqs: [],
-};
-
 const fieldLabels = {
   en: {
     name: "Name",
@@ -161,16 +126,13 @@ function pickLocalized(value: LocalizedValue | undefined, locale: LocaleKey) {
   return value[locale] || value.en || value.es || value.fr_CA || "";
 }
 
-function resolveImage(image: unknown, fallbackUrl: string) {
-  if (typeof image === "string" && image.length > 0) return image;
-  if (image) {
-    try {
-      return urlFor(image).width(1600).quality(80).url();
-    } catch {
-      return fallbackUrl;
-    }
+function resolveImage(image: unknown) {
+  if (!image) return "";
+  try {
+    return urlFor(image).width(1600).quality(80).url();
+  } catch {
+    return "";
   }
-  return fallbackUrl;
 }
 
 export default async function HomePage({params}: PageProps) {
@@ -182,7 +144,8 @@ export default async function HomePage({params}: PageProps) {
   } catch {
     data = {};
   }
-  const content = {...defaultContent, ...data};
+  const content = data;
+  const heroImage = resolveImage(content?.heroImage);
 
   return (
     <div className="min-h-screen scroll-smooth bg-slate-50 text-slate-900">
@@ -194,7 +157,7 @@ export default async function HomePage({params}: PageProps) {
             <div className="text-sm font-semibold">AF DMC</div>
           </div>
           <nav className="hidden items-center gap-6 text-sm font-medium lg:flex">
-            {content.headerMenu.map((item, index) => (
+            {(content.headerMenu ?? []).map((item, index) => (
               <a
                 key={`menu-${index}`}
                 href={index === 1 ? "https://adventuresfinder.com/" : index === 2 ? "https://adventuresfinder.com/transfers/" : index === 5 ? "#lead" : index === 0 ? `/${locale}` : `/${locale}#services`}
@@ -206,7 +169,7 @@ export default async function HomePage({params}: PageProps) {
           </nav>
           <div className="flex items-center gap-2 sm:gap-3">
             <LanguageSwitcher />
-            <a href={`/${locale}#lead`} className="rounded-md bg-amber-300 px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-amber-200">
+            <a href={`/${locale}#lead`} className="rounded-md bg-white px-4 py-2 text-sm font-semibold text-[#072b52] transition hover:bg-slate-100">
               {pickLocalized(content.headerButton, locale)}
             </a>
           </div>
@@ -214,17 +177,19 @@ export default async function HomePage({params}: PageProps) {
       </header>
 
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0">
-          <Image src={resolveImage(content.heroImage, "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1800&q=80")} alt={pickLocalized(content.heroTitle, locale)} fill priority className="object-cover" sizes="100vw" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#05233f]/90 via-[#05233f]/75 to-[#05233f]/35" />
-        </div>
+        {heroImage ? (
+          <div className="absolute inset-0">
+            <Image src={heroImage} alt={pickLocalized(content.heroTitle, locale)} fill priority className="object-cover" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#05233f]/90 via-[#05233f]/75 to-[#05233f]/35" />
+          </div>
+        ) : null}
         <div className="relative mx-auto grid min-h-[76vh] max-w-7xl items-center px-4 py-20 sm:px-6 lg:px-8">
           <div className="max-w-3xl text-white">
             <h1 className="text-4xl font-bold leading-tight sm:text-5xl">{pickLocalized(content.heroTitle, locale)}</h1>
             <p className="mt-5 text-lg text-slate-100">{pickLocalized(content.heroSubtitle, locale)}</p>
             <p className="mt-4 text-base text-slate-200">{pickLocalized(content.heroBody, locale)}</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href={`/${locale}#lead`} className="rounded-md bg-amber-300 px-5 py-3 text-sm font-semibold text-slate-900">{pickLocalized(content.heroCtaPrimary, locale)}</a>
+              <a href={`/${locale}#lead`} className="rounded-md bg-white px-5 py-3 text-sm font-semibold text-[#072b52]">{pickLocalized(content.heroCtaPrimary, locale)}</a>
               <a href="mailto:commercial@adventuresfinder.com" className="rounded-md border border-white/50 px-5 py-3 text-sm font-semibold text-white">{pickLocalized(content.heroCtaSecondary, locale)}</a>
             </div>
             <p className="mt-5 text-sm text-slate-200">{pickLocalized(content.heroContact, locale)}</p>
@@ -233,7 +198,7 @@ export default async function HomePage({params}: PageProps) {
       </section>
 
       <section className="relative z-20 mx-auto -mt-14 grid max-w-7xl gap-3 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
-        {content.stats.map((stat, index) => (
+        {(content.stats ?? []).map((stat, index) => (
           <article key={`stat-${index}`} className="rounded-xl border border-slate-200 bg-white p-5 shadow-lg shadow-slate-900/10">
             <p className="text-sm font-semibold text-cyan-700">{pickLocalized(stat.value, locale)}</p>
             <p className="mt-2 text-sm text-slate-600">{pickLocalized(stat.label, locale)}</p>
@@ -244,7 +209,7 @@ export default async function HomePage({params}: PageProps) {
       <section className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-center text-3xl font-bold">{pickLocalized(content.whoWeServeTitle, locale)}</h2>
         <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {content.whoWeServeItems.map((item, index) => (
+          {(content.whoWeServeItems ?? []).map((item, index) => (
             <div key={`partner-${index}`} className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 text-sm font-medium text-slate-700 shadow-sm">
               <PartnerIcon index={index} />
               <span>{pickLocalized(item, locale)}</span>
@@ -256,22 +221,28 @@ export default async function HomePage({params}: PageProps) {
       <section id="services" className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-center text-3xl font-bold">{pickLocalized(content.servicesTitle, locale)}</h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {content.services.map((service, index) => (
+          {(content.services ?? []).map((service, index) => {
+            const serviceImage = resolveImage(service.image);
+            const serviceIcon = resolveImage(service.icon);
+            return (
             <article key={`service-${index}`} className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-              <div className="relative aspect-[16/10]">
-                <Image src={resolveImage(service.image, "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=900&q=80")} alt={pickLocalized(service.title, locale)} fill className="object-cover" sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 100vw" />
-              </div>
+              {serviceImage ? (
+                <div className="relative aspect-[16/10]">
+                  <Image src={serviceImage} alt={pickLocalized(service.title, locale)} fill className="object-cover" sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 100vw" />
+                </div>
+              ) : null}
               <div className="p-4">
-                {service.icon ? (
+                {serviceIcon ? (
                   <div className="mb-3 inline-flex rounded-lg bg-cyan-50 p-2">
-                    <Image src={resolveImage(service.icon, "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?w=40&q=80")} alt={pickLocalized(service.title, locale)} width={20} height={20} className="size-5 object-contain" />
+                    <Image src={serviceIcon} alt={pickLocalized(service.title, locale)} width={20} height={20} className="size-5 object-contain" />
                   </div>
                 ) : null}
                 <h3 className="text-base font-semibold">{pickLocalized(service.title, locale)}</h3>
                 <p className="mt-2 text-sm text-slate-600">{pickLocalized(service.description, locale)}</p>
               </div>
             </article>
-          ))}
+          );
+          })}
         </div>
       </section>
 
@@ -281,27 +252,31 @@ export default async function HomePage({params}: PageProps) {
             <h2 className="text-2xl font-bold text-slate-900">{pickLocalized(content.whiteLabelTitle, locale)}</h2>
             <p className="mt-4 text-sm text-slate-700">{pickLocalized(content.whiteLabelBody, locale)}</p>
             <div className="mt-4 grid gap-2 sm:grid-cols-2">
-              {content.whiteLabelItems.map((item, index) => (
+              {(content.whiteLabelItems ?? []).map((item, index) => (
                 <div key={`white-${index}`} className="rounded-md bg-white px-3 py-2 text-sm font-medium text-slate-700">
                   {pickLocalized(item, locale)}
                 </div>
               ))}
             </div>
           </div>
-          <div className="relative min-h-48 overflow-hidden rounded-xl">
-            <Image src={resolveImage(content.whiteLabelImage, "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=1200&q=80")} alt={pickLocalized(content.whiteLabelTitle, locale)} fill className="object-cover" sizes="(min-width:1024px) 40vw, 100vw" />
-          </div>
+          {resolveImage(content.whiteLabelImage) ? (
+            <div className="relative min-h-48 overflow-hidden rounded-xl">
+              <Image src={resolveImage(content.whiteLabelImage)} alt={pickLocalized(content.whiteLabelTitle, locale)} fill className="object-cover" sizes="(min-width:1024px) 40vw, 100vw" />
+            </div>
+          ) : null}
         </div>
       </section>
 
       <section className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-center text-3xl font-bold">{pickLocalized(content.sampleProgramsTitle, locale)}</h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {content.samplePrograms.map((program, index) => (
+          {(content.samplePrograms ?? []).map((program, index) => (
             <article key={`program-${index}`} className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-              <div className="relative aspect-[4/3]">
-                <Image src={resolveImage(program.image, "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1200&q=80")} alt={pickLocalized(program.title, locale)} fill className="object-cover" sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 100vw" />
-              </div>
+              {resolveImage(program.image) ? (
+                <div className="relative aspect-[4/3]">
+                  <Image src={resolveImage(program.image)} alt={pickLocalized(program.title, locale)} fill className="object-cover" sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 100vw" />
+                </div>
+              ) : null}
               <div className="p-4">
                 <h3 className="text-base font-semibold">{pickLocalized(program.title, locale)}</h3>
                 <p className="mt-2 text-sm text-slate-600">{pickLocalized(program.description, locale)}</p>
@@ -323,7 +298,7 @@ export default async function HomePage({params}: PageProps) {
         <div>
           <h2 className="text-3xl font-bold">{pickLocalized(content.whyPartnerTitle, locale)}</h2>
           <ul className="mt-6 space-y-3">
-            {content.whyPartnerItems.map((item, index) => (
+            {(content.whyPartnerItems ?? []).map((item, index) => (
               <li key={`why-${index}`} className="flex items-start gap-3 text-sm text-slate-700">
                 <span className="mt-0.5 text-cyan-700">✔</span>
                 <span>{pickLocalized(item, locale)}</span>
@@ -332,9 +307,11 @@ export default async function HomePage({params}: PageProps) {
           </ul>
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
-          {content.whyPartnerGallery.map((image, index) => (
+          {(content.whyPartnerGallery ?? []).map((image, index) => (
             <div key={`gallery-${index}`} className={`relative overflow-hidden rounded-xl ${index === 0 ? "sm:col-span-2 aspect-[16/9]" : "aspect-[4/3]"}`}>
-              <Image src={resolveImage(image, "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=1200&q=80")} alt="Partner showcase" fill className="object-cover" sizes={index === 0 ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1024px) 25vw, 50vw"} />
+              {resolveImage(image) ? (
+                <Image src={resolveImage(image)} alt="Partner showcase" fill className="object-cover" sizes={index === 0 ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1024px) 25vw, 50vw"} />
+              ) : null}
             </div>
           ))}
         </div>
@@ -352,12 +329,12 @@ export default async function HomePage({params}: PageProps) {
             <label className="text-sm">{labels.country}<input type="text" name="country" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
             <label className="text-sm">{labels.companyType}
               <select name="companyType" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
-                {content.companyTypeOptions.map((item, index) => <option key={`company-${index}`} value={pickLocalized(item, locale)}>{pickLocalized(item, locale)}</option>)}
+                {(content.companyTypeOptions ?? []).map((item, index) => <option key={`company-${index}`} value={pickLocalized(item, locale)}>{pickLocalized(item, locale)}</option>)}
               </select>
             </label>
             <label className="text-sm sm:col-span-2">{labels.eventType}
               <select name="eventType" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
-                {content.eventTypeOptions.map((item, index) => <option key={`event-${index}`} value={pickLocalized(item, locale)}>{pickLocalized(item, locale)}</option>)}
+                {(content.eventTypeOptions ?? []).map((item, index) => <option key={`event-${index}`} value={pickLocalized(item, locale)}>{pickLocalized(item, locale)}</option>)}
               </select>
             </label>
             <label className="text-sm">{labels.guests}<input type="number" min={1} name="groupSize" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
@@ -366,7 +343,7 @@ export default async function HomePage({params}: PageProps) {
             <fieldset className="text-sm sm:col-span-2">
               <legend>{labels.services}</legend>
               <div className="mt-2 grid gap-2 sm:grid-cols-2">
-                {content.serviceOptions.map((item, index) => (
+                {(content.serviceOptions ?? []).map((item, index) => (
                   <label key={`service-option-${index}`} className="flex items-center gap-2 rounded-md border border-slate-200 px-3 py-2">
                     <input type="checkbox" name="servicesNeeded" value={pickLocalized(item, locale)} className="size-4" />
                     <span>{pickLocalized(item, locale)}</span>
@@ -376,7 +353,7 @@ export default async function HomePage({params}: PageProps) {
             </fieldset>
             <label className="text-sm">{labels.budget}
               <select name="budgetRange" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
-                {content.budgetOptions.map((item, index) => <option key={`budget-${index}`} value={pickLocalized(item, locale)}>{pickLocalized(item, locale)}</option>)}
+                {(content.budgetOptions ?? []).map((item, index) => <option key={`budget-${index}`} value={pickLocalized(item, locale)}>{pickLocalized(item, locale)}</option>)}
               </select>
             </label>
             <label className="text-sm">{labels.whiteLabel}
@@ -395,7 +372,7 @@ export default async function HomePage({params}: PageProps) {
       <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
         <h2 className="text-center text-3xl font-bold">{pickLocalized(content.faqsTitle, locale)}</h2>
         <div className="mt-8 space-y-3">
-          {content.faqs.map((faq, index) => (
+          {(content.faqs ?? []).map((faq, index) => (
             <details key={`faq-${index}`} className="rounded-xl border border-slate-200 bg-white p-4">
               <summary className="cursor-pointer text-sm font-semibold text-slate-900">{pickLocalized(faq.question, locale)}</summary>
               <p className="mt-3 text-sm text-slate-600">{pickLocalized(faq.answer, locale)}</p>
