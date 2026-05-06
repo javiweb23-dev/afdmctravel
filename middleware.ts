@@ -14,6 +14,7 @@ function isBlockedPath(pathname: string) {
 }
 
 export default function middleware(request: NextRequest) {
+  if (request.nextUrl.pathname.startsWith("/studio")) return NextResponse.next();
   const {pathname} = request.nextUrl;
   if (publicPages.some((page) => new RegExp(`^${page}$`).test(pathname))) {
     return NextResponse.next();
