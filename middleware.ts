@@ -4,35 +4,21 @@ import {routing} from "./i18n/routing";
 
 const intlMiddleware = createMiddleware(routing);
 
-function isMarketingPath(pathname: string) {
-  const paths = [
-    "/",
-    "/tours",
-    "/golf-packages",
-    "/corporate-retreats",
-    "/transportation",
-    "/contact",
-  ];
-  if (paths.includes(pathname)) {
-    return true;
-  }
-  const prefixes = [
-    "/tours/",
-    "/golf-packages/",
-    "/corporate-retreats/",
-    "/transportation/",
-    "/contact/",
-  ];
-  return prefixes.some((p) => pathname.startsWith(p));
+const blockedPrefixes = ["/studio", "/api/sanity", "/sanity"];
+
+function isBlockedPath(pathname: string) {
+  return blockedPrefixes.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
+  );
 }
 
 export default function middleware(request: NextRequest) {
-  if (isMarketingPath(request.nextUrl.pathname)) {
+  if (isBlockedPath(request.nextUrl.pathname)) {
     return NextResponse.next();
   }
   return intlMiddleware(request);
 }
 
 export const config = {
-  matcher: ["/((?!api|_next|_vercel|studio|.*\\..*).*)"],
+  matcher: ["/((?!api|trpc|_next|_vercel|studio|sanity|.*\\..*).*)"],
 };
