@@ -9,20 +9,11 @@ const singletonPages = [
   {title: "Contact Page", schemaType: "contactPage", documentId: "contactPage"},
 ] as const;
 
-const singletonSchemaTypes: string[] = [
-  "homePage",
-  "servicesPage",
-  "programsPage",
-  "whiteLabelPage",
-  "aboutPage",
-  "contactPage",
-];
-
 export const structure: StructureResolver = (S) =>
   S.list()
     .title("B2B MICE & DMC")
-    .items([
-      ...singletonPages.map((page) =>
+    .items(
+      singletonPages.map((page) =>
         S.listItem()
           .title(page.title)
           .child(
@@ -31,8 +22,4 @@ export const structure: StructureResolver = (S) =>
               .documentId(page.documentId),
           ),
       ),
-      S.divider(),
-      ...S.documentTypeListItems().filter(
-        (item) => item.getId() && !singletonSchemaTypes.includes(item.getId()!),
-      ),
-    ]);
+    );
