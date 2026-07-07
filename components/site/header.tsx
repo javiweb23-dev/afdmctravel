@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {useState} from "react";
 import {useTranslations} from "next-intl";
 import {Link} from "@/i18n/navigation";
@@ -21,12 +22,15 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[#072b52] text-white shadow-lg">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
-        <Link href="/" className="flex shrink-0 items-center gap-3">
-          <span className="text-sm font-bold tracking-wide">ADVENTURES FINDER</span>
-          <span className="h-6 w-px bg-white/30" aria-hidden />
-          <span className="text-sm font-semibold tracking-wide text-amber-300">
-            AF DMC
-          </span>
+        <Link href="/" className="flex shrink-0 items-center">
+          <Image
+            src="/images/afdmctravel.png"
+            alt="AF DMC Travel"
+            width={200}
+            height={48}
+            priority
+            className="h-10 w-auto object-contain sm:h-12"
+          />
         </Link>
         <nav className="hidden items-center gap-5 text-sm font-medium lg:flex">
           {navItems.map((item) => (
