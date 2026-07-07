@@ -6,7 +6,7 @@ type Program = {
 };
 
 type PageProps = {
-  params: Promise<{locale: "en" | "es" | "fr-CA"}>;
+  params: Promise<{locale: "en" | "es" | "fr"}>;
 };
 
 const copy = {
@@ -34,7 +34,7 @@ const copy = {
     showDays: "Ver dias",
     hideDays: "Ocultar dias",
   },
-  "fr-CA": {
+  fr: {
     title: "Retraites Corporatives a Punta Cana | Team Building et Voyages Incentifs | Adventures Finder DMC",
     introTitle: "Introduction",
     intro1:

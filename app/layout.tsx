@@ -2,8 +2,9 @@ import type {Metadata} from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Adventures Finder DMC",
-  description: "Private experiences and tours in Punta Cana",
+  title: "AF DMC Travel | B2B MICE & DMC Punta Cana",
+  description:
+    "AF DMC Travel is your trusted local DMC partner in Punta Cana, Dominican Republic. B2B only — MICE, incentive travel, corporate groups up to 7,000 guests.",
 };
 
 export default function RootLayout({

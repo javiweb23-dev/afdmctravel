@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 type PageProps = {
-  params: Promise<{locale: "en" | "es" | "fr-CA"}>;
+  params: Promise<{locale: "en" | "es" | "fr"}>;
 };
 
 const content = {
@@ -29,7 +29,7 @@ const content = {
       "Como Destination Management Company local en Punta Cana, Adventures Finder DMC coordina logistica, aliados premium y soporte en destino para entregar itinerarios impecables desde la llegada hasta la salida, con un equipo atento que anticipa tus necesidades.",
     examplesTitle: "Experiencias de Ejemplo",
   },
-  "fr-CA": {
+  fr: {
     title: "Experiences Privees de Luxe a Punta Cana | Adventures Finder DMC",
     introTitle: "Introduction",
     intro:

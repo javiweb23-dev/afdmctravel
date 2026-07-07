@@ -1,3 +1,5 @@
+import {Header} from "@/components/site/header";
+import {Footer} from "@/components/site/footer";
 import {hasLocale, NextIntlClientProvider} from "next-intl";
 import {getMessages, setRequestLocale} from "next-intl/server";
 import {notFound} from "next/navigation";
@@ -27,8 +29,10 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider messages={messages}>
-      <div className="flex min-h-screen flex-col">
+      <div className="flex min-h-screen flex-col bg-slate-50 text-slate-900">
+        <Header />
         <main className="flex-1">{children}</main>
+        <Footer />
       </div>
     </NextIntlClientProvider>
   );

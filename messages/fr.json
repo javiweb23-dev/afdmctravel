@@ -1,0 +1,16 @@
+{
+  "Nav": {
+    "home": "Accueil",
+    "services": "Services",
+    "programs": "Programmes",
+    "whiteLabel": "White-Label",
+    "about": "À Propos",
+    "contact": "Contact",
+    "submitRfp": "Soumettre un RFP Groupe"
+  },
+  "ThanksPage": {
+    "title": "Merci — Votre RFP a Bien Été Reçu",
+    "body": "Notre équipe examinera votre demande et répondra sous 48 heures ouvrables.",
+    "backHome": "Retour à l'Accueil"
+  }
+}

@@ -13,13 +13,13 @@ export const localePortableTextType = defineType({
     }),
     defineField({
       name: "es",
-      title: "Spanish",
+      title: "Español",
       type: "array",
       of: [defineArrayMember({type: "block"})],
     }),
     defineField({
-      name: "fr_CA",
-      title: "Français (CA)",
+      name: "fr",
+      title: "Français",
       type: "array",
       of: [defineArrayMember({type: "block"})],
     }),

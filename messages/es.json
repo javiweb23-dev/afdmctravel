@@ -1,73 +1,16 @@
 {
-    "Nav":  {
-                "home":  "Inicio",
-                "activities":  "Actividades",
-                "transfers":  "Traslados",
-                "packages":  "Paquetes",
-                "miceDmcServices":  "Servicios MICE y DMC",
-                "contact":  "Contacto",
-                "requestProposal":  "Solicitar propuesta"
-            },
-    "HomePage":  {
-                     "heroTitle":  "Experiencias Privadas y Tours en Punta Cana",
-                     "exploreTours":  "Explorar Tours",
-                     "planYourTrip":  "Planifica Tu Viaje",
-                     "privateExperiences":  "Experiencias Privadas",
-                     "privateExperiencesDescription":  "Descubre actividades personalizadas y servicio premium para tu escapada ideal.",
-                     "golfPackages":  "Paquetes de Golf",
-                     "golfPackagesDescription":  "Accede a campos de clase mundial e itinerarios de golf personalizados.",
-                     "corporateRetreats":  "Retiros Corporativos",
-                     "corporateRetreatsDescription":  "Organiza retiros de equipo con apoyo integral de planificacion.",
-                     "toursSectionTitle":  "Tours",
-                     "buggyAdventure":  "Aventura en Buggy",
-                     "catamaranCruise":  "Paseo en Catamaran",
-                     "saonaIsland":  "Isla Saona",
-                     "zipline":  "Zipline",
-                     "planFormTitle":  "Formulario de Planificacion de Viaje",
-                     "name":  "Nombre",
-                     "email":  "Correo electronico",
-                     "phone":  "Telefono",
-                     "travelDates":  "Fechas de viaje",
-                     "numberOfGuests":  "Numero de huespedes",
-                     "tripType":  "Tipo de viaje",
-                     "privateVacation":  "Vacaciones Privadas",
-                     "corporateRetreat":  "Retiro Corporativo",
-                     "golfTrip":  "Viaje de Golf",
-                     "groupTravel":  "Viaje en Grupo",
-                     "submit":  "Enviar Solicitud",
-                     "viewTour":  "Ver Tour",
-                     "fromPrice":  "Desde {price}"
-                 },
-    "Sections":  {
-                     "toursTitle":  "Tours",
-                     "toursDescription":  "Revisa los tours disponibles y elige la mejor aventura para tu grupo.",
-                     "privateExperiencesTitle":  "Experiencias Privadas",
-                     "privateExperiencesDescription":  "Explora actividades privadas disenadas segun tus preferencias.",
-                     "golfPackagesTitle":  "Paquetes de Golf",
-                     "golfPackagesDescription":  "Conoce opciones premium de golf con transporte y planificacion incluidos.",
-                     "corporateRetreatsTitle":  "Retiros Corporativos",
-                     "corporateRetreatsDescription":  "Planifica eventos y retiros corporativos con soporte logistico integral.",
-                     "transportationTitle":  "Transporte",
-                     "transportationDescription":  "Gestiona traslados al aeropuerto y transporte privado en Punta Cana.",
-                     "contactTitle":  "Contacto",
-                     "contactDescription":  "Cuentanos tus objetivos de viaje y nuestro equipo te ayudara pronto."
-                 },
-    "B2BForm":  {
-                    "name":  "Nombre",
-                    "company":  "Empresa",
-                    "email":  "Correo",
-                    "phone":  "Telefono / WhatsApp",
-                    "country":  "Pais",
-                    "companyType":  "Tipo de empresa",
-                    "eventType":  "Tipo de evento",
-                    "estimatedGroupSize":  "Tamano estimado del grupo",
-                    "eventDates":  "Fechas del evento",
-                    "destination":  "Destino / hotel seleccionado?",
-                    "servicesNeeded":  "Servicios requeridos",
-                    "budgetRange":  "Rango de presupuesto",
-                    "whiteLabelSupport":  "Necesitas soporte white-label?",
-                    "uploadBrief":  "Subir RFP o brief",
-                    "message":  "Mensaje",
-                    "submit":  "Enviar solicitud grupal"
-                 }
+  "Nav": {
+    "home": "Inicio",
+    "services": "Servicios",
+    "programs": "Programas",
+    "whiteLabel": "White-Label",
+    "about": "Nosotros",
+    "contact": "Contacto",
+    "submitRfp": "Enviar RFP Grupal"
+  },
+  "ThanksPage": {
+    "title": "Gracias — Hemos Recibido Su RFP",
+    "body": "Nuestro equipo revisará su solicitud y responderá dentro de 48 horas hábiles.",
+    "backHome": "Volver al Inicio"
+  }
 }
