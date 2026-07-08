@@ -1,9 +1,16 @@
+import type {Metadata} from "next";
 import {Header} from "@/components/site/header";
 import {Footer} from "@/components/site/footer";
 import {hasLocale, NextIntlClientProvider} from "next-intl";
 import {getMessages, setRequestLocale} from "next-intl/server";
 import {notFound} from "next/navigation";
 import {routing} from "@/i18n/routing";
+
+export const metadata: Metadata = {
+  icons: {
+    icon: "/images/icon.png",
+  },
+};
 
 type LocaleLayoutProps = {
   children: React.ReactNode;
