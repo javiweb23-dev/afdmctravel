@@ -1,5 +1,6 @@
 import type {Metadata} from "next";
 import Image from "next/image";
+import {PageHero} from "@/components/site/page-hero";
 import {
   aboutContentFallback,
   aboutSeoFallback,
@@ -14,6 +15,7 @@ type PageProps = {params: Promise<{locale: AppLocale}>};
 
 type AboutPageData = {
   seo?: {metaTitle?: LocalizedValue; metaDescription?: LocalizedValue};
+  heroImage?: unknown;
   h1?: LocalizedValue;
   story?: LocalizedValue;
   missionTitle?: LocalizedValue;
@@ -44,6 +46,11 @@ export default async function AboutPage({params}: PageProps) {
   const {locale} = await params;
   const data = (await fetchSanity<AboutPageData>(aboutPageQuery)) ?? {};
   const fb = aboutContentFallback;
+  const heroTitle = resolveLocalized(data.h1, fb.h1, locale);
+  const heroImage = resolveSanityImage(
+    data.heroImage,
+    STOCK_IMAGES.pageAbout,
+  );
 
   const missionPillars = resolveArray(data.missionPillars, fb.missionPillars);
   const localBullets = resolveArray(
@@ -105,16 +112,12 @@ export default async function AboutPage({params}: PageProps) {
 
   return (
     <div className="pb-16">
-      <section className="bg-[#072b52] py-16 text-white">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
-            {resolveLocalized(data.h1, fb.h1, locale)}
-          </h1>
-          <p className="mt-6 text-base leading-relaxed text-slate-200">
-            {resolveLocalized(data.story, fb.story, locale)}
-          </p>
-        </div>
-      </section>
+      <PageHero
+        imageSrc={heroImage}
+        imageAlt={heroTitle}
+        title={heroTitle}
+        subtitle={resolveLocalized(data.story, fb.story, locale)}
+      />
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <h2 className="text-2xl font-bold text-[#072b52] sm:text-3xl">

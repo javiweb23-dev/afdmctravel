@@ -1,5 +1,6 @@
 import type {Metadata} from "next";
 import {Link} from "@/i18n/navigation";
+import {PageHero} from "@/components/site/page-hero";
 import {
   programsContentFallback,
   programsSeoFallback,
@@ -7,6 +8,7 @@ import {
 import type {AppLocale, LocalizedValue} from "@/lib/locale";
 import {resolveArray, resolveLocalized} from "@/lib/locale";
 import {buildPageMetadata} from "@/lib/sanity/metadata";
+import {resolveSanityImage, STOCK_IMAGES} from "@/lib/sanity/image";
 import {fetchSanity, programsPageQuery} from "@/lib/sanity/queries";
 
 type PageProps = {params: Promise<{locale: AppLocale}>};
@@ -22,6 +24,7 @@ type ProgramItem = {
 
 type ProgramsPageData = {
   seo?: {metaTitle?: LocalizedValue; metaDescription?: LocalizedValue};
+  heroImage?: unknown;
   h1?: LocalizedValue;
   introduction?: LocalizedValue;
   footerCtaText?: LocalizedValue;
@@ -40,6 +43,11 @@ export default async function ProgramsPage({params}: PageProps) {
   const data = (await fetchSanity<ProgramsPageData>(programsPageQuery)) ?? {};
   const fb = programsContentFallback;
   const email = data.footerCtaEmail ?? fb.footerCtaEmail;
+  const heroTitle = resolveLocalized(data.h1, fb.h1, locale);
+  const heroImage = resolveSanityImage(
+    data.heroImage,
+    STOCK_IMAGES.pagePrograms,
+  );
 
   const programs = resolveArray(data.programs, fb.programs).map((program, index) => {
     const fallback = fb.programs[index] ?? fb.programs[0];
@@ -88,16 +96,12 @@ export default async function ProgramsPage({params}: PageProps) {
 
   return (
     <div className="pb-16">
-      <section className="bg-[#072b52] py-16 text-white">
-        <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
-            {resolveLocalized(data.h1, fb.h1, locale)}
-          </h1>
-          <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-slate-200">
-            {resolveLocalized(data.introduction, fb.introduction, locale)}
-          </p>
-        </div>
-      </section>
+      <PageHero
+        imageSrc={heroImage}
+        imageAlt={heroTitle}
+        title={heroTitle}
+        subtitle={resolveLocalized(data.introduction, fb.introduction, locale)}
+      />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {programs.map((program, index) => (

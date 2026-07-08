@@ -29,6 +29,7 @@ export const homePageQuery = groq`*[_type == "homePage"][0]{
 
 export const servicesPageQuery = groq`*[_type == "servicesPage"][0]{
   ${seoProjection},
+  heroImage,
   h1,
   introduction,
   footerCtaText,
@@ -44,6 +45,7 @@ export const servicesPageQuery = groq`*[_type == "servicesPage"][0]{
 
 export const programsPageQuery = groq`*[_type == "programsPage"][0]{
   ${seoProjection},
+  heroImage,
   h1,
   introduction,
   footerCtaText,
@@ -60,6 +62,7 @@ export const programsPageQuery = groq`*[_type == "programsPage"][0]{
 
 export const whiteLabelPageQuery = groq`*[_type == "whiteLabelPage"][0]{
   ${seoProjection},
+  heroImage,
   heroH1,
   heroBody,
   processTitle,
@@ -79,6 +82,7 @@ export const whiteLabelPageQuery = groq`*[_type == "whiteLabelPage"][0]{
 
 export const aboutPageQuery = groq`*[_type == "aboutPage"][0]{
   ${seoProjection},
+  heroImage,
   h1,
   story,
   missionTitle,
@@ -101,6 +105,7 @@ export const aboutPageQuery = groq`*[_type == "aboutPage"][0]{
 
 export const contactPageQuery = groq`*[_type == "contactPage"][0]{
   ${seoProjection},
+  heroImage,
   h1,
   introduction,
   formSectionTitle,

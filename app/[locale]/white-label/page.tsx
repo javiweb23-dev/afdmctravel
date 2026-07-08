@@ -1,6 +1,7 @@
 import type {Metadata} from "next";
 import {Lock} from "lucide-react";
 import {Link} from "@/i18n/navigation";
+import {PageHero} from "@/components/site/page-hero";
 import {
   whiteLabelContentFallback,
   whiteLabelSeoFallback,
@@ -8,6 +9,7 @@ import {
 import type {AppLocale, LocalizedValue} from "@/lib/locale";
 import {resolveArray, resolveLocalized} from "@/lib/locale";
 import {buildPageMetadata} from "@/lib/sanity/metadata";
+import {resolveSanityImage, STOCK_IMAGES} from "@/lib/sanity/image";
 import {fetchSanity, whiteLabelPageQuery} from "@/lib/sanity/queries";
 
 type PageProps = {params: Promise<{locale: AppLocale}>};
@@ -20,6 +22,7 @@ type StepItem = {
 
 type WhiteLabelPageData = {
   seo?: {metaTitle?: LocalizedValue; metaDescription?: LocalizedValue};
+  heroImage?: unknown;
   heroH1?: LocalizedValue;
   heroBody?: LocalizedValue;
   processTitle?: LocalizedValue;
@@ -47,6 +50,11 @@ export default async function WhiteLabelPage({params}: PageProps) {
   const {locale} = await params;
   const data = (await fetchSanity<WhiteLabelPageData>(whiteLabelPageQuery)) ?? {};
   const fb = whiteLabelContentFallback;
+  const heroTitle = resolveLocalized(data.heroH1, fb.heroH1, locale);
+  const heroImage = resolveSanityImage(
+    data.heroImage,
+    STOCK_IMAGES.whiteLabel,
+  );
 
   const steps = resolveArray(data.steps, fb.steps).map((step, index) => ({
     number: step.number ?? fb.steps[index]?.number ?? "01",
@@ -73,16 +81,12 @@ export default async function WhiteLabelPage({params}: PageProps) {
 
   return (
     <div className="pb-16">
-      <section className="bg-[#072b52] py-16 text-white">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
-            {resolveLocalized(data.heroH1, fb.heroH1, locale)}
-          </h1>
-          <p className="mt-6 text-base leading-relaxed text-slate-200">
-            {resolveLocalized(data.heroBody, fb.heroBody, locale)}
-          </p>
-        </div>
-      </section>
+      <PageHero
+        imageSrc={heroImage}
+        imageAlt={heroTitle}
+        title={heroTitle}
+        subtitle={resolveLocalized(data.heroBody, fb.heroBody, locale)}
+      />
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <h2 className="text-2xl font-bold text-[#072b52] sm:text-3xl">

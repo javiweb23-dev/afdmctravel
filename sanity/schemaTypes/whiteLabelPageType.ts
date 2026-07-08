@@ -12,6 +12,12 @@ export const whiteLabelPageType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "heroImage",
+      title: "Hero Image",
+      type: "image",
+      options: {hotspot: true},
+    }),
+    defineField({
       name: "heroH1",
       title: "Hero H1",
       type: "localeString",

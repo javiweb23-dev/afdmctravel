@@ -12,6 +12,12 @@ export const programsPageType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "heroImage",
+      title: "Hero Image",
+      type: "image",
+      options: {hotspot: true},
+    }),
+    defineField({
       name: "h1",
       title: "H1",
       type: "localeString",
