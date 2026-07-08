@@ -24,10 +24,10 @@ export function Footer() {
             <p>
               <span className="text-slate-500">Email:</span>{" "}
               <a
-                href="mailto:commercial@adventuresfinder.com"
+                href="mailto:director@afdmctravel.com"
                 className="font-medium text-white transition hover:text-amber-300"
               >
-                commercial@adventuresfinder.com
+                director@afdmctravel.com
               </a>
             </p>
           </div>
