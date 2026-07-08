@@ -1,4 +1,8 @@
-export function Footer() {
+import {getTranslations} from "next-intl/server";
+
+export async function Footer() {
+  const t = await getTranslations("Footer");
+
   return (
     <footer className="border-t border-slate-800 bg-slate-950 py-12 text-slate-300">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -34,6 +38,20 @@ export function Footer() {
         </div>
         <p className="mt-10 text-center text-xs text-slate-600">
           © {new Date().getFullYear()} AF DMC Travel. B2B MICE & DMC — Punta Cana, Dominican Republic.
+        </p>
+        <p className="mt-4 text-center text-xs text-gray-500 transition-colors">
+          {t.rich("agencyCredit", {
+            link: (chunks) => (
+              <a
+                href="https://www.afdigitalsolutions.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-gray-300"
+              >
+                {chunks}
+              </a>
+            ),
+          })}
         </p>
       </div>
     </footer>

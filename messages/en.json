@@ -12,5 +12,8 @@
     "title": "Thank You — Your RFP Has Been Received",
     "body": "Our team will review your submission and respond within 48 business hours.",
     "backHome": "Return to Home"
+  },
+  "Footer": {
+    "agencyCredit": "Developed by <link>AF Digital Solutions</link> 2026"
   }
 }

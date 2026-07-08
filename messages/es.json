@@ -12,5 +12,8 @@
     "title": "Gracias — Hemos Recibido Su RFP",
     "body": "Nuestro equipo revisará su solicitud y responderá dentro de 48 horas hábiles.",
     "backHome": "Volver al Inicio"
+  },
+  "Footer": {
+    "agencyCredit": "Creado por <link>AF Digital Solutions</link> 2026"
   }
 }
