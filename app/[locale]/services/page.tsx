@@ -17,6 +17,7 @@ type PageProps = {params: Promise<{locale: AppLocale}>};
 type ServiceItem = {
   id?: string;
   title?: LocalizedValue;
+  description?: LocalizedValue;
   bullets?: LocalizedValue[];
   icon?: string;
   image?: {image?: unknown; alt?: LocalizedValue};
@@ -49,6 +50,11 @@ export default async function ServicesPage({params}: PageProps) {
       title: resolveLocalized(
         sanityService?.title ?? service.title,
         fallback.title,
+        locale,
+      ),
+      description: resolveLocalized(
+        sanityService?.description ?? service.description,
+        fallback.description,
         locale,
       ),
       icon: sanityService?.icon ?? service.icon ?? fallback.icon,
@@ -101,6 +107,11 @@ export default async function ServicesPage({params}: PageProps) {
                 <h2 className="text-2xl font-bold text-[#072b52] sm:text-3xl">
                   {service.title}
                 </h2>
+                {service.description ? (
+                  <p className="mt-4 text-base leading-relaxed text-slate-700">
+                    {service.description}
+                  </p>
+                ) : null}
                 <ul className="mt-6 space-y-3">
                   {service.bullets.map((bullet, bulletIndex) => (
                     <li

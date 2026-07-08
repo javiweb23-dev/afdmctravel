@@ -35,6 +35,7 @@ export const servicesPageQuery = groq`*[_type == "servicesPage"][0]{
   services[]{
     id,
     title,
+    description,
     bullets,
     icon,
     image{image, alt}

@@ -18,6 +18,12 @@ export const serviceItemType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "description",
+      title: "Description",
+      type: "localeText",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: "bullets",
       title: "Description Bullets",
       type: "array",
