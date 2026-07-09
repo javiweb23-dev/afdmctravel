@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "AF DMC Travel | B2B MICE & DMC Punta Cana",
   description:
     "AF DMC Travel is your trusted local DMC partner in Punta Cana, Dominican Republic. B2B only — MICE, incentive travel, corporate groups up to 7,000 guests.",
+  icons: {
+    icon: "/images/icon.png",
+  },
 };
 
 export default function RootLayout({
