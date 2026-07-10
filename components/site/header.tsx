@@ -8,10 +8,10 @@ import {LanguageSwitcher} from "./language-switcher";
 
 const navItems = [
   {href: "/", key: "home"},
+  {href: "/about", key: "about"},
   {href: "/services", key: "services"},
   {href: "/programs", key: "programs"},
   {href: "/white-label", key: "whiteLabel"},
-  {href: "/about", key: "about"},
   {href: "/contact", key: "contact"},
 ] as const;
 
