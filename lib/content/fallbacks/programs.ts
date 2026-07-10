@@ -19,7 +19,7 @@ export const programsContentFallback = {
   footerCtaText: toLocalized(
     "Request a Program Brief for Your Next Group",
   ),
-  footerCtaEmail: "commercial@adventuresfinder.com",
+  footerCtaEmail: "director@afdmctravel.com",
   programs: [
     {
       id: "incentive-escape",

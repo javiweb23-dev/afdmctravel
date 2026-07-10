@@ -65,6 +65,14 @@ export default async function HomePage({params}: PageProps) {
   const whyItems = resolveArray(data.whyChooseUsItems, fb.whyChooseUsItems);
   const contactEmail =
     data.ctaBannerContactEmail ?? fb.ctaBannerContactEmail;
+  const contactLabelRaw = resolveLocalized(
+    data.ctaBannerContactLabel,
+    fb.ctaBannerContactLabel,
+    locale,
+  );
+  const contactLabel = contactLabelRaw.endsWith(contactEmail)
+    ? contactLabelRaw.slice(0, -contactEmail.length).trimEnd()
+    : contactLabelRaw;
 
   return (
     <>
@@ -245,10 +253,10 @@ export default async function HomePage({params}: PageProps) {
             {resolveLocalized(data.ctaBannerButtonLabel, fb.ctaBannerButtonLabel, locale)}
           </Link>
           <p className="mt-5 text-sm text-slate-600">
-            {resolveLocalized(data.ctaBannerContactLabel, fb.ctaBannerContactLabel, locale)}{" "}
+            {contactLabel}{" "}
             <a
               href={`mailto:${contactEmail}`}
-              className="font-semibold text-[#072b52] underline-offset-2 hover:underline"
+              className="font-bold text-[#072b52] underline-offset-2 hover:underline"
             >
               {contactEmail}
             </a>

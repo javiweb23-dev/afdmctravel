@@ -156,6 +156,6 @@ export const homeContentFallback = {
   ),
   ctaBannerSubtitle: toLocalized("Ready to Partner? Submit Your Group RFP"),
   ctaBannerButtonLabel: toLocalized("Submit Group RFP"),
-  ctaBannerContactLabel: toLocalized("Contact our Sales Manager:"),
-  ctaBannerContactEmail: "commercial@adventuresfinder.com",
+  ctaBannerContactLabel: toLocalized("Contact our General Manager:"),
+  ctaBannerContactEmail: "director@afdmctravel.com",
 };

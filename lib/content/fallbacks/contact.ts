@@ -73,9 +73,9 @@ export const contactContentFallback = {
   ],
   submitButtonLabel: toLocalized("Submit Group RFP"),
   directContactTitle: toLocalized(
-    "Direct Contact — Jeannie Flores, Sales Manager, Punta Cana",
+    "Direct Contact — Jeannie Flores, General Manager, Punta Cana",
   ),
-  jeannieEmail: "commercial@adventuresfinder.com",
+  jeannieEmail: "director@afdmctravel.com",
   jeannieWhatsApp: toLocalized(
     "Available upon first email contact — for confirmed agency partners",
   ),

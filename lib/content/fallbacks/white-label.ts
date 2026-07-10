@@ -110,6 +110,6 @@ export const whiteLabelContentFallback = {
     "Ready to expand your portfolio to the Dominican Republic? Send us your next brief and receive a full ground proposal within 48 business hours.",
   ),
   ctaButtonLabel: toLocalized("Submit Your Agency RFP"),
-  ctaContactName: "Jeannie Flores, Sales Manager",
-  ctaContactEmail: "commercial@adventuresfinder.com",
+  ctaContactName: "Jeannie Flores, General Manager",
+  ctaContactEmail: "director@afdmctravel.com",
 };
