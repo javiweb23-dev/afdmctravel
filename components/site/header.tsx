@@ -47,7 +47,7 @@ export function Header() {
           <LanguageSwitcher variant="dark" />
           <Link
             href="/contact"
-            className="hidden rounded-lg bg-amber-400 px-4 py-2 text-sm font-semibold text-[#072b52] transition hover:bg-amber-300 sm:inline-flex"
+            className="inline-flex shrink-0 rounded-lg bg-amber-400 px-3 py-2 text-xs font-semibold text-[#072b52] transition hover:bg-amber-300 sm:px-4 sm:text-sm"
           >
             {t("submitRfp")}
           </Link>
