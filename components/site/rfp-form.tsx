@@ -1,5 +1,6 @@
 "use client";
 
+import {useState} from "react";
 import {useRouter} from "@/i18n/navigation";
 
 type FormLabels = {
@@ -39,10 +40,50 @@ export function RfpForm({
   submitLabel,
 }: RfpFormProps) {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    router.push("/thanks");
+    setLoading(true);
+    setError(null);
+
+    const formData = new FormData(event.currentTarget);
+    const payload = {
+      fullName: String(formData.get("fullName") ?? ""),
+      agencyCompany: String(formData.get("agencyCompany") ?? ""),
+      jobTitle: String(formData.get("jobTitle") ?? ""),
+      email: String(formData.get("email") ?? ""),
+      phone: String(formData.get("phone") ?? ""),
+      country: String(formData.get("country") ?? ""),
+      groupSize: String(formData.get("groupSize") ?? ""),
+      travelDates: String(formData.get("travelDates") ?? ""),
+      programType: String(formData.get("programType") ?? ""),
+      hotelPreference: String(formData.get("hotelPreference") ?? ""),
+      budgetRange: String(formData.get("budgetRange") ?? ""),
+      servicesRequired: formData.getAll("servicesRequired").map(String),
+      specialRequirements: String(formData.get("specialRequirements") ?? ""),
+      referral: String(formData.get("referral") ?? ""),
+    };
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error("Request failed");
+      }
+
+      router.push("/thanks");
+    } catch {
+      setLoading(false);
+      setError("Unable to submit your RFP. Please try again or email director@afdmctravel.com.");
+    }
   }
 
   const inputClass =
@@ -158,11 +199,17 @@ export function RfpForm({
           className={inputClass}
         />
       </label>
+      {error ? (
+        <p className="sm:col-span-2 text-sm text-red-600" role="alert">
+          {error}
+        </p>
+      ) : null}
       <button
         type="submit"
-        className="sm:col-span-2 rounded-lg bg-[#0c4a7a] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#083657]"
+        disabled={loading}
+        className="sm:col-span-2 rounded-lg bg-[#0c4a7a] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#083657] disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {submitLabel}
+        {loading ? "Sending..." : submitLabel}
       </button>
     </form>
   );
