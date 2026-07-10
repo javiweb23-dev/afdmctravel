@@ -1,5 +1,7 @@
-import nodemailer from "nodemailer";
+import {Resend} from "resend";
 import {NextResponse} from "next/server";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 type ContactPayload = {
   fullName?: string;
@@ -83,34 +85,20 @@ export async function POST(request: Request) {
       }
     }
 
-    const host = process.env.SMTP_HOST;
-    const user = process.env.SMTP_USER;
-    const pass = process.env.SMTP_PASSWORD;
-
-    if (!host || !user || !pass) {
+    if (!process.env.RESEND_API_KEY) {
       return NextResponse.json({error: "Email service not configured"}, {status: 500});
     }
 
-    const port = Number(process.env.SMTP_PORT ?? 587);
-    const secure = port === 465;
-
-    const transporter = nodemailer.createTransport({
-      host,
-      port,
-      secure,
-      auth: {
-        user,
-        pass,
-      },
-    });
-
-    await transporter.sendMail({
-      from: user,
+    const {error} = await resend.emails.send({
+      from: "AF DMC Travel <onboarding@resend.dev>",
       to: "director@afdmctravel.com",
-      replyTo: body.email,
-      subject: `B2B Group RFP — ${body.agencyCompany}`,
+      subject: "New B2B Group RFP - AF DMC Travel",
       html: buildHtml(body),
     });
+
+    if (error) {
+      return NextResponse.json({error: "Failed to send message"}, {status: 500});
+    }
 
     return NextResponse.json({ok: true});
   } catch {
