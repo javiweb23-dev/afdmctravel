@@ -26,7 +26,11 @@ export const contactContentFallback = {
     email: toLocalized("Email Address"),
     phone: toLocalized("WhatsApp or Phone"),
     country: toLocalized("Country of Origin"),
-    groupSize: toLocalized("Estimated Group Size"),
+    groupSize: {
+      en: "Estimated Group Size (Min. 10 guests)",
+      es: "Tamaño estimado del grupo (Mín. 10 personas)",
+      fr: "Taille estimée du groupe (Min. 10 personnes)",
+    },
     travelDates: toLocalized("Travel Dates"),
     programType: toLocalized("Program Type"),
     hotelPreference: toLocalized("Hotel Preference"),
