@@ -98,13 +98,13 @@ export default async function HomePage({params}: PageProps) {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                href="/contact"
+                href="/contact#contact-form"
                 className="rounded-lg bg-amber-400 px-6 py-3 text-sm font-semibold text-[#072b52] transition hover:bg-amber-300"
               >
                 {resolveLocalized(data.heroCtaPrimary, fb.heroCtaPrimary, locale)}
               </Link>
               <Link
-                href="/contact"
+                href="/contact#contact-form"
                 className="rounded-lg border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
               >
                 {resolveLocalized(data.heroCtaSecondary, fb.heroCtaSecondary, locale)}
@@ -247,7 +247,7 @@ export default async function HomePage({params}: PageProps) {
             {resolveLocalized(data.ctaBannerSubtitle, fb.ctaBannerSubtitle, locale)}
           </p>
           <Link
-            href="/contact"
+            href="/contact#contact-form"
             className="mt-8 inline-flex rounded-lg bg-[#072b52] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#05233f]"
           >
             {resolveLocalized(data.ctaBannerButtonLabel, fb.ctaBannerButtonLabel, locale)}

@@ -195,7 +195,7 @@ export default async function WhiteLabelPage({params}: PageProps) {
             </a>
           </p>
           <Link
-            href="/contact"
+            href="/contact#contact-form"
             className="mt-8 inline-flex rounded-lg bg-[#072b52] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#05233f]"
           >
             {resolveLocalized(data.ctaButtonLabel, fb.ctaButtonLabel, locale)}

@@ -146,7 +146,7 @@ export default async function ServicesPage({params}: PageProps) {
           {resolveLocalized(data.footerCtaText, fb.footerCtaText, locale)}
         </p>
         <Link
-          href="/contact"
+          href="/contact#contact-form"
           className="mt-6 inline-flex rounded-lg bg-[#072b52] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#05233f]"
         >
           Submit Group RFP

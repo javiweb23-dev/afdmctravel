@@ -135,7 +135,7 @@ export default async function ProgramsPage({params}: PageProps) {
               </dl>
             </div>
             <Link
-              href="/contact"
+              href="/contact#contact-form"
               className="mt-6 inline-flex rounded-lg bg-[#072b52] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#05233f]"
             >
               {program.buttonLabel}
@@ -156,7 +156,7 @@ export default async function ProgramsPage({params}: PageProps) {
             {email}
           </a>
           {" · "}
-          <Link href="/contact" className="font-semibold text-[#072b52] hover:underline">
+          <Link href="/contact#contact-form" className="font-semibold text-[#072b52] hover:underline">
             afdmctravel.com/contact
           </Link>
         </p>

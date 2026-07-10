@@ -46,7 +46,7 @@ export function Header() {
         <div className="flex items-center gap-2 sm:gap-3">
           <LanguageSwitcher variant="dark" />
           <Link
-            href="/contact"
+            href="/contact#contact-form"
             className="inline-flex shrink-0 rounded-lg bg-amber-400 px-3 py-2 text-xs font-semibold text-[#072b52] transition hover:bg-amber-300 sm:px-4 sm:text-sm"
           >
             {t("submitRfp")}
@@ -76,7 +76,7 @@ export function Header() {
               </Link>
             ))}
             <Link
-              href="/contact"
+              href="/contact#contact-form"
               onClick={() => setOpen(false)}
               className="mt-2 rounded-lg bg-amber-400 px-3 py-2.5 text-center text-sm font-semibold text-[#072b52]"
             >

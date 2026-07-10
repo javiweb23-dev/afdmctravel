@@ -43,7 +43,7 @@ export default function HomePage() {
               Explore Tours
             </Link>
             <Link
-              href="/contact"
+              href="/contact#contact-form"
               className="rounded-md border-2 border-white bg-white/10 px-8 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white hover:text-slate-900"
             >
               Plan Your Trip
