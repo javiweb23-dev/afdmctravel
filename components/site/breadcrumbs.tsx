@@ -4,10 +4,11 @@ import {Fragment} from "react";
 import {useTranslations} from "next-intl";
 import {Link, usePathname} from "@/i18n/navigation";
 
-const segmentKeys: Record<string, "services" | "programs" | "whiteLabel" | "about" | "contact"> = {
+const segmentKeys: Record<string, "services" | "programs" | "whiteLabel" | "agencyRegistration" | "about" | "contact"> = {
   services: "services",
   programs: "programs",
   "white-label": "whiteLabel",
+  "agency-registration": "agencyRegistration",
   about: "about",
   contact: "contact",
 };

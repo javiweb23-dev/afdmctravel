@@ -12,6 +12,7 @@ const navItems = [
   {href: "/services", key: "services"},
   {href: "/programs", key: "programs"},
   {href: "/white-label", key: "whiteLabel"},
+  {href: "/agency-registration", key: "agencyRegistration"},
   {href: "/contact", key: "contact"},
 ] as const;
 
