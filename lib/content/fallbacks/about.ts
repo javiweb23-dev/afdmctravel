@@ -46,10 +46,10 @@ export const aboutContentFallback = {
     },
   ],
   jeannieSectionTitle: toLocalized(
-    "Jeannie Flores — Sales Manager, Multilingual MICE Specialist, Punta Cana",
+    "Jeannie Flores — General Manager, Multilingual MICE Specialist, Punta Cana",
   ),
   jeanniePhotoAlt: toLocalized(
-    "Jeannie Flores — Sales Manager, AF DMC Travel, Punta Cana",
+    "Jeannie Flores — General Manager, AF DMC Travel, Punta Cana",
   ),
   jeannieBio: toLocalized(
     "Jeannie is the primary commercial contact for all B2B inquiries. With extensive experience in the Dominican Republic tourism and events industry, she manages all agency relationships, RFP responses, and program proposals for AF DMC Travel.",
@@ -60,7 +60,7 @@ export const aboutContentFallback = {
     "MICE programs, incentive travel, corporate group logistics, agency partnerships",
   ),
   jeannieBased: toLocalized("Punta Cana, Dominican Republic"),
-  jeannieEmail: "commercial@adventuresfinder.com",
+  jeannieEmail: "director@afdmctravel.com",
   jeannieAvailability: toLocalized(
     "Monday – Friday, 9:00 AM – 6:00 PM (AST / GMT-4). WhatsApp available for urgent matters.",
   ),
