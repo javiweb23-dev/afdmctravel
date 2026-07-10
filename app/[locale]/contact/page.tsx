@@ -1,6 +1,7 @@
 import type {Metadata} from "next";
 import {FaqAccordion} from "@/components/site/faq-accordion";
 import {PageHero} from "@/components/site/page-hero";
+import {Breadcrumbs} from "@/components/site/breadcrumbs";
 import {RfpForm} from "@/components/site/rfp-form";
 import {
   contactContentFallback,
@@ -224,6 +225,8 @@ export default async function ContactPage({params}: PageProps) {
         title={heroTitle}
         subtitle={resolveLocalized(data.introduction, fb.introduction, locale)}
       />
+
+      <Breadcrumbs />
 
       <section
         id="contact-form"

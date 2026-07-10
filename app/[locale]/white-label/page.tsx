@@ -2,6 +2,7 @@ import type {Metadata} from "next";
 import {Lock} from "lucide-react";
 import {Link} from "@/i18n/navigation";
 import {PageHero} from "@/components/site/page-hero";
+import {Breadcrumbs} from "@/components/site/breadcrumbs";
 import {
   whiteLabelContentFallback,
   whiteLabelSeoFallback,
@@ -87,6 +88,8 @@ export default async function WhiteLabelPage({params}: PageProps) {
         title={heroTitle}
         subtitle={resolveLocalized(data.heroBody, fb.heroBody, locale)}
       />
+
+      <Breadcrumbs />
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <h2 className="text-2xl font-bold text-[#072b52] sm:text-3xl">

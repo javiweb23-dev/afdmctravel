@@ -1,6 +1,7 @@
 import type {Metadata} from "next";
 import {Link} from "@/i18n/navigation";
 import {PageHero} from "@/components/site/page-hero";
+import {Breadcrumbs} from "@/components/site/breadcrumbs";
 import {
   programsContentFallback,
   programsSeoFallback,
@@ -102,6 +103,8 @@ export default async function ProgramsPage({params}: PageProps) {
         title={heroTitle}
         subtitle={resolveLocalized(data.introduction, fb.introduction, locale)}
       />
+
+      <Breadcrumbs />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {programs.map((program, index) => (

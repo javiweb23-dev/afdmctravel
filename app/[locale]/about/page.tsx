@@ -1,6 +1,7 @@
 import type {Metadata} from "next";
 import Image from "next/image";
 import {PageHero} from "@/components/site/page-hero";
+import {Breadcrumbs} from "@/components/site/breadcrumbs";
 import {
   aboutContentFallback,
   aboutSeoFallback,
@@ -118,6 +119,8 @@ export default async function AboutPage({params}: PageProps) {
         title={heroTitle}
         subtitle={resolveLocalized(data.story, fb.story, locale)}
       />
+
+      <Breadcrumbs />
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <h2 className="text-2xl font-bold text-[#072b52] sm:text-3xl">

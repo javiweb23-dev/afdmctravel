@@ -2,6 +2,7 @@ import type {Metadata} from "next";
 import Image from "next/image";
 import {Link} from "@/i18n/navigation";
 import {PageHero} from "@/components/site/page-hero";
+import {Breadcrumbs} from "@/components/site/breadcrumbs";
 import {ServiceIcon} from "@/components/site/service-icon";
 import {
   servicesContentFallback,
@@ -94,6 +95,8 @@ export default async function ServicesPage({params}: PageProps) {
         title={heroTitle}
         subtitle={resolveLocalized(data.introduction, fb.introduction, locale)}
       />
+
+      <Breadcrumbs />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {services.map((service, index) => (
