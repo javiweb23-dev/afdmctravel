@@ -90,7 +90,7 @@ export async function POST(request: Request) {
     }
 
     const {error} = await resend.emails.send({
-      from: "AF DMC Travel <onboarding@resend.dev>",
+      from: "AF DMC Travel <no-reply@afdmctravel.com>",
       to: "director@afdmctravel.com",
       subject: "New B2B Group RFP - AF DMC Travel",
       html: buildHtml(body),
