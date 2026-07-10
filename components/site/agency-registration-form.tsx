@@ -1,6 +1,7 @@
 "use client";
 
 import {useState} from "react";
+import {useTranslations} from "next-intl";
 
 type AddressFields = {
   streetAddress: string;
@@ -43,23 +44,6 @@ const emptyAddress = (): AddressFields => ({
   country: "",
 });
 
-const countries = [
-  "Canada",
-  "United States",
-  "Dominican Republic",
-  "Mexico",
-  "United Kingdom",
-  "France",
-  "Germany",
-  "Spain",
-  "Italy",
-  "Brazil",
-  "Argentina",
-  "Colombia",
-  "Australia",
-  "Other",
-];
-
 const inputClass =
   "mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition focus:border-[#0c4a7a] focus:ring-2 focus:ring-[#0c4a7a]/20";
 
@@ -71,10 +55,13 @@ type AddressInputsProps = {
 };
 
 function AddressInputs({prefix, values, onChange, disabled}: AddressInputsProps) {
+  const t = useTranslations("AgencyRegistration");
+  const countries = t.raw("countryOptions") as string[];
+
   return (
     <>
       <label className="text-sm font-medium text-slate-700 sm:col-span-2">
-        Street Address
+        {t("streetAddress")}
         <input
           type="text"
           name={`${prefix}-streetAddress`}
@@ -86,7 +73,7 @@ function AddressInputs({prefix, values, onChange, disabled}: AddressInputsProps)
         />
       </label>
       <label className="text-sm font-medium text-slate-700 sm:col-span-2">
-        Address Line 2
+        {t("addressLine2")}
         <input
           type="text"
           name={`${prefix}-addressLine2`}
@@ -97,7 +84,7 @@ function AddressInputs({prefix, values, onChange, disabled}: AddressInputsProps)
         />
       </label>
       <label className="text-sm font-medium text-slate-700">
-        City
+        {t("city")}
         <input
           type="text"
           name={`${prefix}-city`}
@@ -109,7 +96,7 @@ function AddressInputs({prefix, values, onChange, disabled}: AddressInputsProps)
         />
       </label>
       <label className="text-sm font-medium text-slate-700">
-        State / Region / Province
+        {t("stateRegion")}
         <input
           type="text"
           name={`${prefix}-stateRegion`}
@@ -121,7 +108,7 @@ function AddressInputs({prefix, values, onChange, disabled}: AddressInputsProps)
         />
       </label>
       <label className="text-sm font-medium text-slate-700">
-        Postal / Zip Code
+        {t("postalCode")}
         <input
           type="text"
           name={`${prefix}-postalCode`}
@@ -133,7 +120,7 @@ function AddressInputs({prefix, values, onChange, disabled}: AddressInputsProps)
         />
       </label>
       <label className="text-sm font-medium text-slate-700">
-        Country
+        {t("country")}
         <select
           name={`${prefix}-country`}
           value={values.country}
@@ -155,6 +142,7 @@ function AddressInputs({prefix, values, onChange, disabled}: AddressInputsProps)
 }
 
 export function AgencyRegistrationForm() {
+  const t = useTranslations("AgencyRegistration");
   const [agencyAddress, setAgencyAddress] = useState<AddressFields>(emptyAddress);
   const [billingAddress, setBillingAddress] = useState<AddressFields>(emptyAddress);
   const [sameAsAgency, setSameAsAgency] = useState(false);
@@ -227,11 +215,11 @@ export function AgencyRegistrationForm() {
     >
       <div className="sm:col-span-2">
         <h2 className="border-b border-slate-200 pb-3 text-lg font-bold uppercase tracking-wide text-[#072b52]">
-          Agency Information
+          {t("agencyInformation")}
         </h2>
       </div>
       <label className="text-sm font-medium text-slate-700">
-        Legal Name
+        {t("legalName")}
         <input
           type="text"
           name="legalName"
@@ -242,7 +230,7 @@ export function AgencyRegistrationForm() {
         />
       </label>
       <label className="text-sm font-medium text-slate-700">
-        Entity Type
+        {t("entityType")}
         <input
           type="text"
           name="entityType"
@@ -253,7 +241,7 @@ export function AgencyRegistrationForm() {
         />
       </label>
       <label className="text-sm font-medium text-slate-700 sm:col-span-2">
-        HST / GST Number
+        {t("hstGstNumber")}
         <input
           type="text"
           name="hstGstNumber"
@@ -268,7 +256,7 @@ export function AgencyRegistrationForm() {
         onChange={updateAgencyAddress}
       />
       <label className="text-sm font-medium text-slate-700 sm:col-span-2">
-        Phone
+        {t("phone")}
         <input
           type="tel"
           name="agencyPhone"
@@ -281,7 +269,7 @@ export function AgencyRegistrationForm() {
 
       <div className="sm:col-span-2">
         <h2 className="border-b border-slate-200 pb-3 text-lg font-bold uppercase tracking-wide text-[#072b52]">
-          Billing Information
+          {t("billingInformation")}
         </h2>
       </div>
       <label className="flex items-center gap-2.5 text-sm font-medium text-slate-700 sm:col-span-2">
@@ -292,10 +280,10 @@ export function AgencyRegistrationForm() {
           onChange={(event) => handleSameAsAgencyChange(event.target.checked)}
           className="size-4 rounded border-slate-300 text-[#0c4a7a]"
         />
-        Same as above
+        {t("sameAsAbove")}
       </label>
       <label className="text-sm font-medium text-slate-700 sm:col-span-2">
-        Business Name *
+        {t("businessName")}
         <input
           type="text"
           name="businessName"
@@ -314,11 +302,11 @@ export function AgencyRegistrationForm() {
 
       <div className="sm:col-span-2">
         <h2 className="border-b border-slate-200 pb-3 text-lg font-bold uppercase tracking-wide text-[#072b52]">
-          Business Contact Information
+          {t("businessContactInformation")}
         </h2>
       </div>
       <label className="text-sm font-medium text-slate-700">
-        First Name
+        {t("firstName")}
         <input
           type="text"
           name="firstName"
@@ -329,7 +317,7 @@ export function AgencyRegistrationForm() {
         />
       </label>
       <label className="text-sm font-medium text-slate-700">
-        Last Name
+        {t("lastName")}
         <input
           type="text"
           name="lastName"
@@ -340,7 +328,7 @@ export function AgencyRegistrationForm() {
         />
       </label>
       <label className="text-sm font-medium text-slate-700">
-        Title
+        {t("title")}
         <input
           type="text"
           name="title"
@@ -351,7 +339,7 @@ export function AgencyRegistrationForm() {
         />
       </label>
       <label className="text-sm font-medium text-slate-700">
-        Email
+        {t("email")}
         <input
           type="email"
           name="email"
@@ -362,7 +350,7 @@ export function AgencyRegistrationForm() {
         />
       </label>
       <label className="text-sm font-medium text-slate-700 sm:col-span-2">
-        Phone
+        {t("phone")}
         <input
           type="tel"
           name="contactPhone"
@@ -373,7 +361,7 @@ export function AgencyRegistrationForm() {
         />
       </label>
       <label className="text-sm font-medium text-slate-700 sm:col-span-2">
-        Inquiry
+        {t("inquiry")}
         <textarea
           name="inquiry"
           value={inquiry}
@@ -389,7 +377,7 @@ export function AgencyRegistrationForm() {
           type="submit"
           className="w-full rounded-lg bg-[#0c4a7a] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#083657] sm:w-auto"
         >
-          Submit
+          {t("submit")}
         </button>
       </div>
     </form>

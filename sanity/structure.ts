@@ -7,6 +7,7 @@ const singletonPages = [
   {title: "White Label Page", schemaType: "whiteLabelPage", documentId: "whiteLabelPage"},
   {title: "About Page", schemaType: "aboutPage", documentId: "aboutPage"},
   {title: "Contact Page", schemaType: "contactPage", documentId: "contactPage"},
+  {title: "Agency Registration Page", schemaType: "agencyRegistrationPage", documentId: "agencyRegistrationPage"},
 ] as const;
 
 export const structure: StructureResolver = (S) =>

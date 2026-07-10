@@ -2,27 +2,53 @@ import type {Metadata} from "next";
 import {AgencyRegistrationForm} from "@/components/site/agency-registration-form";
 import {Breadcrumbs} from "@/components/site/breadcrumbs";
 import {PageHero} from "@/components/site/page-hero";
-import type {AppLocale} from "@/lib/locale";
-import {STOCK_IMAGES} from "@/lib/sanity/image";
+import {
+  agencyRegistrationContentFallback,
+  agencyRegistrationSeoFallback,
+} from "@/lib/content/fallbacks";
+import type {AppLocale, LocalizedValue} from "@/lib/locale";
+import {resolveLocalized} from "@/lib/locale";
+import {buildPageMetadata} from "@/lib/sanity/metadata";
+import {resolveSanityImage, STOCK_IMAGES} from "@/lib/sanity/image";
+import {agencyRegistrationPageQuery, fetchSanity} from "@/lib/sanity/queries";
 
 type PageProps = {params: Promise<{locale: AppLocale}>};
 
-export const metadata: Metadata = {
-  title: "Agency Registration | AF DMC Travel",
-  description:
-    "Register your travel agency as a B2B partner with AF DMC Travel in Punta Cana, Dominican Republic.",
+type AgencyRegistrationPageData = {
+  seo?: {metaTitle?: LocalizedValue; metaDescription?: LocalizedValue};
+  heroImage?: unknown;
+  h1?: LocalizedValue;
+  introduction?: LocalizedValue;
 };
 
+export async function generateMetadata({params}: PageProps): Promise<Metadata> {
+  const {locale} = await params;
+  const data = await fetchSanity<AgencyRegistrationPageData>(
+    agencyRegistrationPageQuery,
+  );
+  return buildPageMetadata(data?.seo, agencyRegistrationSeoFallback, locale);
+}
+
 export default async function AgencyRegistrationPage({params}: PageProps) {
-  await params;
+  const {locale} = await params;
+  const data =
+    (await fetchSanity<AgencyRegistrationPageData>(
+      agencyRegistrationPageQuery,
+    )) ?? {};
+  const fb = agencyRegistrationContentFallback;
+  const heroTitle = resolveLocalized(data.h1, fb.h1, locale);
+  const heroImage = resolveSanityImage(
+    data.heroImage,
+    STOCK_IMAGES.pageAgencyRegistration,
+  );
 
   return (
     <div className="pb-16">
       <PageHero
-        imageSrc={STOCK_IMAGES.whiteLabel}
-        imageAlt="Agency Registration"
-        title="Agency Registration"
-        subtitle="Complete the form below to register your agency as a B2B partner with AF DMC Travel."
+        imageSrc={heroImage}
+        imageAlt={heroTitle}
+        title={heroTitle}
+        subtitle={resolveLocalized(data.introduction, fb.introduction, locale)}
       />
 
       <Breadcrumbs />

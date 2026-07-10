@@ -103,6 +103,13 @@ export const aboutPageQuery = groq`*[_type == "aboutPage"][0]{
   operationalCapacityBullets
 }`;
 
+export const agencyRegistrationPageQuery = groq`*[_type == "agencyRegistrationPage"][0]{
+  ${seoProjection},
+  heroImage,
+  h1,
+  introduction
+}`;
+
 export const contactPageQuery = groq`*[_type == "contactPage"][0]{
   ${seoProjection},
   heroImage,

@@ -15,6 +15,7 @@ import {programsPageType} from "./programsPageType";
 import {whiteLabelPageType} from "./whiteLabelPageType";
 import {aboutPageType} from "./aboutPageType";
 import {contactPageType} from "./contactPageType";
+import {agencyRegistrationPageType} from "./agencyRegistrationPageType";
 
 export const schema: {types: SchemaTypeDefinition[]} = {
   types: [
@@ -33,5 +34,6 @@ export const schema: {types: SchemaTypeDefinition[]} = {
     whiteLabelPageType,
     aboutPageType,
     contactPageType,
+    agencyRegistrationPageType,
   ],
 };

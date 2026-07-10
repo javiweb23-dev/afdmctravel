@@ -9,6 +9,7 @@ const staticPaths = [
   "/programs",
   "/white-label",
   "/about",
+  "/agency-registration",
   "/contact",
   "/thanks",
 ] as const;

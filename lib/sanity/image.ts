@@ -29,6 +29,8 @@ export const STOCK_IMAGES = {
     "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1920&q=80",
   pageContact:
     "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=1920&q=80",
+  pageAgencyRegistration:
+    "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&q=80",
 } as const;
 
 export function resolveSanityImage(
