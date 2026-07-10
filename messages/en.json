@@ -9,7 +9,7 @@
     "contact": "Contact",
     "submitRfp": "Submit Group RFP"
   },
-  "AgencyRegistration": {
+  "agencyRegistrationForm": {
     "agencyInformation": "Agency Information",
     "billingInformation": "Billing Information",
     "businessContactInformation": "Business Contact Information",
@@ -31,6 +31,24 @@
     "email": "Email",
     "inquiry": "Inquiry",
     "submit": "Submit",
+    "selectPlaceholder": "Select an option",
+    "placeholders": {
+      "legalName": "Enter legal business name",
+      "entityType": "e.g. Corporation, LLC, Partnership",
+      "hstGstNumber": "Enter HST or GST number",
+      "streetAddress": "Enter street address",
+      "addressLine2": "Suite, unit, floor (optional)",
+      "city": "Enter city",
+      "stateRegion": "Enter state, region or province",
+      "postalCode": "Enter postal or zip code",
+      "phone": "Enter phone number",
+      "businessName": "Enter billing business name",
+      "firstName": "Enter first name",
+      "lastName": "Enter last name",
+      "title": "Enter job title",
+      "email": "Enter email address",
+      "inquiry": "Describe your agency and partnership inquiry"
+    },
     "countryOptions": [
       "Canada",
       "United States",

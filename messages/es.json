@@ -9,7 +9,7 @@
     "contact": "Contacto",
     "submitRfp": "Enviar RFP Grupal"
   },
-  "AgencyRegistration": {
+  "agencyRegistrationForm": {
     "agencyInformation": "Información de la Agencia",
     "billingInformation": "Información de Facturación",
     "businessContactInformation": "Información de Contacto Comercial",
@@ -31,6 +31,24 @@
     "email": "Correo Electrónico",
     "inquiry": "Consulta",
     "submit": "Enviar",
+    "selectPlaceholder": "Seleccione una opción",
+    "placeholders": {
+      "legalName": "Ingrese el nombre legal de la empresa",
+      "entityType": "ej. Corporación, LLC, Sociedad",
+      "hstGstNumber": "Ingrese el número HST o GST",
+      "streetAddress": "Ingrese la dirección",
+      "addressLine2": "Suite, unidad, piso (opcional)",
+      "city": "Ingrese la ciudad",
+      "stateRegion": "Ingrese estado, región o provincia",
+      "postalCode": "Ingrese el código postal",
+      "phone": "Ingrese el número de teléfono",
+      "businessName": "Ingrese el nombre comercial de facturación",
+      "firstName": "Ingrese el nombre",
+      "lastName": "Ingrese el apellido",
+      "title": "Ingrese el cargo",
+      "email": "Ingrese el correo electrónico",
+      "inquiry": "Describa su agencia y consulta de asociación"
+    },
     "countryOptions": [
       "Canadá",
       "Estados Unidos",

@@ -55,7 +55,7 @@ type AddressInputsProps = {
 };
 
 function AddressInputs({prefix, values, onChange, disabled}: AddressInputsProps) {
-  const t = useTranslations("AgencyRegistration");
+  const t = useTranslations("agencyRegistrationForm");
   const countries = t.raw("countryOptions") as string[];
 
   return (
@@ -67,6 +67,7 @@ function AddressInputs({prefix, values, onChange, disabled}: AddressInputsProps)
           name={`${prefix}-streetAddress`}
           value={values.streetAddress}
           onChange={(event) => onChange("streetAddress", event.target.value)}
+          placeholder={t("placeholders.streetAddress")}
           required
           disabled={disabled}
           className={inputClass}
@@ -79,6 +80,7 @@ function AddressInputs({prefix, values, onChange, disabled}: AddressInputsProps)
           name={`${prefix}-addressLine2`}
           value={values.addressLine2}
           onChange={(event) => onChange("addressLine2", event.target.value)}
+          placeholder={t("placeholders.addressLine2")}
           disabled={disabled}
           className={inputClass}
         />
@@ -90,6 +92,7 @@ function AddressInputs({prefix, values, onChange, disabled}: AddressInputsProps)
           name={`${prefix}-city`}
           value={values.city}
           onChange={(event) => onChange("city", event.target.value)}
+          placeholder={t("placeholders.city")}
           required
           disabled={disabled}
           className={inputClass}
@@ -102,6 +105,7 @@ function AddressInputs({prefix, values, onChange, disabled}: AddressInputsProps)
           name={`${prefix}-stateRegion`}
           value={values.stateRegion}
           onChange={(event) => onChange("stateRegion", event.target.value)}
+          placeholder={t("placeholders.stateRegion")}
           required
           disabled={disabled}
           className={inputClass}
@@ -114,6 +118,7 @@ function AddressInputs({prefix, values, onChange, disabled}: AddressInputsProps)
           name={`${prefix}-postalCode`}
           value={values.postalCode}
           onChange={(event) => onChange("postalCode", event.target.value)}
+          placeholder={t("placeholders.postalCode")}
           required
           disabled={disabled}
           className={inputClass}
@@ -129,7 +134,7 @@ function AddressInputs({prefix, values, onChange, disabled}: AddressInputsProps)
           disabled={disabled}
           className={inputClass}
         >
-          <option value="">—</option>
+          <option value="">{t("selectPlaceholder")}</option>
           {countries.map((country) => (
             <option key={country} value={country}>
               {country}
@@ -142,7 +147,7 @@ function AddressInputs({prefix, values, onChange, disabled}: AddressInputsProps)
 }
 
 export function AgencyRegistrationForm() {
-  const t = useTranslations("AgencyRegistration");
+  const t = useTranslations("agencyRegistrationForm");
   const [agencyAddress, setAgencyAddress] = useState<AddressFields>(emptyAddress);
   const [billingAddress, setBillingAddress] = useState<AddressFields>(emptyAddress);
   const [sameAsAgency, setSameAsAgency] = useState(false);
@@ -225,6 +230,7 @@ export function AgencyRegistrationForm() {
           name="legalName"
           value={legalName}
           onChange={(event) => setLegalName(event.target.value)}
+          placeholder={t("placeholders.legalName")}
           required
           className={inputClass}
         />
@@ -236,6 +242,7 @@ export function AgencyRegistrationForm() {
           name="entityType"
           value={entityType}
           onChange={(event) => setEntityType(event.target.value)}
+          placeholder={t("placeholders.entityType")}
           required
           className={inputClass}
         />
@@ -247,6 +254,7 @@ export function AgencyRegistrationForm() {
           name="hstGstNumber"
           value={hstGstNumber}
           onChange={(event) => setHstGstNumber(event.target.value)}
+          placeholder={t("placeholders.hstGstNumber")}
           className={inputClass}
         />
       </label>
@@ -262,6 +270,7 @@ export function AgencyRegistrationForm() {
           name="agencyPhone"
           value={agencyPhone}
           onChange={(event) => setAgencyPhone(event.target.value)}
+          placeholder={t("placeholders.phone")}
           required
           className={inputClass}
         />
@@ -289,6 +298,7 @@ export function AgencyRegistrationForm() {
           name="businessName"
           value={businessName}
           onChange={(event) => setBusinessName(event.target.value)}
+          placeholder={t("placeholders.businessName")}
           required
           className={inputClass}
         />
@@ -312,6 +322,7 @@ export function AgencyRegistrationForm() {
           name="firstName"
           value={firstName}
           onChange={(event) => setFirstName(event.target.value)}
+          placeholder={t("placeholders.firstName")}
           required
           className={inputClass}
         />
@@ -323,6 +334,7 @@ export function AgencyRegistrationForm() {
           name="lastName"
           value={lastName}
           onChange={(event) => setLastName(event.target.value)}
+          placeholder={t("placeholders.lastName")}
           required
           className={inputClass}
         />
@@ -334,6 +346,7 @@ export function AgencyRegistrationForm() {
           name="title"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
+          placeholder={t("placeholders.title")}
           required
           className={inputClass}
         />
@@ -345,6 +358,7 @@ export function AgencyRegistrationForm() {
           name="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
+          placeholder={t("placeholders.email")}
           required
           className={inputClass}
         />
@@ -356,6 +370,7 @@ export function AgencyRegistrationForm() {
           name="contactPhone"
           value={contactPhone}
           onChange={(event) => setContactPhone(event.target.value)}
+          placeholder={t("placeholders.phone")}
           required
           className={inputClass}
         />
@@ -366,6 +381,7 @@ export function AgencyRegistrationForm() {
           name="inquiry"
           value={inquiry}
           onChange={(event) => setInquiry(event.target.value)}
+          placeholder={t("placeholders.inquiry")}
           rows={5}
           required
           className={inputClass}
