@@ -286,6 +286,15 @@ export default async function HomePage({params}: PageProps) {
                 className="h-14 w-auto object-contain sm:h-16"
               />
             </a>
+            <div className="cursor-default filter grayscale opacity-60 transition-all duration-300 ease-in-out hover:grayscale-0 hover:opacity-100">
+              <Image
+                src="/images/logo_marca_4.png"
+                alt="AF Corporate Events"
+                width={200}
+                height={64}
+                className="h-14 w-auto object-contain sm:h-16"
+              />
+            </div>
           </div>
         </div>
       </section>
