@@ -238,6 +238,58 @@ export default async function HomePage({params}: PageProps) {
         </div>
       </section>
 
+      <section className="bg-white py-16">
+        <div className="mx-auto max-w-6xl px-4">
+          <h2 className="text-center text-xs font-semibold uppercase tracking-[0.35em] text-slate-400">
+            OUR BRANDS
+          </h2>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-12 md:gap-24">
+            <a
+              href="https://afdmctravel.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer filter grayscale opacity-60 transition-all duration-300 ease-in-out hover:grayscale-0 hover:opacity-100"
+            >
+              <Image
+                src="/images/logo_marca_1.png"
+                alt="AF DMC Travel"
+                width={200}
+                height={64}
+                className="h-14 w-auto object-contain sm:h-16"
+              />
+            </a>
+            <a
+              href="https://afdigitalsolutions.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer filter grayscale opacity-60 transition-all duration-300 ease-in-out hover:grayscale-0 hover:opacity-100"
+            >
+              <Image
+                src="/images/logo_marca_2.png"
+                alt="AF Digital Solutions"
+                width={200}
+                height={64}
+                className="h-14 w-auto object-contain sm:h-16"
+              />
+            </a>
+            <a
+              href="https://adventuresfinder.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer filter grayscale opacity-60 transition-all duration-300 ease-in-out hover:grayscale-0 hover:opacity-100"
+            >
+              <Image
+                src="/images/logo_marca_3.png"
+                alt="Adventures Finder"
+                width={200}
+                height={64}
+                className="h-14 w-auto object-contain sm:h-16"
+              />
+            </a>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-gradient-to-br from-amber-100 via-amber-50 to-amber-100 py-16">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-[#072b52] sm:text-3xl">
