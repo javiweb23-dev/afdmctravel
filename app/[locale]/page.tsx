@@ -253,9 +253,9 @@ export default async function HomePage({params}: PageProps) {
               <Image
                 src="/images/logo_marca_1.png"
                 alt="AF DMC Travel"
-                width={200}
-                height={64}
-                className="h-14 w-auto object-contain sm:h-16"
+                width={240}
+                height={77}
+                className="h-[4.2rem] w-auto object-contain sm:h-[4.8rem]"
               />
             </a>
             <a
@@ -267,9 +267,9 @@ export default async function HomePage({params}: PageProps) {
               <Image
                 src="/images/logo_marca_2.png"
                 alt="AF Digital Solutions"
-                width={200}
-                height={64}
-                className="h-14 w-auto object-contain sm:h-16"
+                width={240}
+                height={77}
+                className="h-[4.2rem] w-auto object-contain sm:h-[4.8rem]"
               />
             </a>
             <a
@@ -281,18 +281,18 @@ export default async function HomePage({params}: PageProps) {
               <Image
                 src="/images/logo_marca_3.png"
                 alt="Adventures Finder"
-                width={200}
-                height={64}
-                className="h-14 w-auto object-contain sm:h-16"
+                width={240}
+                height={77}
+                className="h-[4.2rem] w-auto object-contain sm:h-[4.8rem]"
               />
             </a>
             <div className="cursor-default filter grayscale opacity-60 transition-all duration-300 ease-in-out hover:grayscale-0 hover:opacity-100">
               <Image
                 src="/images/logo_marca_4.png"
                 alt="AF Corporate Events"
-                width={200}
-                height={64}
-                className="h-14 w-auto object-contain sm:h-16"
+                width={240}
+                height={77}
+                className="h-[4.2rem] w-auto object-contain sm:h-[4.8rem]"
               />
             </div>
           </div>
