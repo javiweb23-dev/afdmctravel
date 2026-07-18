@@ -4,39 +4,41 @@ import Image from "next/image";
 import {useEffect, useState} from "react";
 
 export function LiveItStickyBanner() {
-  const [visible, setVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    let lastY = window.scrollY;
-    let stopTimer: ReturnType<typeof setTimeout>;
+    let lastScrollY = window.scrollY;
 
     const onScroll = () => {
-      const currentY = window.scrollY;
-      clearTimeout(stopTimer);
+      const currentScrollY = window.scrollY;
 
-      if (currentY < 200) {
-        setVisible(false);
-      } else if (currentY < lastY) {
-        setVisible(true);
-      } else {
-        setVisible(false);
+      if (currentScrollY < 350) {
+        setIsVisible(false);
+        lastScrollY = currentScrollY;
+        return;
       }
 
-      lastY = currentY;
-      stopTimer = setTimeout(() => setVisible(false), 150);
+      if (Math.abs(currentScrollY - lastScrollY) <= 15) {
+        return;
+      }
+
+      if (currentScrollY < lastScrollY) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY) {
+        setIsVisible(false);
+      }
+
+      lastScrollY = currentScrollY;
     };
 
     window.addEventListener("scroll", onScroll, {passive: true});
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      clearTimeout(stopTimer);
-    };
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
     <div
-      className={`pointer-events-none fixed bottom-4 left-0 right-0 z-50 flex justify-center transition-all duration-500 ease-out ${
-        visible
+      className={`pointer-events-none fixed bottom-4 left-0 right-0 z-50 flex justify-center transition-all duration-300 ease-in-out transform ${
+        isVisible
           ? "translate-y-0 opacity-100"
           : "translate-y-[150%] opacity-0"
       }`}
