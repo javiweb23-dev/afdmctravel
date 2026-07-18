@@ -1,5 +1,6 @@
 import type {Metadata} from "next";
 import Image from "next/image";
+import {LiveItStickyBanner} from "@/components/site/live-it-sticky-banner";
 import {Link} from "@/i18n/navigation";
 import {
   homeContentFallback,
@@ -248,7 +249,7 @@ export default async function HomePage({params}: PageProps) {
               href="https://afdmctravel.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="cursor-pointer filter grayscale opacity-60 transition-all duration-300 ease-in-out hover:grayscale-0 hover:opacity-100"
+              className="cursor-pointer opacity-50 transition-opacity duration-300 ease-in-out hover:opacity-100"
             >
               <Image
                 src="/images/logo_marca_1.png"
@@ -262,7 +263,7 @@ export default async function HomePage({params}: PageProps) {
               href="https://afdigitalsolutions.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="cursor-pointer filter grayscale opacity-60 transition-all duration-300 ease-in-out hover:grayscale-0 hover:opacity-100"
+              className="cursor-pointer opacity-50 transition-opacity duration-300 ease-in-out hover:opacity-100"
             >
               <Image
                 src="/images/logo_marca_2.png"
@@ -276,7 +277,7 @@ export default async function HomePage({params}: PageProps) {
               href="https://adventuresfinder.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="cursor-pointer filter grayscale opacity-60 transition-all duration-300 ease-in-out hover:grayscale-0 hover:opacity-100"
+              className="cursor-pointer opacity-50 transition-opacity duration-300 ease-in-out hover:opacity-100"
             >
               <Image
                 src="/images/logo_marca_3.png"
@@ -286,7 +287,7 @@ export default async function HomePage({params}: PageProps) {
                 className="h-[4.2rem] w-auto object-contain sm:h-[4.8rem]"
               />
             </a>
-            <div className="cursor-default filter grayscale opacity-60 transition-all duration-300 ease-in-out hover:grayscale-0 hover:opacity-100">
+            <div className="cursor-default opacity-50 transition-opacity duration-300 ease-in-out hover:opacity-100">
               <Image
                 src="/images/logo_marca_4.png"
                 alt="AF Corporate Events"
@@ -298,6 +299,8 @@ export default async function HomePage({params}: PageProps) {
           </div>
         </div>
       </section>
+
+      <LiveItStickyBanner />
 
       <section className="bg-gradient-to-br from-amber-100 via-amber-50 to-amber-100 py-16">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
