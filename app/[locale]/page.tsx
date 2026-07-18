@@ -249,7 +249,7 @@ export default async function HomePage({params}: PageProps) {
               href="https://afdmctravel.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="cursor-pointer opacity-50 transition-opacity duration-300 ease-in-out hover:opacity-100"
+              className="cursor-pointer transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:scale-105"
             >
               <Image
                 src="/images/logo_marca_1.png"
@@ -263,7 +263,7 @@ export default async function HomePage({params}: PageProps) {
               href="https://afdigitalsolutions.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="cursor-pointer opacity-50 transition-opacity duration-300 ease-in-out hover:opacity-100"
+              className="cursor-pointer transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:scale-105"
             >
               <Image
                 src="/images/logo_marca_2.png"
@@ -277,7 +277,7 @@ export default async function HomePage({params}: PageProps) {
               href="https://adventuresfinder.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="cursor-pointer opacity-50 transition-opacity duration-300 ease-in-out hover:opacity-100"
+              className="cursor-pointer transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:scale-105"
             >
               <Image
                 src="/images/logo_marca_3.png"
@@ -287,7 +287,7 @@ export default async function HomePage({params}: PageProps) {
                 className="h-[4.2rem] w-auto object-contain sm:h-[4.8rem]"
               />
             </a>
-            <div className="cursor-default opacity-50 transition-opacity duration-300 ease-in-out hover:opacity-100">
+            <div className="cursor-default transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">
               <Image
                 src="/images/logo_marca_4.png"
                 alt="AF Corporate Events"
@@ -296,6 +296,21 @@ export default async function HomePage({params}: PageProps) {
                 className="h-[4.2rem] w-auto object-contain sm:h-[4.8rem]"
               />
             </div>
+          </div>
+          <div className="mx-auto my-8 max-w-5xl px-4">
+            <a
+              href="https://liveitpuntacana.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src="/images/live-it-banner-2026.jpg"
+                alt="Live It Punta Cana 2026"
+                width={1200}
+                height={300}
+                className="h-auto w-full rounded-xl shadow-lg transition-shadow duration-300 hover:shadow-xl"
+              />
+            </a>
           </div>
         </div>
       </section>

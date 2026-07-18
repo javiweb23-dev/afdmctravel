@@ -4,7 +4,7 @@ import Image from "next/image";
 import {useEffect, useState} from "react";
 
 export function LiveItStickyBanner() {
-  const [hidden, setHidden] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     let lastY = window.scrollY;
@@ -12,14 +12,18 @@ export function LiveItStickyBanner() {
 
     const onScroll = () => {
       const currentY = window.scrollY;
-      if (currentY > lastY && currentY > 0) {
-        setHidden(true);
-      } else {
-        setHidden(false);
-      }
-      lastY = currentY;
       clearTimeout(stopTimer);
-      stopTimer = setTimeout(() => setHidden(false), 150);
+
+      if (currentY < 200) {
+        setVisible(false);
+      } else if (currentY < lastY) {
+        setVisible(true);
+      } else {
+        setVisible(false);
+      }
+
+      lastY = currentY;
+      stopTimer = setTimeout(() => setVisible(false), 150);
     };
 
     window.addEventListener("scroll", onScroll, {passive: true});
@@ -31,17 +35,17 @@ export function LiveItStickyBanner() {
 
   return (
     <div
-      className={`fixed bottom-4 left-0 right-0 z-50 flex justify-center transition-all duration-500 ease-out ${
-        hidden
-          ? "translate-y-[150%] opacity-0"
-          : "translate-y-0 opacity-100"
+      className={`pointer-events-none fixed bottom-4 left-0 right-0 z-50 flex justify-center transition-all duration-500 ease-out ${
+        visible
+          ? "translate-y-0 opacity-100"
+          : "translate-y-[150%] opacity-0"
       }`}
     >
       <a
         href="https://liveitpuntacana.com"
         target="_blank"
         rel="noopener noreferrer"
-        className="mx-auto w-full max-w-4xl px-4"
+        className="pointer-events-auto mx-auto w-full max-w-3xl scale-90 px-4"
       >
         <Image
           src="/images/live-it-banner-2026.jpg"
