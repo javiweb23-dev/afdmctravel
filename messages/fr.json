@@ -64,7 +64,11 @@
       "Colombie",
       "Australie",
       "Autre"
-    ]
+    ],
+    "sending": "Envoi…",
+    "errorMessage": "Nous n avons pas pu envoyer votre inscription. Reessayez ou ecrivez a director@afdmctravel.com.",
+    "successTitle": "Inscription recue",
+    "successBody": "Merci. Notre equipe a bien recu l inscription de votre agence et vous repondra sous 48 heures."
   },
   "ThanksPage": {
     "title": "Merci — Votre RFP a Bien Été Reçu",

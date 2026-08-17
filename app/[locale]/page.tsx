@@ -1,4 +1,5 @@
 import type {Metadata} from "next";
+import {setRequestLocale} from "next-intl/server";
 import Image from "next/image";
 import {LiveItStickyBanner} from "@/components/site/live-it-sticky-banner";
 import {Link} from "@/i18n/navigation";
@@ -9,7 +10,7 @@ import {
 import type {AppLocale, LocalizedValue} from "@/lib/locale";
 import {resolveArray, resolveLocalized} from "@/lib/locale";
 import {buildPageMetadata} from "@/lib/sanity/metadata";
-import {resolveSanityImage, STOCK_IMAGES} from "@/lib/sanity/image";
+import {LOCAL_FALLBACK_IMAGE, resolveSanityImage} from "@/lib/sanity/image";
 import {fetchSanity, homePageQuery} from "@/lib/sanity/queries";
 
 type PageProps = {params: Promise<{locale: AppLocale}>};
@@ -38,7 +39,7 @@ type HomePageData = {
 export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   const {locale} = await params;
   const data = await fetchSanity<HomePageData>(homePageQuery);
-  return buildPageMetadata(data?.seo, homeSeoFallback, locale);
+  return buildPageMetadata(data?.seo, homeSeoFallback, locale, "");
 }
 
 function PartnerIcon() {
@@ -51,12 +52,13 @@ function PartnerIcon() {
 
 export default async function HomePage({params}: PageProps) {
   const {locale} = await params;
+  setRequestLocale(locale);
   const data = (await fetchSanity<HomePageData>(homePageQuery)) ?? {};
   const fb = homeContentFallback;
 
   const heroImage = resolveSanityImage(
     data.heroBackgroundImage,
-    STOCK_IMAGES.hero,
+    LOCAL_FALLBACK_IMAGE,
   );
   const whoWeServeItems = resolveArray(
     data.whoWeServeItems,

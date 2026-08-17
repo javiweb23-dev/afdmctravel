@@ -1,4 +1,5 @@
 import type {Metadata} from "next";
+import {setRequestLocale} from "next-intl/server";
 import Image from "next/image";
 import {PageHero} from "@/components/site/page-hero";
 import {Breadcrumbs} from "@/components/site/breadcrumbs";
@@ -9,7 +10,11 @@ import {
 import type {AppLocale, LocalizedValue} from "@/lib/locale";
 import {resolveArray, resolveLocalized} from "@/lib/locale";
 import {buildPageMetadata} from "@/lib/sanity/metadata";
-import {resolveSanityImage, STOCK_IMAGES} from "@/lib/sanity/image";
+import {
+  resolveOptionalSanityImage,
+  resolveSanityImage,
+  STOCK_IMAGES,
+} from "@/lib/sanity/image";
 import {fetchSanity, aboutPageQuery} from "@/lib/sanity/queries";
 
 type PageProps = {params: Promise<{locale: AppLocale}>};
@@ -40,11 +45,12 @@ type AboutPageData = {
 export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   const {locale} = await params;
   const data = await fetchSanity<AboutPageData>(aboutPageQuery);
-  return buildPageMetadata(data?.seo, aboutSeoFallback, locale);
+  return buildPageMetadata(data?.seo, aboutSeoFallback, locale, "/about");
 }
 
 export default async function AboutPage({params}: PageProps) {
   const {locale} = await params;
+  setRequestLocale(locale);
   const data = (await fetchSanity<AboutPageData>(aboutPageQuery)) ?? {};
   const fb = aboutContentFallback;
   const heroTitle = resolveLocalized(data.h1, fb.h1, locale);
@@ -63,11 +69,7 @@ export default async function AboutPage({params}: PageProps) {
     fb.operationalCapacityBullets,
   );
 
-  const jeanniePhoto = resolveSanityImage(
-    data.jeanniePhoto,
-    STOCK_IMAGES.jeannie,
-    600,
-  );
+  const jeanniePhoto = resolveOptionalSanityImage(data.jeanniePhoto, 600);
   const jeannieAlt = resolveLocalized(
     data.jeanniePhotoAlt,
     fb.jeanniePhotoAlt,
@@ -153,18 +155,24 @@ export default async function AboutPage({params}: PageProps) {
 
       <section className="bg-slate-100 py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-[300px_1fr] lg:items-start">
-            <div className="mx-auto lg:mx-0">
-              <div className="relative size-[300px] overflow-hidden rounded-full border-4 border-white shadow-xl">
-                <Image
-                  src={jeanniePhoto}
-                  alt={jeannieAlt}
-                  fill
-                  className="object-cover"
-                  sizes="300px"
-                />
+          <div
+            className={`grid gap-10 lg:items-start ${
+              jeanniePhoto ? "lg:grid-cols-[300px_1fr]" : ""
+            }`}
+          >
+            {jeanniePhoto ? (
+              <div className="mx-auto lg:mx-0">
+                <div className="relative size-[300px] overflow-hidden rounded-full border-4 border-white shadow-xl">
+                  <Image
+                    src={jeanniePhoto}
+                    alt={jeannieAlt}
+                    fill
+                    className="object-cover"
+                    sizes="300px"
+                  />
+                </div>
               </div>
-            </div>
+            ) : null}
             <div>
               <h2 className="text-2xl font-bold text-[#072b52] sm:text-3xl">
                 {resolveLocalized(

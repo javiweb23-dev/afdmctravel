@@ -64,7 +64,11 @@
       "Colombia",
       "Australia",
       "Otro"
-    ]
+    ],
+    "sending": "Enviando…",
+    "errorMessage": "No pudimos enviar su registro. Intentelo de nuevo o escriba a director@afdmctravel.com.",
+    "successTitle": "Registro recibido",
+    "successBody": "Gracias. Nuestro equipo ha recibido el registro de su agencia y se pondra en contacto en un plazo de 48 horas."
   },
   "ThanksPage": {
     "title": "Gracias — Hemos Recibido Su RFP",

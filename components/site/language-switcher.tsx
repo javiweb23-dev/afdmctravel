@@ -3,11 +3,12 @@
 import {useEffect, useRef, useState} from "react";
 import {useLocale} from "next-intl";
 import {Link, usePathname} from "@/i18n/navigation";
+import {FlagIcon} from "./flag-icon";
 
 const options = [
-  {locale: "en", label: "English", flag: "🇺🇸"},
-  {locale: "es", label: "Español", flag: "🇪🇸"},
-  {locale: "fr", label: "Français", flag: "🇫🇷"},
+  {locale: "en", label: "English"},
+  {locale: "es", label: "Español"},
+  {locale: "fr", label: "Français"},
 ] as const;
 
 type LanguageSwitcherProps = {
@@ -57,7 +58,7 @@ export function LanguageSwitcher({variant = "light"}: LanguageSwitcherProps) {
         aria-haspopup="menu"
         aria-expanded={open}
       >
-        <span aria-hidden>{active.flag}</span>
+        <FlagIcon locale={active.locale} />
         <span className="hidden sm:inline">{active.label}</span>
         <span className="sm:hidden">{active.locale.toUpperCase()}</span>
         <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 opacity-70" aria-hidden>
@@ -83,7 +84,7 @@ export function LanguageSwitcher({variant = "light"}: LanguageSwitcherProps) {
                   : "text-slate-700"
               }`}
             >
-              <span aria-hidden>{item.flag}</span>
+              <FlagIcon locale={item.locale} />
               <span>{item.label}</span>
             </Link>
           ))}

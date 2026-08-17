@@ -1,5 +1,4 @@
 import {toLocalized} from "@/lib/locale";
-import {STOCK_IMAGES} from "@/lib/sanity/image";
 
 export const servicesSeoFallback = {
   metaTitle: toLocalized(
@@ -30,7 +29,6 @@ export const servicesContentFallback = {
         "The first and last impression of any group program is transportation. We manage the entire journey from wheels-down to hotel check-in — and back again.",
       ),
       icon: "bus",
-      stockImage: STOCK_IMAGES.serviceTransport,
       alt: toLocalized(
         "Group transportation and airport logistics for MICE programs in Punta Cana",
       ),
@@ -65,7 +63,6 @@ export const servicesContentFallback = {
         "Punta Cana's hotel landscape is vast and complex. We navigate it on your behalf with established relationships that translate into rate advantages, room block flexibility, and on-property priority.",
       ),
       icon: "hotel",
-      stockImage: STOCK_IMAGES.serviceHotel,
       alt: toLocalized(
         "Hotel sourcing and room block coordination for groups in Punta Cana Dominican Republic",
       ),
@@ -98,7 +95,6 @@ export const servicesContentFallback = {
         "We design and deliver team-building experiences that go beyond the generic. Every activity is adapted to your group size, culture, objectives, and budget.",
       ),
       icon: "users",
-      stockImage: STOCK_IMAGES.serviceTeam,
       alt: toLocalized(
         "Corporate team building activities for groups in Punta Cana",
       ),
@@ -132,7 +128,6 @@ export const servicesContentFallback = {
         "We understand incentive travel. Every touchpoint is a moment to reinforce the value of earning this reward. Our job is to make your top performers feel exactly that — top.",
       ),
       icon: "trophy",
-      stockImage: STOCK_IMAGES.serviceIncentive,
       alt: toLocalized(
         "Incentive travel program management in Punta Cana Dominican Republic",
       ),
@@ -163,7 +158,6 @@ export const servicesContentFallback = {
         "From board-level corporate dinners to large-scale gala evenings, we produce events with local flair and international production standards.",
       ),
       icon: "party-popper",
-      stockImage: STOCK_IMAGES.serviceEvents,
       alt: toLocalized(
         "Corporate events and gala dinners for large groups in Punta Cana",
       ),
@@ -195,7 +189,6 @@ export const servicesContentFallback = {
         "Beyond the resort gates, Punta Cana offers extraordinary experiences that most groups never discover. We create access to places and moments your competitors cannot replicate.",
       ),
       icon: "map",
-      stockImage: STOCK_IMAGES.serviceTours,
       alt: toLocalized(
         "Private tours and exclusive destination experiences for Punta Cana groups",
       ),
@@ -232,7 +225,6 @@ export const servicesContentFallback = {
         "When your team cannot be on the ground, ours is. We provide full program supervision so nothing is left to chance.",
       ),
       icon: "headset",
-      stockImage: STOCK_IMAGES.serviceOnsite,
       alt: toLocalized(
         "On-site DMC support and program management in the Dominican Republic",
       ),

@@ -1,4 +1,5 @@
 import type {Metadata} from "next";
+import {setRequestLocale} from "next-intl/server";
 import Image from "next/image";
 import {Link} from "@/i18n/navigation";
 import {PageHero} from "@/components/site/page-hero";
@@ -11,7 +12,11 @@ import {
 import type {AppLocale, LocalizedValue} from "@/lib/locale";
 import {resolveArray, resolveLocalized} from "@/lib/locale";
 import {buildPageMetadata} from "@/lib/sanity/metadata";
-import {resolveSanityImage, STOCK_IMAGES} from "@/lib/sanity/image";
+import {
+  resolveOptionalSanityImage,
+  resolveSanityImage,
+  STOCK_IMAGES,
+} from "@/lib/sanity/image";
 import {fetchSanity, servicesPageQuery} from "@/lib/sanity/queries";
 
 type PageProps = {params: Promise<{locale: AppLocale}>};
@@ -37,11 +42,12 @@ type ServicesPageData = {
 export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   const {locale} = await params;
   const data = await fetchSanity<ServicesPageData>(servicesPageQuery);
-  return buildPageMetadata(data?.seo, servicesSeoFallback, locale);
+  return buildPageMetadata(data?.seo, servicesSeoFallback, locale, "/services");
 }
 
 export default async function ServicesPage({params}: PageProps) {
   const {locale} = await params;
+  setRequestLocale(locale);
   const data = (await fetchSanity<ServicesPageData>(servicesPageQuery)) ?? {};
   const fb = servicesContentFallback;
   const heroTitle = resolveLocalized(data.h1, fb.h1, locale);
@@ -74,11 +80,7 @@ export default async function ServicesPage({params}: PageProps) {
             locale,
           ),
       ),
-      image: resolveSanityImage(
-        sanityService?.image?.image,
-        fallback.stockImage,
-        1200,
-      ),
+      image: resolveOptionalSanityImage(sanityService?.image?.image, 1200),
       alt: resolveLocalized(
         sanityService?.image?.alt,
         fallback.alt,
@@ -105,7 +107,11 @@ export default async function ServicesPage({params}: PageProps) {
             id={service.id}
             className={`scroll-mt-24 py-16 ${index % 2 === 1 ? "rounded-2xl bg-slate-100 px-6 lg:px-10" : ""}`}
           >
-            <div className="grid items-start gap-10 lg:grid-cols-[1fr_1.1fr]">
+            <div
+              className={`grid items-start gap-10 ${
+                service.image ? "lg:grid-cols-[1fr_1.1fr]" : ""
+              }`}
+            >
               <div>
                 <div className="mb-4 inline-flex rounded-xl bg-amber-100 p-3 text-[#072b52]">
                   <ServiceIcon name={service.icon} className="size-7" />
@@ -130,15 +136,17 @@ export default async function ServicesPage({params}: PageProps) {
                   ))}
                 </ul>
               </div>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-lg">
-                <Image
-                  src={service.image}
-                  alt={service.alt}
-                  fill
-                  className="object-cover"
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                />
-              </div>
+              {service.image ? (
+                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-lg">
+                  <Image
+                    src={service.image}
+                    alt={service.alt}
+                    fill
+                    className="object-cover"
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                  />
+                </div>
+              ) : null}
             </div>
           </section>
         ))}

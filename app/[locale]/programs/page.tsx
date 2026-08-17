@@ -1,4 +1,5 @@
 import type {Metadata} from "next";
+import {setRequestLocale} from "next-intl/server";
 import {Link} from "@/i18n/navigation";
 import {PageHero} from "@/components/site/page-hero";
 import {Breadcrumbs} from "@/components/site/breadcrumbs";
@@ -36,11 +37,12 @@ type ProgramsPageData = {
 export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   const {locale} = await params;
   const data = await fetchSanity<ProgramsPageData>(programsPageQuery);
-  return buildPageMetadata(data?.seo, programsSeoFallback, locale);
+  return buildPageMetadata(data?.seo, programsSeoFallback, locale, "/programs");
 }
 
 export default async function ProgramsPage({params}: PageProps) {
   const {locale} = await params;
+  setRequestLocale(locale);
   const data = (await fetchSanity<ProgramsPageData>(programsPageQuery)) ?? {};
   const fb = programsContentFallback;
   const email = data.footerCtaEmail ?? fb.footerCtaEmail;

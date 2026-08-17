@@ -1,4 +1,5 @@
 import type {Metadata} from "next";
+import {setRequestLocale} from "next-intl/server";
 import {AgencyRegistrationForm} from "@/components/site/agency-registration-form";
 import {Breadcrumbs} from "@/components/site/breadcrumbs";
 import {PageHero} from "@/components/site/page-hero";
@@ -26,11 +27,12 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   const data = await fetchSanity<AgencyRegistrationPageData>(
     agencyRegistrationPageQuery,
   );
-  return buildPageMetadata(data?.seo, agencyRegistrationSeoFallback, locale);
+  return buildPageMetadata(data?.seo, agencyRegistrationSeoFallback, locale, "/agency-registration");
 }
 
 export default async function AgencyRegistrationPage({params}: PageProps) {
   const {locale} = await params;
+  setRequestLocale(locale);
   const data =
     (await fetchSanity<AgencyRegistrationPageData>(
       agencyRegistrationPageQuery,

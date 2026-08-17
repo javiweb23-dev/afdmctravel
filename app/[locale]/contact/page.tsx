@@ -1,8 +1,10 @@
 import type {Metadata} from "next";
+import {setRequestLocale} from "next-intl/server";
 import {FaqAccordion} from "@/components/site/faq-accordion";
 import {PageHero} from "@/components/site/page-hero";
 import {Breadcrumbs} from "@/components/site/breadcrumbs";
 import {RfpForm} from "@/components/site/rfp-form";
+import {FaqSchema} from "@/components/site/structured-data";
 import {
   contactContentFallback,
   contactSeoFallback,
@@ -10,7 +12,7 @@ import {
 import type {AppLocale, LocalizedValue} from "@/lib/locale";
 import {resolveArray, resolveLocalized} from "@/lib/locale";
 import {buildPageMetadata} from "@/lib/sanity/metadata";
-import {resolveSanityImage, STOCK_IMAGES} from "@/lib/sanity/image";
+import {LOCAL_FALLBACK_IMAGE, resolveSanityImage} from "@/lib/sanity/image";
 import {fetchSanity, contactPageQuery} from "@/lib/sanity/queries";
 
 type PageProps = {params: Promise<{locale: AppLocale}>};
@@ -57,7 +59,7 @@ type ContactPageData = {
 export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   const {locale} = await params;
   const data = await fetchSanity<ContactPageData>(contactPageQuery);
-  return buildPageMetadata(data?.seo, contactSeoFallback, locale);
+  return buildPageMetadata(data?.seo, contactSeoFallback, locale, "/contact");
 }
 
 function resolveLabel(
@@ -70,13 +72,11 @@ function resolveLabel(
 
 export default async function ContactPage({params}: PageProps) {
   const {locale} = await params;
+  setRequestLocale(locale);
   const data = (await fetchSanity<ContactPageData>(contactPageQuery)) ?? {};
   const fb = contactContentFallback;
   const heroTitle = resolveLocalized(data.h1, fb.h1, locale);
-  const heroImage = resolveSanityImage(
-    data.heroImage,
-    STOCK_IMAGES.pageContact,
-  );
+  const heroImage = resolveSanityImage(data.heroImage, LOCAL_FALLBACK_IMAGE);
 
   const formLabels = {
     fullName: resolveLabel(
@@ -219,6 +219,7 @@ export default async function ContactPage({params}: PageProps) {
 
   return (
     <div className="pb-16">
+      <FaqSchema items={faqs} />
       <PageHero
         imageSrc={heroImage}
         imageAlt={heroTitle}

@@ -1,4 +1,5 @@
 import type {Metadata} from "next";
+import {setRequestLocale} from "next-intl/server";
 import {Lock} from "lucide-react";
 import {Link} from "@/i18n/navigation";
 import {PageHero} from "@/components/site/page-hero";
@@ -44,11 +45,12 @@ type WhiteLabelPageData = {
 export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   const {locale} = await params;
   const data = await fetchSanity<WhiteLabelPageData>(whiteLabelPageQuery);
-  return buildPageMetadata(data?.seo, whiteLabelSeoFallback, locale);
+  return buildPageMetadata(data?.seo, whiteLabelSeoFallback, locale, "/white-label");
 }
 
 export default async function WhiteLabelPage({params}: PageProps) {
   const {locale} = await params;
+  setRequestLocale(locale);
   const data = (await fetchSanity<WhiteLabelPageData>(whiteLabelPageQuery)) ?? {};
   const fb = whiteLabelContentFallback;
   const heroTitle = resolveLocalized(data.heroH1, fb.heroH1, locale);

@@ -162,6 +162,9 @@ export function AgencyRegistrationForm() {
   const [email, setEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
   const [inquiry, setInquiry] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   function updateAgencyAddress(field: keyof AddressFields, value: string) {
     setAgencyAddress((current) => {
@@ -184,8 +187,10 @@ export function AgencyRegistrationForm() {
     }
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setLoading(true);
+    setError(null);
 
     const payload: AgencyRegistrationData = {
       agencyInformation: {
@@ -210,7 +215,40 @@ export function AgencyRegistrationForm() {
       },
     };
 
-    console.log(payload);
+    try {
+      const response = await fetch("/api/agency-registration", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error("Request failed");
+      }
+
+      setSent(true);
+    } catch {
+      setError(t("errorMessage"));
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (sent) {
+    return (
+      <div
+        className="rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-lg sm:p-12"
+        role="status"
+      >
+        <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-amber-100 text-2xl text-amber-700">
+          ✓
+        </div>
+        <h2 className="mt-6 text-2xl font-bold text-[#072b52]">
+          {t("successTitle")}
+        </h2>
+        <p className="mt-4 text-slate-600">{t("successBody")}</p>
+      </div>
+    );
   }
 
   return (
@@ -388,12 +426,18 @@ export function AgencyRegistrationForm() {
         />
       </label>
 
+      {error ? (
+        <p className="sm:col-span-2 text-sm text-red-600" role="alert">
+          {error}
+        </p>
+      ) : null}
       <div className="flex justify-end sm:col-span-2">
         <button
           type="submit"
-          className="w-full rounded-lg bg-[#0c4a7a] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#083657] sm:w-auto"
+          disabled={loading}
+          className="w-full rounded-lg bg-[#0c4a7a] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#083657] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
         >
-          {t("submit")}
+          {loading ? t("sending") : t("submit")}
         </button>
       </div>
     </form>

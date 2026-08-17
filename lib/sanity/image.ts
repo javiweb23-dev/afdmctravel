@@ -1,24 +1,11 @@
 import {urlFor} from "@/sanity/lib/image";
 
+/**
+ * Fallback images, used only when the matching field is empty in Sanity.
+ * Every entry below is currently on screen because its page has no hero
+ * loaded in the CMS — replace them from Sanity rather than editing here.
+ */
 export const STOCK_IMAGES = {
-  hero:
-    "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1920&q=80",
-  serviceTransport:
-    "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1200&q=80",
-  serviceHotel:
-    "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80",
-  serviceTeam:
-    "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=80",
-  serviceIncentive:
-    "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1200&q=80",
-  serviceEvents:
-    "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1200&q=80",
-  serviceTours:
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80",
-  serviceOnsite:
-    "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=1200&q=80",
-  jeannie:
-    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80",
   whiteLabel:
     "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80",
   pageServices:
@@ -27,11 +14,12 @@ export const STOCK_IMAGES = {
     "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1920&q=80",
   pageAbout:
     "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1920&q=80",
-  pageContact:
-    "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=1920&q=80",
   pageAgencyRegistration:
     "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&q=80",
 } as const;
+
+/** Self-hosted photo used where we would otherwise hotlink a stock image. */
+export const LOCAL_FALLBACK_IMAGE = "/images/punta-cana-aerial.jpg";
 
 export function resolveSanityImage(
   image: unknown,
@@ -43,5 +31,22 @@ export function resolveSanityImage(
     return urlFor(image).width(width).quality(80).url();
   } catch {
     return fallback;
+  }
+}
+
+/**
+ * Resolves an image that has no acceptable stand-in — a portrait of a real
+ * person, or a photo of a specific service. Returns null when Sanity has
+ * nothing, so the caller can omit the image instead of showing a stock one.
+ */
+export function resolveOptionalSanityImage(
+  image: unknown,
+  width = 1600,
+): string | null {
+  if (!image) return null;
+  try {
+    return urlFor(image).width(width).quality(80).url();
+  } catch {
+    return null;
   }
 }

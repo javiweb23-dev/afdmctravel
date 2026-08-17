@@ -64,7 +64,11 @@
       "Colombia",
       "Australia",
       "Other"
-    ]
+    ],
+    "sending": "Sending…",
+    "errorMessage": "We could not submit your registration. Please try again or email director@afdmctravel.com.",
+    "successTitle": "Registration received",
+    "successBody": "Thank you. Our team has received your agency registration and will be in touch within 48 hours."
   },
   "ThanksPage": {
     "title": "Thank You — Your RFP Has Been Received",
