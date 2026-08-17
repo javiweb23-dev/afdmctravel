@@ -3,6 +3,7 @@ import {setRequestLocale} from "next-intl/server";
 import Image from "next/image";
 import {LiveItStickyBanner} from "@/components/site/live-it-sticky-banner";
 import {Link} from "@/i18n/navigation";
+import {RfpLink} from "@/components/site/rfp-link";
 import {
   homeContentFallback,
   homeSeoFallback,
@@ -100,18 +101,16 @@ export default async function HomePage({params}: PageProps) {
               {resolveLocalized(data.heroSubtitle, fb.heroSubtitle, locale)}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                href="/contact#contact-form"
-                className="rounded-lg bg-amber-400 px-6 py-3 text-sm font-semibold text-[#072b52] transition hover:bg-amber-300"
-              >
+              <RfpLink
+                
+                className="rounded-lg bg-amber-400 px-6 py-3 text-sm font-semibold text-[#072b52] transition hover:bg-amber-300">
                 {resolveLocalized(data.heroCtaPrimary, fb.heroCtaPrimary, locale)}
-              </Link>
-              <Link
-                href="/contact#contact-form"
-                className="rounded-lg border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
-              >
+              </RfpLink>
+              <RfpLink
+                
+                className="rounded-lg border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10">
                 {resolveLocalized(data.heroCtaSecondary, fb.heroCtaSecondary, locale)}
-              </Link>
+              </RfpLink>
             </div>
           </div>
         </div>
@@ -327,12 +326,11 @@ export default async function HomePage({params}: PageProps) {
           <p className="mt-4 text-slate-700">
             {resolveLocalized(data.ctaBannerSubtitle, fb.ctaBannerSubtitle, locale)}
           </p>
-          <Link
-            href="/contact#contact-form"
-            className="mt-8 inline-flex rounded-lg bg-[#072b52] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#05233f]"
-          >
+          <RfpLink
+            
+            className="mt-8 inline-flex rounded-lg bg-[#072b52] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#05233f]">
             {resolveLocalized(data.ctaBannerButtonLabel, fb.ctaBannerButtonLabel, locale)}
-          </Link>
+          </RfpLink>
           <p className="mt-5 text-sm text-slate-600">
             {contactLabel}{" "}
             <a

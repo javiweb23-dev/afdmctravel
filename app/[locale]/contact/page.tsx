@@ -6,6 +6,10 @@ import {Breadcrumbs} from "@/components/site/breadcrumbs";
 import {RfpForm} from "@/components/site/rfp-form";
 import {FaqSchema} from "@/components/site/structured-data";
 import {
+  RFP_FORM_ID,
+  ScrollToRfpOnArrival,
+} from "@/components/site/rfp-link";
+import {
   contactContentFallback,
   contactSeoFallback,
 } from "@/lib/content/fallbacks";
@@ -220,6 +224,7 @@ export default async function ContactPage({params}: PageProps) {
   return (
     <div className="pb-16">
       <FaqSchema items={faqs} />
+      <ScrollToRfpOnArrival />
       <PageHero
         imageSrc={heroImage}
         imageAlt={heroTitle}
@@ -230,8 +235,9 @@ export default async function ContactPage({params}: PageProps) {
       <Breadcrumbs />
 
       <section
-        id="contact-form"
-        className="scroll-mt-24 mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8"
+        id={RFP_FORM_ID}
+        tabIndex={-1}
+        className="scroll-mt-24 mx-auto max-w-5xl px-4 py-16 outline-none sm:px-6 lg:px-8"
       >
         <h2 className="text-2xl font-bold text-[#072b52] sm:text-3xl">
           {resolveLocalized(data.formSectionTitle, fb.formSectionTitle, locale)}

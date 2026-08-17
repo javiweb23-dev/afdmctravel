@@ -1,6 +1,6 @@
 import type {Metadata} from "next";
 import {setRequestLocale} from "next-intl/server";
-import {Link} from "@/i18n/navigation";
+import {RfpLink} from "@/components/site/rfp-link";
 import {PageHero} from "@/components/site/page-hero";
 import {Breadcrumbs} from "@/components/site/breadcrumbs";
 import {
@@ -139,12 +139,11 @@ export default async function ProgramsPage({params}: PageProps) {
                 ))}
               </dl>
             </div>
-            <Link
-              href="/contact#contact-form"
-              className="mt-6 inline-flex rounded-lg bg-[#072b52] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#05233f]"
-            >
+            <RfpLink
+              
+              className="mt-6 inline-flex rounded-lg bg-[#072b52] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#05233f]">
               {program.buttonLabel}
-            </Link>
+            </RfpLink>
           </section>
         ))}
       </div>
@@ -161,9 +160,9 @@ export default async function ProgramsPage({params}: PageProps) {
             {email}
           </a>
           {" · "}
-          <Link href="/contact#contact-form" className="font-semibold text-[#072b52] hover:underline">
+          <RfpLink  className="font-semibold text-[#072b52] hover:underline">
             afdmctravel.com/contact
-          </Link>
+          </RfpLink>
         </p>
       </section>
     </div>

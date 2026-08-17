@@ -5,6 +5,7 @@ import {useState} from "react";
 import {useTranslations} from "next-intl";
 import {Link, usePathname} from "@/i18n/navigation";
 import {LanguageSwitcher} from "./language-switcher";
+import {RfpLink} from "./rfp-link";
 
 const navItems = [
   {href: "/", key: "home"},
@@ -66,12 +67,9 @@ export function Header() {
         </nav>
         <div className="flex items-center gap-2 sm:gap-3">
           <LanguageSwitcher variant="dark" />
-          <Link
-            href="/contact#contact-form"
-            className="inline-flex shrink-0 rounded-lg bg-amber-400 px-3 py-2 text-xs font-semibold text-[#072b52] transition hover:bg-amber-300 sm:px-4 sm:text-sm"
-          >
+          <RfpLink className="inline-flex shrink-0 rounded-lg bg-amber-400 px-3 py-2 text-xs font-semibold text-[#072b52] transition hover:bg-amber-300 sm:px-4 sm:text-sm">
             {t("submitRfp")}
-          </Link>
+          </RfpLink>
           <button
             type="button"
             onClick={() => setOpen((value) => !value)}
@@ -96,13 +94,12 @@ export function Header() {
                 {t(item.key)}
               </Link>
             ))}
-            <Link
-              href="/contact#contact-form"
-              onClick={() => setOpen(false)}
+            <RfpLink
+              onNavigate={() => setOpen(false)}
               className="mt-2 rounded-lg bg-amber-400 px-3 py-2.5 text-center text-sm font-semibold text-[#072b52]"
             >
               {t("submitRfp")}
-            </Link>
+            </RfpLink>
           </nav>
         </div>
       ) : null}

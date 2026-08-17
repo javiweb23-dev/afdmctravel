@@ -1,7 +1,7 @@
 import type {Metadata} from "next";
 import {setRequestLocale} from "next-intl/server";
 import {Lock} from "lucide-react";
-import {Link} from "@/i18n/navigation";
+import {RfpLink} from "@/components/site/rfp-link";
 import {PageHero} from "@/components/site/page-hero";
 import {Breadcrumbs} from "@/components/site/breadcrumbs";
 import {
@@ -199,12 +199,11 @@ export default async function WhiteLabelPage({params}: PageProps) {
               {contactEmail}
             </a>
           </p>
-          <Link
-            href="/contact#contact-form"
-            className="mt-8 inline-flex rounded-lg bg-[#072b52] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#05233f]"
-          >
+          <RfpLink
+            
+            className="mt-8 inline-flex rounded-lg bg-[#072b52] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#05233f]">
             {resolveLocalized(data.ctaButtonLabel, fb.ctaButtonLabel, locale)}
-          </Link>
+          </RfpLink>
         </div>
       </section>
     </div>

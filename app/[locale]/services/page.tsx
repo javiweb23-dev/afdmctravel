@@ -1,7 +1,7 @@
 import type {Metadata} from "next";
 import {setRequestLocale} from "next-intl/server";
 import Image from "next/image";
-import {Link} from "@/i18n/navigation";
+import {RfpLink} from "@/components/site/rfp-link";
 import {PageHero} from "@/components/site/page-hero";
 import {Breadcrumbs} from "@/components/site/breadcrumbs";
 import {ServiceIcon} from "@/components/site/service-icon";
@@ -156,12 +156,11 @@ export default async function ServicesPage({params}: PageProps) {
         <p className="text-slate-700">
           {resolveLocalized(data.footerCtaText, fb.footerCtaText, locale)}
         </p>
-        <Link
-          href="/contact#contact-form"
-          className="mt-6 inline-flex rounded-lg bg-[#072b52] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#05233f]"
-        >
+        <RfpLink
+          
+          className="mt-6 inline-flex rounded-lg bg-[#072b52] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#05233f]">
           Submit Group RFP
-        </Link>
+        </RfpLink>
       </section>
     </div>
   );
