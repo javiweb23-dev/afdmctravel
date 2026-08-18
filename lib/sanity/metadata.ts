@@ -2,7 +2,7 @@ import type {Metadata} from "next";
 import type {AppLocale, LocalizedValue} from "@/lib/locale";
 import {pickLocalized, resolveLocalized} from "@/lib/locale";
 
-export const SITE_URL = "https://afdmctravel.com";
+export const SITE_URL = "https://www.afdmctravel.com";
 
 const OG_LOCALES: Record<AppLocale, string> = {
   en: "en_US",

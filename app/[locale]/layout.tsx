@@ -6,6 +6,7 @@ import {hasLocale, NextIntlClientProvider} from "next-intl";
 import {getMessages, setRequestLocale} from "next-intl/server";
 import {notFound} from "next/navigation";
 import {routing} from "@/i18n/routing";
+import {SITE_URL} from "@/lib/sanity/metadata";
 import "../globals.css";
 
 /**
@@ -13,7 +14,7 @@ import "../globals.css";
  * active locale — the reason there is no single app/layout.tsx above this one.
  */
 export const metadata: Metadata = {
-  metadataBase: new URL("https://afdmctravel.com"),
+  metadataBase: new URL(SITE_URL),
   title: "AF DMC Travel | B2B MICE & DMC Punta Cana",
   description:
     "AF DMC Travel is your trusted local DMC partner in Punta Cana, Dominican Republic. B2B only — MICE, incentive travel, corporate groups up to 7,000 guests.",
