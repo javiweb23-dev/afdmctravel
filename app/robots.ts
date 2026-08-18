@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
       disallow: [
         "/studio",
         "/api/",
-        "/partners",
+        "/global-agents",
         "/en/thanks",
         "/es/thanks",
         "/fr/thanks",

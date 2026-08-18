@@ -7,7 +7,7 @@ const intlMiddleware = createMiddleware(routing);
 export default function proxy(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith("/studio")) return NextResponse.next();
   // Standalone partner landing page: English only, no locale prefix.
-  if (request.nextUrl.pathname.startsWith("/partners")) {
+  if (request.nextUrl.pathname.startsWith("/global-agents")) {
     return NextResponse.next();
   }
   if (request.nextUrl.pathname.includes("/api/sanity")) {
@@ -17,5 +17,5 @@ export default function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next|.*\\..*|studio|studio/.*|partners|partners/.*).*)"],
+  matcher: ["/((?!api|_next|.*\\..*|studio|studio/.*|global-agents|global-agents/.*).*)"],
 };

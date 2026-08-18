@@ -8,6 +8,7 @@ import {
 } from "@/lib/campaign-tracking";
 import {
   INTEREST_VALUES,
+  LEAD_SOURCE,
   type PartnerLandingCopy,
 } from "@/lib/content/partners-landing";
 
@@ -59,6 +60,7 @@ export function PartnerLeadForm({
       marketingConsent: formData.get("marketingConsent") === "on",
       website: String(formData.get("website") ?? ""),
       locale,
+      leadSource: LEAD_SOURCE,
       ...readAttribution(),
     };
 
@@ -80,6 +82,7 @@ export function PartnerLeadForm({
       sendGAEvent("event", "generate_lead", {
         campaign: payload.utm_campaign ?? "(direct)",
         source: payload.utm_source ?? "(direct)",
+        lead_source: LEAD_SOURCE,
         interest: payload.interest,
         country: payload.country,
         language: locale,

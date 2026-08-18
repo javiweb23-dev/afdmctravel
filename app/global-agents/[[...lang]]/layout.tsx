@@ -13,8 +13,8 @@ type LayoutProps = {
 
 /**
  * Root layout for the standalone partner landing. It sits under the dynamic
- * segment so `lang` can follow the URL: /partners is English, /partners/es and
- * /partners/fr are the translations.
+ * segment so `lang` can follow the URL: /global-agents is English, /global-agents/es and
+ * /global-agents/fr are the translations.
  */
 export default async function PartnersLayout({
   children,

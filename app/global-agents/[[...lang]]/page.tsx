@@ -16,8 +16,8 @@ export function generateStaticParams() {
 
 /**
  * Resolves the URL segment to a locale, or null when the path is not one of
- * the three landing URLs. `/partners/en` is null on purpose: English is served
- * from the bare /partners, and a second URL for it would be a duplicate.
+ * the three landing URLs. `/global-agents/en` is null on purpose: English is served
+ * from the bare /global-agents, and a second URL for it would be a duplicate.
  */
 function resolveLocale(lang: string[] | undefined): PartnerLocale | null {
   if (!lang || lang.length === 0) return "en";

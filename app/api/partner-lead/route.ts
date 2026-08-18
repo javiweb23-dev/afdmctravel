@@ -11,6 +11,8 @@ type PartnerLeadPayload = {
   interest?: string;
   comments?: string;
   marketingConsent?: boolean;
+  /** Which landing produced the lead, e.g. "Global Agents". */
+  leadSource?: string;
   locale?: string;
   // Campaign attribution, set by the landing page from the UTM parameters.
   utm_source?: string;
@@ -84,6 +86,7 @@ function buildHtml(data: PartnerLeadPayload) {
 <h3 style="color:#072b52;">Contact</h3>
 <table style="border-collapse:collapse;width:100%;max-width:720px;">
 ${table(data, contactFields)}
+${row("Came from", data.leadSource ?? "—")}
 ${row("Submitted in", language)}
 ${row("Marketing consent", data.marketingConsent ? "YES — may be added to mailing lists" : "No — reply to this enquiry only")}
 </table>
@@ -139,9 +142,13 @@ export async function POST(request: Request) {
       replyTo: body.email!.trim(),
       // The campaign is in the subject so leads can be sorted in the inbox
       // without opening them.
-      subject: campaign
-        ? `New Partner Lead [${campaign}] — ${body.agencyCompany!.trim()}`
-        : `New Partner Lead — ${body.agencyCompany!.trim()}`,
+      subject: (() => {
+        const source = body.leadSource?.trim() || "Partner";
+        const agency = body.agencyCompany!.trim();
+        return campaign
+          ? `New ${source} Lead [${campaign}] — ${agency}`
+          : `New ${source} Lead — ${agency}`;
+      })(),
       html: buildHtml(body),
     });
 

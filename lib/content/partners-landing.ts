@@ -8,9 +8,20 @@
 export const PARTNER_LOCALES = ["en", "es", "fr"] as const;
 export type PartnerLocale = (typeof PARTNER_LOCALES)[number];
 
-/** English lives at the bare /partners; the others take a suffix. */
+/**
+ * Public path of the landing. Named after Global Agents, the partner whose
+ * campaigns send traffic here.
+ */
+export const LANDING_BASE_PATH = "/global-agents";
+
+/** Labels these leads apart from the main site contact form. */
+export const LEAD_SOURCE = "Global Agents";
+
+/** English lives at the bare path; the others take a locale suffix. */
 export function partnersPath(locale: PartnerLocale) {
-  return locale === "en" ? "/partners" : `/partners/${locale}`;
+  return locale === "en"
+    ? LANDING_BASE_PATH
+    : `${LANDING_BASE_PATH}/${locale}`;
 }
 
 export function isPartnerLocale(value: string): value is PartnerLocale {
