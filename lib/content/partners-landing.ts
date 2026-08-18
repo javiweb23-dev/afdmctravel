@@ -183,7 +183,7 @@ export const partnerLandingCopy: Record<PartnerLocale, PartnerLandingCopy> = {
     footerTagline: "AF DMC Travel · Adventures Finder MICE & DMC Division",
     footerAddress:
       "Plaza Cueva Taina, Local #B2, Av. Estados Unidos — Bavaro, Dominican Republic",
-    footerRights: "AF DMC Travel. MICE & DMC — Punta Cana, Dominican Republic.",
+    footerRights: "AF DMC Travel. All rights reserved.",
   },
 
   es: {
@@ -294,8 +294,7 @@ export const partnerLandingCopy: Record<PartnerLocale, PartnerLandingCopy> = {
     footerTagline: "AF DMC Travel · División MICE y DMC de Adventures Finder",
     footerAddress:
       "Plaza Cueva Taina, Local #B2, Av. Estados Unidos — Bávaro, República Dominicana",
-    footerRights:
-      "AF DMC Travel. MICE y DMC — Punta Cana, República Dominicana.",
+    footerRights: "AF DMC Travel. Todos los derechos reservados.",
   },
 
   fr: {
@@ -407,7 +406,6 @@ export const partnerLandingCopy: Record<PartnerLocale, PartnerLandingCopy> = {
     footerTagline: "AF DMC Travel · Division MICE et DMC d’Adventures Finder",
     footerAddress:
       "Plaza Cueva Taina, Local #B2, Av. Estados Unidos — Bávaro, République dominicaine",
-    footerRights:
-      "AF DMC Travel. MICE et DMC — Punta Cana, République dominicaine.",
+    footerRights: "AF DMC Travel. Tous droits réservés.",
   },
 };

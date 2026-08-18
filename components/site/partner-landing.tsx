@@ -106,10 +106,12 @@ export async function PartnerLanding({locale}: {locale: PartnerLocale}) {
             {STAT_VALUES.map((value, index) => (
               <div
                 key={value}
-                className="rounded-xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur"
+                className="group rounded-xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur transition duration-300 hover:border-amber-400/40 hover:bg-white/10 motion-safe:hover:-translate-y-1"
               >
-                <p className="text-3xl font-bold text-amber-400">{value}</p>
-                <p className="mt-2 text-sm text-slate-300">
+                <p className="text-3xl font-bold text-amber-400 transition duration-300 motion-safe:group-hover:scale-110">
+                  {value}
+                </p>
+                <p className="mt-2 text-sm text-slate-300 transition group-hover:text-slate-100">
                   {copy.statsLabels[index]}
                 </p>
               </div>
@@ -173,7 +175,7 @@ export async function PartnerLanding({locale}: {locale: PartnerLocale}) {
             {copy.reasons.map((reason) => (
               <article
                 key={reason.title}
-                className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm"
+                className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:border-amber-300 hover:shadow-md motion-safe:hover:-translate-y-1"
               >
                 <h3 className="font-semibold text-[#072b52]">{reason.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-slate-600">
