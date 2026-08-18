@@ -2,8 +2,9 @@
 
 import {useState} from "react";
 
-/** Bullets shown before the visitor asks for the rest. */
-const VISIBLE_COUNT = 4;
+/** Bullets shown before the visitor asks for the rest. Deliberately few:
+ * the point is to keep the page scannable, not to preview the list. */
+const VISIBLE_COUNT = 2;
 
 export function ServiceBullets({
   bullets,

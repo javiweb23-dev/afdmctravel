@@ -152,7 +152,7 @@ export const partnerLandingCopy: Record<PartnerLocale, PartnerLandingCopy> = {
       "Local Punta Cana Team",
     ],
     servicesTitle: "Everything We Handle on the Ground",
-    servicesShowMore: "Show all",
+    servicesShowMore: "Read more",
     servicesShowLess: "Show less",
     midCtaTitle: "Your client. Our destination. One local team.",
     midCtaBody:
@@ -284,7 +284,7 @@ export const partnerLandingCopy: Record<PartnerLocale, PartnerLandingCopy> = {
       "Equipo local en Punta Cana",
     ],
     servicesTitle: "Todo lo que gestionamos en destino",
-    servicesShowMore: "Ver todo",
+    servicesShowMore: "Leer más",
     servicesShowLess: "Ver menos",
     midCtaTitle: "Su cliente. Nuestro destino. Un equipo local.",
     midCtaBody:
@@ -417,7 +417,7 @@ export const partnerLandingCopy: Record<PartnerLocale, PartnerLandingCopy> = {
       "Équipe locale à Punta Cana",
     ],
     servicesTitle: "Tout ce que nous gérons sur place",
-    servicesShowMore: "Tout afficher",
+    servicesShowMore: "Lire la suite",
     servicesShowLess: "Afficher moins",
     midCtaTitle: "Votre client. Notre destination. Une équipe locale.",
     midCtaBody:
