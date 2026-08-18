@@ -1,5 +1,6 @@
 import {Resend} from "resend";
 import {NextResponse} from "next/server";
+import {sendGroupRfp} from "@/lib/zoho/group-rfp-lead";
 
 type ContactPayload = {
   fullName?: string;
@@ -16,6 +17,7 @@ type ContactPayload = {
   servicesRequired?: string[];
   specialRequirements?: string;
   referral?: string;
+  locale?: string;
 };
 
 const fieldLabels: Record<string, string> = {
@@ -100,6 +102,12 @@ export async function POST(request: Request) {
 
     if (error) {
       return NextResponse.json({error: "Failed to send message"}, {status: 500});
+    }
+
+    // After the email, never before: a CRM problem must not cost us the lead.
+    const crm = await sendGroupRfp(body);
+    if (!crm.ok && crm.error !== "not_configured") {
+      console.error("Bigin did not record this RFP:", crm.error);
     }
 
     return NextResponse.json({ok: true});

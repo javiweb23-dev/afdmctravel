@@ -1,5 +1,7 @@
 "use client";
 
+import {useLocale} from "next-intl";
+
 import {useState} from "react";
 import {useRouter} from "@/i18n/navigation";
 
@@ -40,6 +42,7 @@ export function RfpForm({
   submitLabel,
 }: RfpFormProps) {
   const router = useRouter();
+  const locale = useLocale();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -64,6 +67,7 @@ export function RfpForm({
       servicesRequired: formData.getAll("servicesRequired").map(String),
       specialRequirements: String(formData.get("specialRequirements") ?? ""),
       referral: String(formData.get("referral") ?? ""),
+      locale,
     };
 
     try {
