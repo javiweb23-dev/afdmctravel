@@ -3,6 +3,7 @@ import {PartnerLanguageSwitcher} from "@/components/site/partner-language-switch
 import {PartnerLeadForm} from "@/components/site/partner-lead-form";
 import {ServiceIcon} from "@/components/site/service-icon";
 import {ServiceBullets} from "@/components/site/service-bullets";
+import {PartnerOffersSection} from "@/components/site/partner-offers-section";
 import {
   PARTNER_FORM_ID,
   ScrollToFormButton,
@@ -133,7 +134,9 @@ export async function PartnerLanding({locale}: {locale: PartnerLocale}) {
         </div>
       </section>
 
-      <section className="bg-[#072b52] py-14 text-white">
+      <PartnerOffersSection locale={locale} />
+
+      <section className="mt-16 bg-[#072b52] py-14 text-white">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {STAT_VALUES.map((value, index) => (

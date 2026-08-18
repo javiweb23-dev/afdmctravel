@@ -1,9 +1,11 @@
 import {
   Bus,
+  Gift,
   Headset,
   Hotel,
   Map,
   PartyPopper,
+  Percent,
   Trophy,
   Users,
   type LucideIcon,
@@ -17,6 +19,9 @@ const iconMap: Record<string, LucideIcon> = {
   "party-popper": PartyPopper,
   map: Map,
   headset: Headset,
+  // Used by the agent offers rather than the services list.
+  gift: Gift,
+  percent: Percent,
 };
 
 type ServiceIconProps = {
