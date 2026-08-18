@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "zoho:fields": "node scripts/zoho-fields.mjs"
   },
   "dependencies": {
     "@next/third-parties": "^16.2.4",

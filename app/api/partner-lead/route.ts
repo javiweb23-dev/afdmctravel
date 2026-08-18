@@ -1,5 +1,6 @@
 import {Resend} from "resend";
 import {NextResponse} from "next/server";
+import {sendGlobalAgentsLead} from "@/lib/zoho/global-agents-lead";
 
 type PartnerLeadPayload = {
   firstName?: string;
@@ -154,6 +155,28 @@ export async function POST(request: Request) {
 
     if (error) {
       return NextResponse.json({error: "Failed to send message"}, {status: 500});
+    }
+
+    // Only once the email is away. A CRM outage, an expired token or a field
+    // renamed in Bigin must never cost us a lead, so this is deliberately
+    // after the send and its failure is logged rather than surfaced.
+    const crm = await sendGlobalAgentsLead({
+      firstName: body.firstName!.trim(),
+      lastName: body.lastName!.trim(),
+      agencyCompany: body.agencyCompany!.trim(),
+      email: body.email!.trim(),
+      phone: body.phone,
+      country: body.country!.trim(),
+      interest: body.interest!.trim(),
+      comments: body.comments,
+      marketingConsent: Boolean(body.marketingConsent),
+      locale: body.locale,
+      leadSource: body.leadSource,
+      utm_campaign: body.utm_campaign,
+    });
+
+    if (!crm.ok && crm.error !== "not_configured") {
+      console.error("Bigin did not record this lead:", crm.error);
     }
 
     return NextResponse.json({ok: true});
