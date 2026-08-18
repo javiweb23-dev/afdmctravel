@@ -1,5 +1,6 @@
 import {Resend} from "resend";
 import {NextResponse} from "next/server";
+import {sendAgencyRegistration} from "@/lib/zoho/agency-registration-lead";
 
 type AddressFields = {
   streetAddress?: string;
@@ -23,6 +24,7 @@ type AgencyRegistrationPayload = {
     businessName?: string;
     address?: AddressFields;
   };
+  locale?: string;
   businessContactInformation?: {
     firstName?: string;
     lastName?: string;
@@ -133,6 +135,12 @@ export async function POST(request: Request) {
 
     if (error) {
       return NextResponse.json({error: "Failed to send message"}, {status: 500});
+    }
+
+    // After the email, never before: a CRM problem must not cost us the lead.
+    const crm = await sendAgencyRegistration(body);
+    if (!crm.ok && crm.error !== "not_configured") {
+      console.error("Bigin did not record this registration:", crm.error);
     }
 
     return NextResponse.json({ok: true});

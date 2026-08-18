@@ -1,7 +1,7 @@
 "use client";
 
 import {useState} from "react";
-import {useTranslations} from "next-intl";
+import {useLocale, useTranslations} from "next-intl";
 
 type AddressFields = {
   streetAddress: string;
@@ -33,6 +33,7 @@ type AgencyRegistrationData = {
     phone: string;
     inquiry: string;
   };
+  locale: string;
 };
 
 const emptyAddress = (): AddressFields => ({
@@ -148,6 +149,7 @@ function AddressInputs({prefix, values, onChange, disabled}: AddressInputsProps)
 
 export function AgencyRegistrationForm() {
   const t = useTranslations("agencyRegistrationForm");
+  const locale = useLocale();
   const [agencyAddress, setAgencyAddress] = useState<AddressFields>(emptyAddress);
   const [billingAddress, setBillingAddress] = useState<AddressFields>(emptyAddress);
   const [sameAsAgency, setSameAsAgency] = useState(false);
@@ -213,6 +215,7 @@ export function AgencyRegistrationForm() {
         phone: contactPhone,
         inquiry,
       },
+      locale,
     };
 
     try {
