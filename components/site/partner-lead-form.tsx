@@ -1,13 +1,20 @@
 "use client";
 
 import {useState} from "react";
+import type {PartnerLandingCopy} from "@/lib/content/partners-landing";
 
 const inputClass =
   "mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition focus:border-[#0c4a7a] focus:ring-2 focus:ring-[#0c4a7a]/20";
 
 const labelClass = "text-sm font-medium text-slate-700";
 
-export function PartnerLeadForm() {
+export function PartnerLeadForm({
+  copy,
+  locale,
+}: {
+  copy: PartnerLandingCopy["form"];
+  locale: string;
+}) {
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -25,6 +32,8 @@ export function PartnerLeadForm() {
       email: String(formData.get("email") ?? ""),
       comments: String(formData.get("comments") ?? ""),
       website: String(formData.get("website") ?? ""),
+      // Tells the team which language the enquiry came in on.
+      locale,
     };
 
     try {
@@ -40,9 +49,7 @@ export function PartnerLeadForm() {
 
       setSent(true);
     } catch {
-      setError(
-        "We could not send your message. Please try again or write to director@afdmctravel.com.",
-      );
+      setError(copy.errorMessage);
     } finally {
       setLoading(false);
     }
@@ -58,11 +65,10 @@ export function PartnerLeadForm() {
           ✓
         </div>
         <h3 className="mt-6 text-2xl font-bold text-[#072b52]">
-          Thank you — your enquiry is on its way
+          {copy.successTitle}
         </h3>
         <p className="mt-4 text-slate-600">
-          Our team in Punta Cana has received your details and will get back to
-          you within 48 hours. For anything urgent, email us directly at{" "}
+          {copy.successBody}{" "}
           <a
             href="mailto:director@afdmctravel.com"
             className="font-semibold text-[#072b52] underline-offset-2 hover:underline"
@@ -81,16 +87,15 @@ export function PartnerLeadForm() {
       className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xl sm:p-8 lg:p-10"
     >
       <h2 className="text-2xl font-bold text-[#072b52] sm:text-3xl">
-        Tell Us About Your Group
+        {copy.title}
       </h2>
       <p className="mt-3 text-sm leading-relaxed text-slate-600">
-        Share a few details and our Punta Cana team will come back to you within
-        48 hours with next steps.
+        {copy.intro}
       </p>
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2">
         <label className={labelClass}>
-          First Name <span className="text-amber-600">*</span>
+          {copy.firstName} <span className="text-amber-600">*</span>
           <input
             type="text"
             name="firstName"
@@ -100,7 +105,7 @@ export function PartnerLeadForm() {
           />
         </label>
         <label className={labelClass}>
-          Last Name <span className="text-amber-600">*</span>
+          {copy.lastName} <span className="text-amber-600">*</span>
           <input
             type="text"
             name="lastName"
@@ -110,7 +115,7 @@ export function PartnerLeadForm() {
           />
         </label>
         <label className={labelClass}>
-          Phone / WhatsApp
+          {copy.phone}
           <input
             type="tel"
             name="phone"
@@ -119,7 +124,7 @@ export function PartnerLeadForm() {
           />
         </label>
         <label className={labelClass}>
-          Email Address <span className="text-amber-600">*</span>
+          {copy.email} <span className="text-amber-600">*</span>
           <input
             type="email"
             name="email"
@@ -129,11 +134,11 @@ export function PartnerLeadForm() {
           />
         </label>
         <label className={`${labelClass} sm:col-span-2`}>
-          Comments
+          {copy.comments}
           <textarea
             name="comments"
             rows={5}
-            placeholder="Group size, travel dates, type of programme, anything else we should know…"
+            placeholder={copy.commentsPlaceholder}
             className={inputClass}
           />
         </label>
@@ -158,13 +163,10 @@ export function PartnerLeadForm() {
         disabled={loading}
         className="mt-8 w-full rounded-lg bg-[#072b52] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#05233f] disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {loading ? "Sending…" : "Send My Enquiry"}
+        {loading ? copy.sending : copy.submit}
       </button>
 
-      <p className="mt-4 text-center text-xs text-slate-500">
-        Your details are used only to prepare your proposal and are never shared
-        with third parties.
-      </p>
+      <p className="mt-4 text-center text-xs text-slate-500">{copy.privacy}</p>
     </form>
   );
 }

@@ -7,6 +7,7 @@ type PartnerLeadPayload = {
   phone?: string;
   email?: string;
   comments?: string;
+  locale?: string;
   // Honeypot: real users never fill this in.
   website?: string;
 };
@@ -17,6 +18,7 @@ const fieldLabels: Record<string, string> = {
   phone: "Phone / WhatsApp",
   email: "Email Address",
   comments: "Comments",
+  locale: "Submitted in",
 };
 
 function escapeHtml(value: string) {
