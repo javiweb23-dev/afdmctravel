@@ -159,3 +159,8 @@ export async function fetchSanity<T>(
     return null;
   }
 }
+
+/** Just the service photos, for reuse on the standalone partner landing. */
+export const serviceImagesQuery = groq`*[_type == "servicesPage"][0]{
+  services[]{id, image{image, alt}}
+}`;

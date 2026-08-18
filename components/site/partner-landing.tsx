@@ -2,16 +2,52 @@ import Image from "next/image";
 import {PartnerLanguageSwitcher} from "@/components/site/partner-language-switcher";
 import {PartnerLeadForm} from "@/components/site/partner-lead-form";
 import {ServiceIcon} from "@/components/site/service-icon";
-import {LOCAL_FALLBACK_IMAGE} from "@/lib/sanity/image";
+import {LOCAL_FALLBACK_IMAGE, resolveOptionalSanityImage} from "@/lib/sanity/image";
+import {fetchSanity, serviceImagesQuery} from "@/lib/sanity/queries";
+import {pickLocalized, type LocalizedValue} from "@/lib/locale";
 import {
   partnerLandingCopy,
+  SERVICE_IDS,
   STAT_VALUES,
   type PartnerLocale,
 } from "@/lib/content/partners-landing";
 
+type ServiceImageData = {
+  services?: {id?: string; image?: {image?: unknown; alt?: LocalizedValue}}[];
+};
+
+type ServicePhoto = {url: string; alt: string};
+
+/**
+ * Pulls the service photos from the same Sanity document the /services page
+ * uses, so a photo swapped in the CMS updates here too. Returns an empty map
+ * when Sanity is unavailable — the cards fall back to their icon.
+ */
+async function getServicePhotos(
+  locale: PartnerLocale,
+): Promise<Record<string, ServicePhoto>> {
+  const data = await fetchSanity<ServiceImageData>(serviceImagesQuery);
+  const photos: Record<string, ServicePhoto> = {};
+
+  for (const service of data?.services ?? []) {
+    if (!service?.id) continue;
+    // 800px wide: these render in a 3-column grid, and with Next's optimizer
+    // disabled this is the width actually delivered to the browser.
+    const url = resolveOptionalSanityImage(service.image?.image, 800);
+    if (!url) continue;
+    photos[service.id] = {
+      url,
+      alt: pickLocalized(service.image?.alt, locale),
+    };
+  }
+
+  return photos;
+}
+
 /** One layout, three locales — see lib/content/partners-landing.ts for copy. */
-export function PartnerLanding({locale}: {locale: PartnerLocale}) {
+export async function PartnerLanding({locale}: {locale: PartnerLocale}) {
   const copy = partnerLandingCopy[locale];
+  const photos = await getServicePhotos(locale);
 
   return (
     <main className="flex-1 bg-slate-50 text-slate-900">
@@ -89,23 +125,42 @@ export function PartnerLanding({locale}: {locale: PartnerLocale}) {
         <p className="mx-auto mt-4 max-w-3xl text-center leading-relaxed text-slate-600">
           {copy.servicesIntro}
         </p>
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {copy.services.map((service) => (
-            <article
-              key={service.icon}
-              className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition hover:border-amber-300 hover:shadow-md"
-            >
-              <span className="flex size-11 items-center justify-center rounded-lg bg-[#072b52]/10 text-[#072b52]">
-                <ServiceIcon name={service.icon} />
-              </span>
-              <h3 className="mt-5 font-semibold text-[#072b52]">
-                {service.title}
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-slate-600">
-                {service.description}
-              </p>
-            </article>
-          ))}
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {copy.services.map((service, index) => {
+            const photo = photos[SERVICE_IDS[index]];
+
+            return (
+              <article
+                key={service.icon}
+                className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:border-amber-300 hover:shadow-md"
+              >
+                {photo ? (
+                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
+                    <Image
+                      src={photo.url}
+                      alt={photo.alt || service.title}
+                      fill
+                      className="object-cover transition duration-500 group-hover:scale-105"
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    />
+                  </div>
+                ) : null}
+                <div className="p-6">
+                  {photo ? null : (
+                    <span className="mb-5 flex size-11 items-center justify-center rounded-lg bg-[#072b52]/10 text-[#072b52]">
+                      <ServiceIcon name={service.icon} />
+                    </span>
+                  )}
+                  <h3 className="font-semibold text-[#072b52]">
+                    {service.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                    {service.description}
+                  </p>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 
@@ -162,8 +217,7 @@ export function PartnerLanding({locale}: {locale: PartnerLocale}) {
             {copy.footerAddress}
           </p>
           <p className="mt-6 text-xs text-slate-600">
-            © {new Date().getFullYear()}{" "}
-            {copy.footerRights}
+            © {new Date().getFullYear()} {copy.footerRights}
           </p>
         </div>
       </footer>

@@ -17,6 +17,20 @@ export function isPartnerLocale(value: string): value is PartnerLocale {
   return (PARTNER_LOCALES as readonly string[]).includes(value);
 }
 
+/**
+ * Sanity service ids, in the same order as the services array in every locale.
+ * Used to pull the matching photo from the services page in the CMS.
+ */
+export const SERVICE_IDS = [
+  "transportation",
+  "hotel-sourcing",
+  "team-building",
+  "incentive-travel",
+  "gala-dinners",
+  "private-tours",
+  "dmc-support",
+] as const;
+
 /** Shared across locales — figures, not words. */
 export const STAT_VALUES = ["7,000+", "4", "48h", "100%"] as const;
 
