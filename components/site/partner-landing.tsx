@@ -3,51 +3,76 @@ import {PartnerLanguageSwitcher} from "@/components/site/partner-language-switch
 import {PartnerLeadForm} from "@/components/site/partner-lead-form";
 import {ServiceIcon} from "@/components/site/service-icon";
 import {LOCAL_FALLBACK_IMAGE, resolveOptionalSanityImage} from "@/lib/sanity/image";
-import {fetchSanity, serviceImagesQuery} from "@/lib/sanity/queries";
+import {fetchSanity, partnerServicesQuery} from "@/lib/sanity/queries";
 import {pickLocalized, type LocalizedValue} from "@/lib/locale";
 import {
   partnerLandingCopy,
   SERVICE_IDS,
+  type PartnerLandingCopy,
   STAT_VALUES,
   type PartnerLocale,
 } from "@/lib/content/partners-landing";
 
-type ServiceImageData = {
-  services?: {id?: string; image?: {image?: unknown; alt?: LocalizedValue}}[];
+type SanityService = {
+  id?: string;
+  title?: LocalizedValue;
+  description?: LocalizedValue;
+  bullets?: LocalizedValue[];
+  icon?: string;
+  image?: {image?: unknown; alt?: LocalizedValue};
 };
 
-type ServicePhoto = {url: string; alt: string};
+type LandingService = {
+  id: string;
+  icon: string;
+  title: string;
+  description: string;
+  bullets: string[];
+  photo: {url: string; alt: string} | null;
+};
 
 /**
- * Pulls the service photos from the same Sanity document the /services page
- * uses, so a photo swapped in the CMS updates here too. Returns an empty map
- * when Sanity is unavailable — the cards fall back to their icon.
+ * Reads the same service entries the /services page renders, so the landing
+ * shows the full copy verbatim rather than a paraphrase that can drift.
+ * The short copy in partners-landing.ts stays as the safety net: if Sanity is
+ * unreachable the section still renders, just without the bullet lists.
  */
-async function getServicePhotos(
+async function getServices(
+  copy: PartnerLandingCopy,
   locale: PartnerLocale,
-): Promise<Record<string, ServicePhoto>> {
-  const data = await fetchSanity<ServiceImageData>(serviceImagesQuery);
-  const photos: Record<string, ServicePhoto> = {};
+): Promise<LandingService[]> {
+  const data = await fetchSanity<{services?: SanityService[]}>(
+    partnerServicesQuery,
+  );
+  const fromCms = data?.services ?? [];
 
-  for (const service of data?.services ?? []) {
-    if (!service?.id) continue;
-    // 800px wide: these render in a 3-column grid, and with Next's optimizer
-    // disabled this is the width actually delivered to the browser.
-    const url = resolveOptionalSanityImage(service.image?.image, 800);
-    if (!url) continue;
-    photos[service.id] = {
-      url,
-      alt: pickLocalized(service.image?.alt, locale),
+  return copy.services.map((short, index) => {
+    const id = SERVICE_IDS[index];
+    const cms = fromCms.find((item) => item?.id === id);
+    // 1000px: these span roughly half the content width on desktop, and with
+    // Next's optimizer disabled this is the width actually delivered.
+    const url = resolveOptionalSanityImage(cms?.image?.image, 1000);
+    const title = pickLocalized(cms?.title, locale) || short.title;
+
+    return {
+      id,
+      icon: cms?.icon || short.icon,
+      title,
+      description: pickLocalized(cms?.description, locale) || short.description,
+      bullets: (cms?.bullets ?? [])
+        .map((bullet) => pickLocalized(bullet, locale))
+        .filter(Boolean),
+      photo: url
+        ? {url, alt: pickLocalized(cms?.image?.alt, locale) || title}
+        : null,
     };
-  }
-
-  return photos;
+  });
 }
 
 /** One layout, three locales — see lib/content/partners-landing.ts for copy. */
 export async function PartnerLanding({locale}: {locale: PartnerLocale}) {
   const copy = partnerLandingCopy[locale];
-  const photos = await getServicePhotos(locale);
+  const services = await getServices(copy, locale);
 
   return (
     <main className="flex-1 bg-slate-50 text-slate-900">
@@ -127,38 +152,63 @@ export async function PartnerLanding({locale}: {locale: PartnerLocale}) {
         <p className="mx-auto mt-4 max-w-3xl text-center leading-relaxed text-slate-600">
           {copy.servicesIntro}
         </p>
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {copy.services.map((service, index) => {
-            const photo = photos[SERVICE_IDS[index]];
+        <div className="mt-12 space-y-6">
+          {services.map((service, index) => {
+            // Zig-zag: text leads on even rows, the photo leads on odd ones.
+            const photoLeads = index % 2 === 1;
 
             return (
               <article
-                key={service.icon}
-                className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:border-amber-300 hover:shadow-md"
+                key={service.id}
+                className={`rounded-2xl px-4 py-10 sm:px-8 lg:px-10 ${
+                  photoLeads ? "bg-slate-100" : "bg-white"
+                }`}
               >
-                {photo ? (
-                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
-                    <Image
-                      src={photo.url}
-                      alt={photo.alt || service.title}
-                      fill
-                      className="object-cover transition duration-500 group-hover:scale-105"
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    />
-                  </div>
-                ) : null}
-                <div className="p-6">
-                  {photo ? null : (
-                    <span className="mb-5 flex size-11 items-center justify-center rounded-lg bg-[#072b52]/10 text-[#072b52]">
-                      <ServiceIcon name={service.icon} />
+                <div
+                  className={`grid items-center gap-8 lg:gap-12 ${
+                    service.photo ? "lg:grid-cols-2" : ""
+                  }`}
+                >
+                  <div className={photoLeads ? "lg:order-2" : undefined}>
+                    <span className="mb-5 flex size-12 items-center justify-center rounded-xl bg-amber-100 text-[#072b52]">
+                      <ServiceIcon name={service.icon} className="size-6" />
                     </span>
-                  )}
-                  <h3 className="font-semibold text-[#072b52]">
-                    {service.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-slate-600">
-                    {service.description}
-                  </p>
+                    <h3 className="text-xl font-bold text-[#072b52] sm:text-2xl">
+                      {service.title}
+                    </h3>
+                    <p className="mt-4 leading-relaxed text-slate-700">
+                      {service.description}
+                    </p>
+                    {service.bullets.length > 0 ? (
+                      <ul className="mt-6 space-y-3">
+                        {service.bullets.map((bullet, bulletIndex) => (
+                          <li
+                            key={`${service.id}-${bulletIndex}`}
+                            className="flex items-start gap-3 text-sm leading-relaxed text-slate-700"
+                          >
+                            <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-amber-500" />
+                            {bullet}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </div>
+
+                  {service.photo ? (
+                    <div
+                      className={`group relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-slate-200 shadow-lg ${
+                        photoLeads ? "lg:order-1" : undefined
+                      }`}
+                    >
+                      <Image
+                        src={service.photo.url}
+                        alt={service.photo.alt}
+                        fill
+                        className="object-cover transition duration-500 motion-safe:group-hover:scale-105"
+                        sizes="(min-width: 1024px) 50vw, 100vw"
+                      />
+                    </div>
+                  ) : null}
                 </div>
               </article>
             );
