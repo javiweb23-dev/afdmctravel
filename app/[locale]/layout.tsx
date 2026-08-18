@@ -6,6 +6,8 @@ import {hasLocale, NextIntlClientProvider} from "next-intl";
 import {getMessages, setRequestLocale} from "next-intl/server";
 import {notFound} from "next/navigation";
 import {routing} from "@/i18n/routing";
+import {GoogleAnalytics} from "@next/third-parties/google";
+import {GA_MEASUREMENT_ID} from "@/lib/analytics";
 import {SITE_URL} from "@/lib/sanity/metadata";
 import "../globals.css";
 
@@ -57,6 +59,7 @@ export default async function LocaleLayout({
           </div>
         </NextIntlClientProvider>
       </body>
+      <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
     </html>
   );
 }

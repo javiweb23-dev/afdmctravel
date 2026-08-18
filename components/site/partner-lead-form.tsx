@@ -1,6 +1,7 @@
 "use client";
 
 import {useEffect, useState} from "react";
+import {sendGAEvent} from "@next/third-parties/google";
 import {
   captureAttribution,
   readAttribution,
@@ -73,6 +74,17 @@ export function PartnerLeadForm({
       }
 
       setSent(true);
+
+      // GA4 conversion. Without this the campaign reports stop at clicks,
+      // which is exactly the gap this landing was built to close.
+      sendGAEvent("event", "generate_lead", {
+        campaign: payload.utm_campaign ?? "(direct)",
+        source: payload.utm_source ?? "(direct)",
+        interest: payload.interest,
+        country: payload.country,
+        language: locale,
+        marketing_consent: payload.marketingConsent,
+      });
     } catch {
       setError(copy.errorMessage);
     } finally {
