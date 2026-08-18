@@ -2,6 +2,11 @@ import Image from "next/image";
 import {PartnerLanguageSwitcher} from "@/components/site/partner-language-switcher";
 import {PartnerLeadForm} from "@/components/site/partner-lead-form";
 import {ServiceIcon} from "@/components/site/service-icon";
+import {ServiceBullets} from "@/components/site/service-bullets";
+import {
+  PARTNER_FORM_ID,
+  ScrollToFormButton,
+} from "@/components/site/scroll-to-form-button";
 import {LOCAL_FALLBACK_IMAGE, resolveOptionalSanityImage} from "@/lib/sanity/image";
 import {fetchSanity, partnerServicesQuery} from "@/lib/sanity/queries";
 import {pickLocalized, type LocalizedValue} from "@/lib/locale";
@@ -119,7 +124,10 @@ export async function PartnerLanding({locale}: {locale: PartnerLocale}) {
 
       {/* The form is the centrepiece: pulled up over the hero so it is the
           first thing a visitor arriving from a partner site acts on. */}
-      <section className="relative z-10 -mt-24 px-4 sm:px-6 lg:px-8">
+      <section
+        id={PARTNER_FORM_ID}
+        className="relative z-10 -mt-24 scroll-mt-6 px-4 sm:px-6 lg:px-8"
+      >
         <div className="mx-auto max-w-3xl">
           <PartnerLeadForm copy={copy.form} locale={locale} />
         </div>
@@ -179,19 +187,11 @@ export async function PartnerLanding({locale}: {locale: PartnerLocale}) {
                     <p className="mt-4 leading-relaxed text-slate-700">
                       {service.description}
                     </p>
-                    {service.bullets.length > 0 ? (
-                      <ul className="mt-6 space-y-3">
-                        {service.bullets.map((bullet, bulletIndex) => (
-                          <li
-                            key={`${service.id}-${bulletIndex}`}
-                            className="flex items-start gap-3 text-sm leading-relaxed text-slate-700"
-                          >
-                            <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-amber-500" />
-                            {bullet}
-                          </li>
-                        ))}
-                      </ul>
-                    ) : null}
+                    <ServiceBullets
+                      bullets={service.bullets}
+                      showMoreLabel={copy.servicesShowMore}
+                      showLessLabel={copy.servicesShowLess}
+                    />
                   </div>
 
                   {service.photo ? (
@@ -213,6 +213,23 @@ export async function PartnerLanding({locale}: {locale: PartnerLocale}) {
               </article>
             );
           })}
+        </div>
+      </section>
+
+      {/* Second chance to convert, for anyone who read the services first. */}
+      <section className="bg-[#072b52] py-16">
+        <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-white sm:text-3xl">
+            {copy.midCtaTitle}
+          </h2>
+          <p className="mt-4 leading-relaxed text-slate-200">
+            {copy.midCtaBody}
+          </p>
+          <div className="mt-8">
+            <span className="inline-flex rounded-lg bg-amber-400 text-[#072b52] [&>button]:bg-amber-400 [&>button]:text-[#072b52] [&>button:hover]:bg-amber-300">
+              <ScrollToFormButton label={copy.midCtaButton} />
+            </span>
+          </div>
         </div>
       </section>
 
@@ -243,6 +260,9 @@ export async function PartnerLanding({locale}: {locale: PartnerLocale}) {
             {copy.ctaTitle}
           </h2>
           <p className="mt-4 leading-relaxed text-slate-700">{copy.ctaBody}</p>
+          <div className="mt-8">
+            <ScrollToFormButton label={copy.ctaButton} />
+          </div>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm">
             <a
               href="mailto:director@afdmctravel.com"

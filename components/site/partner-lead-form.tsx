@@ -1,12 +1,23 @@
 "use client";
 
-import {useState} from "react";
-import type {PartnerLandingCopy} from "@/lib/content/partners-landing";
+import {useEffect, useState} from "react";
+import {
+  captureAttribution,
+  readAttribution,
+} from "@/lib/campaign-tracking";
+import {
+  INTEREST_VALUES,
+  type PartnerLandingCopy,
+} from "@/lib/content/partners-landing";
 
 const inputClass =
   "mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition focus:border-[#0c4a7a] focus:ring-2 focus:ring-[#0c4a7a]/20";
 
 const labelClass = "text-sm font-medium text-slate-700";
+
+function Required() {
+  return <span className="text-amber-600">*</span>;
+}
 
 export function PartnerLeadForm({
   copy,
@@ -19,21 +30,35 @@ export function PartnerLeadForm({
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Runs once on arrival, before the visitor can navigate away or switch
+  // language, so the campaign that brought them here is the one recorded.
+  useEffect(() => {
+    captureAttribution();
+  }, []);
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
     setError(null);
 
     const formData = new FormData(event.currentTarget);
+    const interestIndex = Number(formData.get("interestIndex") ?? -1);
+
     const payload = {
       firstName: String(formData.get("firstName") ?? ""),
       lastName: String(formData.get("lastName") ?? ""),
-      phone: String(formData.get("phone") ?? ""),
+      agencyCompany: String(formData.get("agencyCompany") ?? ""),
       email: String(formData.get("email") ?? ""),
+      phone: String(formData.get("phone") ?? ""),
+      country: String(formData.get("country") ?? ""),
+      // Sent as the canonical English value so the CRM stays consistent
+      // whatever language the visitor filled the form in.
+      interest: INTEREST_VALUES[interestIndex] ?? "",
       comments: String(formData.get("comments") ?? ""),
+      marketingConsent: formData.get("marketingConsent") === "on",
       website: String(formData.get("website") ?? ""),
-      // Tells the team which language the enquiry came in on.
       locale,
+      ...readAttribution(),
     };
 
     try {
@@ -95,7 +120,7 @@ export function PartnerLeadForm({
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2">
         <label className={labelClass}>
-          {copy.firstName} <span className="text-amber-600">*</span>
+          {copy.firstName} <Required />
           <input
             type="text"
             name="firstName"
@@ -105,11 +130,31 @@ export function PartnerLeadForm({
           />
         </label>
         <label className={labelClass}>
-          {copy.lastName} <span className="text-amber-600">*</span>
+          {copy.lastName} <Required />
           <input
             type="text"
             name="lastName"
             autoComplete="family-name"
+            required
+            className={inputClass}
+          />
+        </label>
+        <label className={`${labelClass} sm:col-span-2`}>
+          {copy.agencyCompany} <Required />
+          <input
+            type="text"
+            name="agencyCompany"
+            autoComplete="organization"
+            required
+            className={inputClass}
+          />
+        </label>
+        <label className={labelClass}>
+          {copy.email} <Required />
+          <input
+            type="email"
+            name="email"
+            autoComplete="email"
             required
             className={inputClass}
           />
@@ -124,25 +169,54 @@ export function PartnerLeadForm({
           />
         </label>
         <label className={labelClass}>
-          {copy.email} <span className="text-amber-600">*</span>
+          {copy.country} <Required />
           <input
-            type="email"
-            name="email"
-            autoComplete="email"
+            type="text"
+            name="country"
+            autoComplete="country-name"
             required
             className={inputClass}
           />
+        </label>
+        <label className={labelClass}>
+          {copy.interest} <Required />
+          <select
+            name="interestIndex"
+            required
+            defaultValue=""
+            className={inputClass}
+          >
+            <option value="" disabled>
+              {copy.interestPlaceholder}
+            </option>
+            {copy.interestOptions.map((option, index) => (
+              <option key={option} value={index}>
+                {option}
+              </option>
+            ))}
+          </select>
         </label>
         <label className={`${labelClass} sm:col-span-2`}>
           {copy.comments}
           <textarea
             name="comments"
-            rows={5}
+            rows={4}
             placeholder={copy.commentsPlaceholder}
             className={inputClass}
           />
         </label>
       </div>
+
+      {/* Opt-in, unticked, and separate from submitting: consent to marketing
+          email has to be given deliberately, not bundled into the enquiry. */}
+      <label className="mt-6 flex cursor-pointer items-start gap-3 text-sm text-slate-600">
+        <input
+          type="checkbox"
+          name="marketingConsent"
+          className="mt-0.5 size-4 shrink-0 rounded border-slate-300 text-[#0c4a7a]"
+        />
+        <span>{copy.consent}</span>
+      </label>
 
       {/* Honeypot — hidden from users, catches automated submissions. */}
       <div className="absolute left-[-9999px]" aria-hidden>

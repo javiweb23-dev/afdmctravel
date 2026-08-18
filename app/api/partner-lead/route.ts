@@ -4,22 +4,46 @@ import {NextResponse} from "next/server";
 type PartnerLeadPayload = {
   firstName?: string;
   lastName?: string;
-  phone?: string;
+  agencyCompany?: string;
   email?: string;
+  phone?: string;
+  country?: string;
+  interest?: string;
   comments?: string;
+  marketingConsent?: boolean;
   locale?: string;
+  // Campaign attribution, set by the landing page from the UTM parameters.
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_content?: string;
+  utm_term?: string;
+  landingPath?: string;
+  referrer?: string;
   // Honeypot: real users never fill this in.
   website?: string;
 };
 
-const fieldLabels: Record<string, string> = {
-  firstName: "First Name",
-  lastName: "Last Name",
-  phone: "Phone / WhatsApp",
-  email: "Email Address",
-  comments: "Comments",
-  locale: "Submitted in",
-};
+const contactFields: [keyof PartnerLeadPayload, string][] = [
+  ["firstName", "First Name"],
+  ["lastName", "Last Name"],
+  ["agencyCompany", "Agency / Company"],
+  ["email", "Email Address"],
+  ["phone", "Phone / WhatsApp"],
+  ["country", "Country"],
+  ["interest", "Interested In"],
+  ["comments", "Comments"],
+];
+
+const campaignFields: [keyof PartnerLeadPayload, string][] = [
+  ["utm_campaign", "Campaign"],
+  ["utm_source", "Source"],
+  ["utm_medium", "Medium"],
+  ["utm_content", "Content"],
+  ["utm_term", "Term"],
+  ["landingPath", "Landing Page"],
+  ["referrer", "Referrer"],
+];
 
 function escapeHtml(value: string) {
   return value
@@ -29,15 +53,42 @@ function escapeHtml(value: string) {
     .replace(/"/g, "&quot;");
 }
 
-function buildHtml(data: PartnerLeadPayload) {
-  const rows = Object.entries(fieldLabels)
-    .map(([key, label]) => {
-      const value = String(data[key as keyof PartnerLeadPayload] ?? "").trim();
-      return `<tr><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:600;background:#f8fafc;width:200px;">${escapeHtml(label)}</td><td style="padding:8px 12px;border:1px solid #e2e8f0;white-space:pre-wrap;">${escapeHtml(value || "—")}</td></tr>`;
-    })
-    .join("");
+function row(label: string, value: string) {
+  return `<tr><td style="padding:8px 12px;border:1px solid #e2e8f0;font-weight:600;background:#f8fafc;width:200px;">${escapeHtml(label)}</td><td style="padding:8px 12px;border:1px solid #e2e8f0;white-space:pre-wrap;">${escapeHtml(value || "—")}</td></tr>`;
+}
 
-  return `<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;color:#0f172a;"><h2 style="color:#072b52;">New Partner Landing Page Enquiry</h2><p style="color:#475569;font-size:14px;">Submitted from the partner landing page (/partners).</p><table style="border-collapse:collapse;width:100%;max-width:720px;">${rows}</table></body></html>`;
+function table(
+  data: PartnerLeadPayload,
+  fields: [keyof PartnerLeadPayload, string][],
+) {
+  return fields
+    .map(([key, label]) => row(label, String(data[key] ?? "").trim()))
+    .join("");
+}
+
+function buildHtml(data: PartnerLeadPayload) {
+  const languageNames: Record<string, string> = {
+    en: "English",
+    es: "Spanish",
+    fr: "French",
+  };
+  const language = languageNames[data.locale ?? ""] ?? data.locale ?? "—";
+
+  const hasCampaign = campaignFields.some(([key]) => data[key]);
+  const campaignBlock = hasCampaign
+    ? `<h3 style="color:#072b52;margin-top:28px;">Campaign</h3><table style="border-collapse:collapse;width:100%;max-width:720px;">${table(data, campaignFields)}</table>`
+    : `<p style="color:#92400e;background:#fef3c7;padding:10px 14px;border-radius:6px;margin-top:28px;">No campaign parameters — this visitor reached the landing page directly.</p>`;
+
+  return `<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;color:#0f172a;">
+<h2 style="color:#072b52;">New Partner Landing Enquiry</h2>
+<h3 style="color:#072b52;">Contact</h3>
+<table style="border-collapse:collapse;width:100%;max-width:720px;">
+${table(data, contactFields)}
+${row("Submitted in", language)}
+${row("Marketing consent", data.marketingConsent ? "YES — may be added to mailing lists" : "No — reply to this enquiry only")}
+</table>
+${campaignBlock}
+</body></html>`;
 }
 
 export async function POST(request: Request) {
@@ -52,7 +103,10 @@ export async function POST(request: Request) {
     const required: (keyof PartnerLeadPayload)[] = [
       "firstName",
       "lastName",
+      "agencyCompany",
       "email",
+      "country",
+      "interest",
     ];
 
     for (const field of required) {
@@ -77,12 +131,17 @@ export async function POST(request: Request) {
       );
     }
 
+    const campaign = body.utm_campaign?.trim();
     const resend = new Resend(apiKey);
     const {error} = await resend.emails.send({
       from: "AF DMC Travel <no-reply@afdmctravel.com>",
       to: "director@afdmctravel.com",
       replyTo: body.email!.trim(),
-      subject: `New Partner Enquiry — ${body.firstName!.trim()} ${body.lastName!.trim()}`,
+      // The campaign is in the subject so leads can be sorted in the inbox
+      // without opening them.
+      subject: campaign
+        ? `New Partner Lead [${campaign}] — ${body.agencyCompany!.trim()}`
+        : `New Partner Lead — ${body.agencyCompany!.trim()}`,
       html: buildHtml(body),
     });
 

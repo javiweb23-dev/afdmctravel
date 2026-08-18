@@ -31,6 +31,19 @@ export const SERVICE_IDS = [
   "dmc-support",
 ] as const;
 
+/**
+ * Canonical values sent to the CRM, whatever language the visitor used.
+ * Each locale supplies its own labels in the same order.
+ */
+export const INTEREST_VALUES = [
+  "Groups & MICE",
+  "Hotels",
+  "Excursions",
+  "Transfers",
+  "DMC Partnership",
+  "Other",
+] as const;
+
 /** Shared across locales — figures, not words. */
 export const STAT_VALUES = ["7,000+", "4", "48h", "100%"] as const;
 
@@ -50,8 +63,14 @@ export type PartnerLandingCopy = {
     intro: string;
     firstName: string;
     lastName: string;
+    agencyCompany: string;
     phone: string;
     email: string;
+    country: string;
+    interest: string;
+    interestPlaceholder: string;
+    interestOptions: string[];
+    consent: string;
     comments: string;
     commentsPlaceholder: string;
     submit: string;
@@ -64,11 +83,17 @@ export type PartnerLandingCopy = {
   statsLabels: string[];
   servicesTitle: string;
   servicesIntro: string;
+  servicesShowMore: string;
+  servicesShowLess: string;
   services: ServiceCopy[];
+  midCtaTitle: string;
+  midCtaBody: string;
+  midCtaButton: string;
   reasonsTitle: string;
   reasons: ReasonCopy[];
   ctaTitle: string;
   ctaBody: string;
+  ctaButton: string;
   footerTagline: string;
   footerAddress: string;
   footerRights: string;
@@ -86,17 +111,31 @@ export const partnerLandingCopy: Record<PartnerLocale, PartnerLandingCopy> = {
       "Transportation, hotels, team building, gala events and on-site coordination — all handled by one professional team on the ground. Tell us about your group and we will reply within 48 hours.",
     heroImageAlt: "Aerial view of the Punta Cana coastline, Dominican Republic",
     form: {
-      title: "Tell Us About Your Group",
+      title: "Let’s Work Together in the Dominican Republic",
       intro:
-        "Share a few details and our Punta Cana team will come back to you within 48 hours with next steps.",
+        "Register your agency, connect with our local DMC team, or tell us about your next group. We reply within 48 hours.",
       firstName: "First Name",
       lastName: "Last Name",
+      agencyCompany: "Agency / Company",
       phone: "Phone / WhatsApp",
       email: "Email Address",
+      country: "Country",
+      interest: "I am interested in",
+      interestPlaceholder: "Select an option",
+      interestOptions: [
+        "Groups & MICE",
+        "Hotels",
+        "Excursions",
+        "Transfers",
+        "DMC Partnership",
+        "Other",
+      ],
+      consent:
+        "I would like to receive news and offers from AF DMC Travel by email.",
       comments: "Comments",
       commentsPlaceholder:
         "Group size, travel dates, type of programme, anything else we should know…",
-      submit: "Send My Enquiry",
+      submit: "Connect with AF DMC Travel",
       sending: "Sending…",
       privacy:
         "Your details are used only to prepare your proposal and are never shared with third parties.",
@@ -113,6 +152,12 @@ export const partnerLandingCopy: Record<PartnerLocale, PartnerLandingCopy> = {
       "Local Punta Cana Team",
     ],
     servicesTitle: "Everything We Handle on the Ground",
+    servicesShowMore: "Show all",
+    servicesShowLess: "Show less",
+    midCtaTitle: "Your client. Our destination. One local team.",
+    midCtaBody:
+      "Whether you have a group on the table today or want to be ready for the next one, start the conversation now.",
+    midCtaButton: "Become an AF DMC Travel partner",
     servicesIntro:
       "Every service below is delivered locally by our own team in Punta Cana. You are not outsourcing to a remote coordinator — you are activating a team that is physically present and accountable to your programme.",
     services: [
@@ -178,6 +223,7 @@ export const partnerLandingCopy: Record<PartnerLocale, PartnerLandingCopy> = {
       },
     ],
     ctaTitle: "Ready When You Are",
+    ctaButton: "Connect with AF DMC Travel",
     ctaBody:
       "Send us your group details using the form above, or reach our team directly — we answer every enquiry within 48 hours.",
     footerTagline: "AF DMC Travel · Adventures Finder MICE & DMC Division",
@@ -197,17 +243,31 @@ export const partnerLandingCopy: Record<PartnerLocale, PartnerLandingCopy> = {
       "Transporte, hoteles, team building, eventos de gala y coordinación en destino — todo gestionado por un único equipo profesional sobre el terreno. Cuéntenos sobre su grupo y le respondemos en 48 horas.",
     heroImageAlt: "Vista aérea de la costa de Punta Cana, República Dominicana",
     form: {
-      title: "Cuéntenos sobre su grupo",
+      title: "Trabajemos juntos en República Dominicana",
       intro:
-        "Comparta algunos datos y nuestro equipo en Punta Cana le responderá en 48 horas con los siguientes pasos.",
+        "Registre su agencia, conecte con nuestro equipo DMC local o cuéntenos sobre su próximo grupo. Respondemos en 48 horas.",
       firstName: "Nombre",
       lastName: "Apellido",
+      agencyCompany: "Agencia / Empresa",
       phone: "Teléfono / WhatsApp",
       email: "Correo electrónico",
+      country: "País",
+      interest: "Me interesa",
+      interestPlaceholder: "Seleccione una opción",
+      interestOptions: [
+        "Grupos y MICE",
+        "Hoteles",
+        "Excursiones",
+        "Traslados",
+        "Alianza DMC",
+        "Otro",
+      ],
+      consent:
+        "Deseo recibir novedades y ofertas de AF DMC Travel por correo electrónico.",
       comments: "Comentarios",
       commentsPlaceholder:
         "Tamaño del grupo, fechas de viaje, tipo de programa, cualquier cosa que debamos saber…",
-      submit: "Enviar mi consulta",
+      submit: "Conectar con AF DMC Travel",
       sending: "Enviando…",
       privacy:
         "Sus datos se utilizan únicamente para preparar su propuesta y nunca se comparten con terceros.",
@@ -224,6 +284,12 @@ export const partnerLandingCopy: Record<PartnerLocale, PartnerLandingCopy> = {
       "Equipo local en Punta Cana",
     ],
     servicesTitle: "Todo lo que gestionamos en destino",
+    servicesShowMore: "Ver todo",
+    servicesShowLess: "Ver menos",
+    midCtaTitle: "Su cliente. Nuestro destino. Un equipo local.",
+    midCtaBody:
+      "Tenga un grupo sobre la mesa hoy o quiera estar preparado para el próximo, empecemos la conversación ahora.",
+    midCtaButton: "Sea socio de AF DMC Travel",
     servicesIntro:
       "Cada servicio de esta lista lo presta nuestro propio equipo en Punta Cana. No está subcontratando a un coordinador remoto: está activando un equipo presente físicamente y responsable de su programa.",
     services: [
@@ -289,6 +355,7 @@ export const partnerLandingCopy: Record<PartnerLocale, PartnerLandingCopy> = {
       },
     ],
     ctaTitle: "Cuando usted quiera",
+    ctaButton: "Conectar con AF DMC Travel",
     ctaBody:
       "Envíenos los datos de su grupo con el formulario de arriba, o contacte directamente con nuestro equipo — respondemos toda consulta en 48 horas.",
     footerTagline: "AF DMC Travel · División MICE y DMC de Adventures Finder",
@@ -309,17 +376,31 @@ export const partnerLandingCopy: Record<PartnerLocale, PartnerLandingCopy> = {
     heroImageAlt:
       "Vue aérienne du littoral de Punta Cana, République dominicaine",
     form: {
-      title: "Parlez-nous de votre groupe",
+      title: "Travaillons ensemble en République dominicaine",
       intro:
-        "Donnez-nous quelques détails et notre équipe à Punta Cana reviendra vers vous sous 48 heures avec les prochaines étapes.",
+        "Inscrivez votre agence, contactez notre équipe DMC locale ou parlez-nous de votre prochain groupe. Nous répondons sous 48 heures.",
       firstName: "Prénom",
       lastName: "Nom",
+      agencyCompany: "Agence / Entreprise",
       phone: "Téléphone / WhatsApp",
       email: "Adresse e-mail",
+      country: "Pays",
+      interest: "Je suis intéressé par",
+      interestPlaceholder: "Choisissez une option",
+      interestOptions: [
+        "Groupes et MICE",
+        "Hôtels",
+        "Excursions",
+        "Transferts",
+        "Partenariat DMC",
+        "Autre",
+      ],
+      consent:
+        "Je souhaite recevoir les actualités et offres d’AF DMC Travel par e-mail.",
       comments: "Commentaires",
       commentsPlaceholder:
         "Taille du groupe, dates de voyage, type de programme, tout ce que nous devrions savoir…",
-      submit: "Envoyer ma demande",
+      submit: "Contacter AF DMC Travel",
       sending: "Envoi…",
       privacy:
         "Vos données servent uniquement à préparer votre proposition et ne sont jamais transmises à des tiers.",
@@ -336,6 +417,12 @@ export const partnerLandingCopy: Record<PartnerLocale, PartnerLandingCopy> = {
       "Équipe locale à Punta Cana",
     ],
     servicesTitle: "Tout ce que nous gérons sur place",
+    servicesShowMore: "Tout afficher",
+    servicesShowLess: "Afficher moins",
+    midCtaTitle: "Votre client. Notre destination. Une équipe locale.",
+    midCtaBody:
+      "Que vous ayez un groupe en cours ou que vous prépariez le prochain, engageons la conversation dès maintenant.",
+    midCtaButton: "Devenez partenaire d’AF DMC Travel",
     servicesIntro:
       "Chaque service ci-dessous est assuré localement par notre propre équipe à Punta Cana. Vous ne sous-traitez pas à un coordinateur à distance : vous activez une équipe physiquement présente et responsable de votre programme.",
     services: [
@@ -401,6 +488,7 @@ export const partnerLandingCopy: Record<PartnerLocale, PartnerLandingCopy> = {
       },
     ],
     ctaTitle: "Quand vous voulez",
+    ctaButton: "Contacter AF DMC Travel",
     ctaBody:
       "Envoyez-nous les détails de votre groupe via le formulaire ci-dessus, ou contactez directement notre équipe — nous répondons à chaque demande sous 48 heures.",
     footerTagline: "AF DMC Travel · Division MICE et DMC d’Adventures Finder",
