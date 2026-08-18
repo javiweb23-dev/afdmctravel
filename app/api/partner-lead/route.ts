@@ -171,8 +171,6 @@ export async function POST(request: Request) {
       comments: body.comments,
       marketingConsent: Boolean(body.marketingConsent),
       locale: body.locale,
-      leadSource: body.leadSource,
-      utm_campaign: body.utm_campaign,
     });
 
     if (!crm.ok && crm.error !== "not_configured") {
