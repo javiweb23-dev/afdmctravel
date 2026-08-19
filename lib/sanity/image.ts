@@ -59,7 +59,18 @@ export function resolveOptionalSanityImage(
 export function resolveOgImage(image: unknown): string | null {
   if (!image) return null;
   try {
-    return urlFor(image).width(1200).height(630).fit("crop").quality(85).url();
+    return (
+      urlFor(image)
+        .width(1200)
+        .height(630)
+        .fit("crop")
+        // Forced to JPEG rather than following the source format: a PNG at
+        // this size runs to a couple of megabytes, and WhatsApp gives up on
+        // a preview image that heavy. The same photo as JPEG is ~120 KB.
+        .format("jpg")
+        .quality(80)
+        .url()
+    );
   } catch {
     return null;
   }
