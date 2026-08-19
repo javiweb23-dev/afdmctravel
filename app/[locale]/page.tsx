@@ -84,7 +84,7 @@ export default async function HomePage({params}: PageProps) {
         <div className="absolute inset-0">
           <Image
             src={heroImage}
-            alt={resolveLocalized(data.heroH1, fb.heroH1, locale)}
+            alt=""
             fill
             priority
             className="object-cover"

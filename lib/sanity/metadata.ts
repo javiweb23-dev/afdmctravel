@@ -1,6 +1,7 @@
 import type {Metadata} from "next";
 import type {AppLocale, LocalizedValue} from "@/lib/locale";
-import {pickLocalized, resolveLocalized} from "@/lib/locale";
+import {resolveLocalized} from "@/lib/locale";
+import {resolveOgImage} from "@/lib/sanity/image";
 
 export const SITE_URL = "https://www.afdmctravel.com";
 
@@ -11,6 +12,9 @@ const OG_LOCALES: Record<AppLocale, string> = {
 };
 
 const LOCALES: AppLocale[] = ["en", "es", "fr"];
+
+/** Used when a page has no ogImage of its own in the CMS. */
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/images/punta-cana-aerial.jpg`;
 
 type SeoMeta = {
   metaTitle?: LocalizedValue;
@@ -56,6 +60,9 @@ export function buildPageMetadata(
     locale,
   );
   const alternates = buildAlternates(path, locale);
+  // Every page has an ogImage in the CMS; without this the link preview on
+  // WhatsApp, Facebook and LinkedIn shows no picture at all.
+  const image = resolveOgImage(seo?.ogImage) ?? DEFAULT_OG_IMAGE;
 
   return {
     title,
@@ -68,33 +75,13 @@ export function buildPageMetadata(
       url: alternates.canonical,
       siteName: "AF DMC Travel",
       locale: OG_LOCALES[locale],
+      images: [{url: image, width: 1200, height: 630, alt: title}],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [image],
     },
   };
-}
-
-export function getSeoText(
-  seo: SeoMeta | undefined,
-  fallback: SeoFallback,
-  locale: AppLocale,
-) {
-  return {
-    title: resolveLocalized(seo?.metaTitle, fallback.metaTitle, locale),
-    description: resolveLocalized(
-      seo?.metaDescription,
-      fallback.metaDescription,
-      locale,
-    ),
-  };
-}
-
-export function pickSeoLocalized(
-  value: LocalizedValue | undefined,
-  locale: AppLocale,
-) {
-  return pickLocalized(value, locale);
 }

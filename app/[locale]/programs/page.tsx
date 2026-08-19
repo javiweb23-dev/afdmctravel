@@ -101,7 +101,6 @@ export default async function ProgramsPage({params}: PageProps) {
     <div className="pb-16">
       <PageHero
         imageSrc={heroImage}
-        imageAlt={heroTitle}
         title={heroTitle}
         subtitle={resolveLocalized(data.introduction, fb.introduction, locale)}
       />

@@ -86,7 +86,6 @@ export default async function WhiteLabelPage({params}: PageProps) {
     <div className="pb-16">
       <PageHero
         imageSrc={heroImage}
-        imageAlt={heroTitle}
         title={heroTitle}
         subtitle={resolveLocalized(data.heroBody, fb.heroBody, locale)}
       />

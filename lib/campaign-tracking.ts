@@ -78,10 +78,3 @@ export function readAttribution(): Attribution {
     return {};
   }
 }
-
-/** Keeps the query string when moving between language versions. */
-export function withCurrentQuery(path: string): string {
-  if (typeof window === "undefined") return path;
-  const search = window.location.search;
-  return search ? `${path}${search}` : path;
-}

@@ -89,26 +89,6 @@ async function request<T>(
   return (await response.json()) as T;
 }
 
-/** Field metadata for a module — used to map our forms onto real fields. */
-export async function getFields(module: string) {
-  return request<{
-    fields?: {
-      api_name?: string;
-      field_label?: string;
-      data_type?: string;
-      custom_field?: boolean;
-      pick_list_values?: {display_value?: string; actual_value?: string}[];
-    }[];
-  }>(`/settings/fields?module=${encodeURIComponent(module)}`);
-}
-
-/** Looks for an existing record so we do not create duplicate agencies. */
-export async function searchRecords(module: string, criteria: string) {
-  return request<{data?: {id?: string}[]}>(
-    `/${module}/search?criteria=${encodeURIComponent(criteria)}`,
-  );
-}
-
 /** Creates one record and returns its id. */
 export async function createRecord(
   module: string,

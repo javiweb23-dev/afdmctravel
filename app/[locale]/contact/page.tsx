@@ -227,7 +227,6 @@ export default async function ContactPage({params}: PageProps) {
       <ScrollToRfpOnArrival />
       <PageHero
         imageSrc={heroImage}
-        imageAlt={heroTitle}
         title={heroTitle}
         subtitle={resolveLocalized(data.introduction, fb.introduction, locale)}
       />

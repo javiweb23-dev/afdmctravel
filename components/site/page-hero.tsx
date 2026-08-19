@@ -2,7 +2,6 @@ import Image from "next/image";
 
 type PageHeroProps = {
   imageSrc: string;
-  imageAlt: string;
   title: string;
   subtitle?: string;
   align?: "left" | "center";
@@ -11,7 +10,6 @@ type PageHeroProps = {
 
 export function PageHero({
   imageSrc,
-  imageAlt,
   title,
   subtitle,
   align = "left",
@@ -25,9 +23,12 @@ export function PageHero({
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0">
+        {/* Decorative: the H1 sits on top of this image and already says
+            what the page is. Repeating it here makes a screen reader
+            announce the same words twice. */}
         <Image
           src={imageSrc}
-          alt={imageAlt}
+          alt=""
           fill
           priority={priority}
           className="object-cover"

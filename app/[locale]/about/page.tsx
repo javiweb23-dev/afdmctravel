@@ -117,7 +117,6 @@ export default async function AboutPage({params}: PageProps) {
     <div className="pb-16">
       <PageHero
         imageSrc={heroImage}
-        imageAlt={heroTitle}
         title={heroTitle}
         subtitle={resolveLocalized(data.story, fb.story, locale)}
       />

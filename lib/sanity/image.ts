@@ -50,3 +50,17 @@ export function resolveOptionalSanityImage(
     return null;
   }
 }
+
+/**
+ * A 1200x630 crop for link previews — the size WhatsApp, Facebook and
+ * LinkedIn expect. Returns null when the CMS has no image, so the caller can
+ * fall back rather than emit a broken og:image.
+ */
+export function resolveOgImage(image: unknown): string | null {
+  if (!image) return null;
+  try {
+    return urlFor(image).width(1200).height(630).fit("crop").quality(85).url();
+  } catch {
+    return null;
+  }
+}
