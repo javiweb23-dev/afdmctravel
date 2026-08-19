@@ -8,10 +8,18 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  /* Only the partner landing attaches these; everywhere else the fallback
+     applies, so the main site is untouched. */
+  --font-sans: var(--font-inter, Arial, Helvetica, sans-serif);
+  --font-display: var(--font-poppins, Arial, Helvetica, sans-serif);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Written out rather than using the font-sans utility: Tailwind puts its
+     utilities in a cascade layer, and this unlayered rule would win over
+     them. The fallback keeps the main site on Arial — only the partner
+     landing defines --font-inter. */
+  font-family: var(--font-inter, Arial, Helvetica, sans-serif);
 }

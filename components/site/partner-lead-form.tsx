@@ -104,7 +104,7 @@ export function PartnerLeadForm({
         <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-amber-100 text-2xl text-amber-700">
           ✓
         </div>
-        <h3 className="mt-6 text-2xl font-bold text-[#072b52]">
+        <h3 className="mt-6 font-display text-2xl font-extrabold text-[#072b52]">
           {copy.successTitle}
         </h3>
         <p className="mt-4 text-slate-600">
@@ -126,7 +126,7 @@ export function PartnerLeadForm({
       onSubmit={handleSubmit}
       className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xl sm:p-8 lg:p-10"
     >
-      <h2 className="text-2xl font-bold text-[#072b52] sm:text-3xl">
+      <h2 className="font-display text-2xl font-extrabold tracking-tight text-[#072b52] sm:text-3xl">
         {copy.title}
       </h2>
       <p className="mt-3 text-sm leading-relaxed text-slate-600">

@@ -114,7 +114,7 @@ export async function PartnerLanding({locale}: {locale: PartnerLocale}) {
           <p className="text-xs font-semibold uppercase tracking-[0.35em] text-amber-400">
             {copy.eyebrow}
           </p>
-          <h1 className="mt-5 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
+          <h1 className="mt-5 font-display text-3xl font-extrabold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
             {copy.h1}
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-slate-100">
@@ -144,7 +144,7 @@ export async function PartnerLanding({locale}: {locale: PartnerLocale}) {
                 key={value}
                 className="group rounded-xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur transition duration-300 hover:border-amber-400/40 hover:bg-white/10 motion-safe:hover:-translate-y-1"
               >
-                <p className="text-3xl font-bold text-amber-400 transition duration-300 motion-safe:group-hover:scale-110">
+                <p className="font-display text-3xl font-extrabold text-amber-400 transition duration-300 motion-safe:group-hover:scale-110">
                   {value}
                 </p>
                 <p className="mt-2 text-sm text-slate-300 transition group-hover:text-slate-100">
@@ -157,7 +157,7 @@ export async function PartnerLanding({locale}: {locale: PartnerLocale}) {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-        <h2 className="text-center text-2xl font-bold text-[#072b52] sm:text-3xl">
+        <h2 className="text-center font-display text-3xl font-extrabold tracking-tight text-[#072b52] sm:text-4xl">
           {copy.servicesTitle}
         </h2>
         <p className="mx-auto mt-4 max-w-3xl text-center leading-relaxed text-slate-600">
@@ -184,7 +184,7 @@ export async function PartnerLanding({locale}: {locale: PartnerLocale}) {
                     <span className="mb-5 flex size-12 items-center justify-center rounded-xl bg-amber-100 text-[#072b52]">
                       <ServiceIcon name={service.icon} className="size-6" />
                     </span>
-                    <h3 className="text-xl font-bold text-[#072b52] sm:text-2xl">
+                    <h3 className="font-display text-xl font-bold text-[#072b52] sm:text-2xl">
                       {service.title}
                     </h3>
                     <p className="mt-4 leading-relaxed text-slate-700">
@@ -222,7 +222,7 @@ export async function PartnerLanding({locale}: {locale: PartnerLocale}) {
       {/* Second chance to convert, for anyone who read the services first. */}
       <section className="bg-[#072b52] py-16">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-white sm:text-3xl">
+          <h2 className="font-display text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
             {copy.midCtaTitle}
           </h2>
           <p className="mt-4 leading-relaxed text-slate-200">
@@ -238,7 +238,7 @@ export async function PartnerLanding({locale}: {locale: PartnerLocale}) {
 
       <section className="bg-slate-100 py-16">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-center text-2xl font-bold text-[#072b52] sm:text-3xl">
+          <h2 className="text-center font-display text-3xl font-extrabold tracking-tight text-[#072b52] sm:text-4xl">
             {copy.reasonsTitle}
           </h2>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -247,7 +247,7 @@ export async function PartnerLanding({locale}: {locale: PartnerLocale}) {
                 key={reason.title}
                 className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:border-amber-300 hover:shadow-md motion-safe:hover:-translate-y-1"
               >
-                <h3 className="font-semibold text-[#072b52]">{reason.title}</h3>
+                <h3 className="font-display text-lg font-bold text-[#072b52]">{reason.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-slate-600">
                   {reason.description}
                 </p>
@@ -259,7 +259,7 @@ export async function PartnerLanding({locale}: {locale: PartnerLocale}) {
 
       <section className="bg-gradient-to-br from-amber-100 via-amber-50 to-amber-100 py-16">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-[#072b52] sm:text-3xl">
+          <h2 className="font-display text-3xl font-extrabold tracking-tight text-[#072b52] sm:text-4xl">
             {copy.ctaTitle}
           </h2>
           <p className="mt-4 leading-relaxed text-slate-700">{copy.ctaBody}</p>
