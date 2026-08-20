@@ -3,6 +3,7 @@ import {setRequestLocale} from "next-intl/server";
 import {AgencyRegistrationForm} from "@/components/site/agency-registration-form";
 import {Breadcrumbs} from "@/components/site/breadcrumbs";
 import {PageHero} from "@/components/site/page-hero";
+import {ScrollToFormOnLoad} from "@/components/site/scroll-to-form-on-load";
 import {
   agencyRegistrationContentFallback,
   agencyRegistrationSeoFallback,
@@ -12,6 +13,9 @@ import {resolveLocalized} from "@/lib/locale";
 import {buildPageMetadata} from "@/lib/sanity/metadata";
 import {resolveSanityImage, STOCK_IMAGES} from "@/lib/sanity/image";
 import {agencyRegistrationPageQuery, fetchSanity} from "@/lib/sanity/queries";
+
+/** Scroll target for the on-load jump. */
+const REGISTRATION_FORM_ID = "registration-form";
 
 type PageProps = {params: Promise<{locale: AppLocale}>};
 
@@ -46,6 +50,8 @@ export default async function AgencyRegistrationPage({params}: PageProps) {
 
   return (
     <div className="pb-16">
+      {/* The form is the page; the hero above it is decoration. */}
+      <ScrollToFormOnLoad targetId={REGISTRATION_FORM_ID} />
       <PageHero
         imageSrc={heroImage}
         title={heroTitle}
@@ -54,7 +60,11 @@ export default async function AgencyRegistrationPage({params}: PageProps) {
 
       <Breadcrumbs />
 
-      <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+      <section
+        id={REGISTRATION_FORM_ID}
+        tabIndex={-1}
+        className="mx-auto max-w-5xl scroll-mt-24 px-4 py-16 outline-none sm:px-6 lg:px-8"
+      >
         <AgencyRegistrationForm />
       </section>
     </div>
